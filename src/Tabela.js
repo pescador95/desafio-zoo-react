@@ -104,8 +104,7 @@ function Tabela() {
     } = tableInstance
 
     return (
-        
-        <table id="customers" {...getTableProps()}>
+        <table id="customers" {...getTableProps()} >
             <thead>
                 {// Loop over the header rows
                 headerGroups.map(headerGroup => (
@@ -146,7 +145,6 @@ function Tabela() {
                 })}
             </tbody>
         </table>
-        
     );
 }
 

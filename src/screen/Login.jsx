@@ -87,9 +87,13 @@ function Login() {
               variant="standard"
               sx={{ width: "100%" }}
             >
-              <InputLabel>E-mail</InputLabel>
+              <InputLabel sx={{ color: "#fff" }}>E-mail</InputLabel>
               <Input
-                color="login"
+                sx={{
+                  color: "#fff",
+                  ":before": { borderBottomColor: "#fff" },
+                  ":after": { borderBottomColor: "#fff" },
+                }}
                 id="email"
                 label="E-mail"
                 type="email"
@@ -103,8 +107,13 @@ function Login() {
               sx={{ width: "100%" }}
               variant="standard"
             >
-              <InputLabel color="login">Senha</InputLabel>
+              <InputLabel sx={{ color: "#fff" }}>Senha</InputLabel>
               <Input
+                sx={{
+                  color: "#fff",
+                  ":before": { borderBottomColor: "#fff" },
+                  ":after": { borderBottomColor: "#fff" },
+                }}
                 id="senha"
                 type={values.showPassword ? "text" : "password"}
                 value={values.password}

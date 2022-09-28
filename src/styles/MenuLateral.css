@@ -1,0 +1,38 @@
+.sidebar-menu .zoo-logo {
+    /* margin: 10px; */
+    border-bottom: solid #1C632C;
+}
+
+.sidebar-list {
+    height: auto;
+    width: 100%;
+    padding: 0px; 
+}
+
+.sidebar-list-row {
+    width: 100%;
+    height: 50px;
+    list-style-type: none;
+    margin: 0px;
+    display: flex;
+    flex-direction: row;
+    color: white;
+    justify-content: left;
+    align-items: center;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.sidebar-list-row:hover {
+    background-color: #355c37;
+    cursor: pointer;
+}
+
+.sidebar-list-row #div-icon-row {
+    flex: 15%;
+}
+
+.sidebar-list-row #div-icon-title {
+    flex: 85%;
+}

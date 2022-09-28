@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-import './App.css';
-import Form from './Form';
-import FormSuccess from './FormSuccess';
-import './Form.css';
-
+import './styles/App.css';
 
 
 function App() {
@@ -16,7 +12,7 @@ function App() {
 
     <div className='form-container'>
       
-        <Form submitForm={submitForm}/>
+      
     </div>
   );
 }

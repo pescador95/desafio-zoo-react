@@ -1,16 +1,26 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import styled from 'styled-components'
+//import styled from 'styled-components'
 import { useTable } from 'react-table'
 import axios from 'axios';
-import './Tabela.css';
+import './styles/Tabela.css';
 
 
-function TableExample() {
+function Tabela() {
 
     const [animais, setAnimais] = useState([]);
 
+    // const fetchAnimais = async () => {
+    //     const response = await axios.get("https://fakestoreapi.com/products").catch(err => console.log(err))
+
+    //     if(response) {
+    //         const animais = response.data
+    //         console.log(animais)
+    //         setAnimais(animais)
+    //     }
+    // }
+
     const fetchAnimais = async () => {
-        const response = await axios.get("https://fakestoreapi.com/products").catch(err => console.log(err))
+        const response = await axios.get("http://localhost:8080/animal/getListAtivos").catch(err => console.log(err))
 
         if(response) {
             const animais = response.data
@@ -55,11 +65,27 @@ function TableExample() {
             },
             {
                 Header: 'Column 2',
-                accessor: 'title',
+                accessor: 'dataacao',
             },
             {
                 Header: 'Column 3',
-                accessor: 'price',
+                accessor: 'dataentrada',
+            },
+            {
+                Header: 'Column 4',
+                accessor: 'idade',
+            },
+            {
+                Header: 'Column 5',
+                accessor: 'identificacao',
+            },
+            {
+                Header: 'Column 6',
+                accessor: 'isativo',
+            },
+            {
+                Header: 'Column 7',
+                accessor: 'nomeapelido',
             },
             ],
         []
@@ -78,7 +104,7 @@ function TableExample() {
     } = tableInstance
 
     return (
-        // apply the table props
+
         <table id="customers" {...getTableProps()}>
             <thead>
                 {// Loop over the header rows
@@ -123,4 +149,4 @@ function TableExample() {
     );
 }
 
-export default TableExample;
+export default Tabela;

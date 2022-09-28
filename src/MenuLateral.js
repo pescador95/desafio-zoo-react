@@ -5,7 +5,7 @@ import zooLogo from './images/ZooLogo.png'
 
 function MenuLateral() {
     return (
-        <div className="sidebar-menu">
+        <>
             <img className="zoo-logo" src={zooLogo} alt="Logo zoológico"/>
             <ul className="sidebar-list">
             {MenuLateralDados.map((val, key) => {
@@ -17,7 +17,7 @@ function MenuLateral() {
                 )
             })}
             </ul>
-        </div>
+        </>
     );
 }
 

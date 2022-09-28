@@ -9,18 +9,8 @@ function Tabela() {
 
     const [animais, setAnimais] = useState([]);
 
-    // const fetchAnimais = async () => {
-    //     const response = await axios.get("https://fakestoreapi.com/products").catch(err => console.log(err))
-
-    //     if(response) {
-    //         const animais = response.data
-    //         console.log(animais)
-    //         setAnimais(animais)
-    //     }
-    // }
-
     const fetchAnimais = async () => {
-        const response = await axios.get("http://localhost:8080/animal/getListAtivos").catch(err => console.log(err))
+        const response = await axios.get("https://fakestoreapi.com/products").catch(err => console.log(err))
 
         if(response) {
             const animais = response.data
@@ -28,6 +18,16 @@ function Tabela() {
             setAnimais(animais)
         }
     }
+
+    // const fetchAnimais = async () => {
+    //     const response = await axios.get("http://localhost:8080/animal/getListAtivos2").catch(err => console.log(err))
+
+    //     if(response) {
+    //         const animais = response.data
+    //         console.log(animais)
+    //         setAnimais(animais)
+    //     }
+    // }
 
     useEffect(() => {
         console.log("Executando useEffect...")
@@ -104,7 +104,7 @@ function Tabela() {
     } = tableInstance
 
     return (
-
+        
         <table id="customers" {...getTableProps()}>
             <thead>
                 {// Loop over the header rows
@@ -146,6 +146,7 @@ function Tabela() {
                 })}
             </tbody>
         </table>
+        
     );
 }
 

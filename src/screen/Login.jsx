@@ -14,6 +14,9 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import logo from "../assets/logo.png";
+import { useNavigate } from "react-router-dom";
+import { api, useAxios } from "../hooks/useAxios";
+import { useSession } from "../hooks/useSession";
 
 const theme = createTheme({
   palette: {
@@ -32,12 +35,14 @@ const theme = createTheme({
 
 function Login() {
   const [values, setValues] = React.useState({
-    amount: "",
+    email: "",
     password: "",
     weight: "",
     weightRange: "",
     showPassword: false,
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -54,104 +59,128 @@ function Login() {
     event.preventDefault();
   };
 
+  const { signIn, session } = useSession();
+  const login = async (data) => {
+    const response = await api.post("/auth", data);
+    signIn(
+      response.data.accessToken,
+      response.data.email,
+      response.data.refreshToken
+    );
+    navigate("/animais");
+  };
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    console.log(values);
+    await login(values);
+  };
+  if (session.token) {
+    navigate("/animais");
+  }
   return (
     <ThemeProvider theme={theme}>
-      <Container maxWidth="xs">
-        <Box textAlign={"center"}>
-          <img src={logo} width="50%" />
-        </Box>
-        <Box
-          primary
-          sx={{
-            bgcolor: "primary.main",
-            borderRadius: 4,
-            px: "1.5rem",
-            py: "2.5rem",
-          }}
-          theme={theme}
-        >
-          <div>
-            <Typography
-              color={"#ffffff"}
-              textAlign={"center"}
-              variant="h4"
-              marginBottom={"2.5rem"}
-              gutterBottom
-            >
-              BEM VINDO
-            </Typography>
-          </div>
-          <Box sx={{ my: "0.75rem" }}>
-            <FormControl
-              color="login"
-              variant="standard"
-              sx={{ width: "100%" }}
-            >
-              <InputLabel sx={{ color: "#fff" }}>E-mail</InputLabel>
-              <Input
-                sx={{
-                  color: "#fff",
-                  ":before": { borderBottomColor: "#fff" },
-                  ":after": { borderBottomColor: "#fff" },
-                }}
-                id="email"
-                label="E-mail"
-                type="email"
-                variant="standard"
-              />
-            </FormControl>
-          </Box>
-          <Box sx={{ my: "0.75rem" }}>
-            <FormControl
-              color="login"
-              sx={{ width: "100%" }}
-              variant="standard"
-            >
-              <InputLabel sx={{ color: "#fff" }}>Senha</InputLabel>
-              <Input
-                sx={{
-                  color: "#fff",
-                  ":before": { borderBottomColor: "#fff" },
-                  ":after": { borderBottomColor: "#fff" },
-                }}
-                id="senha"
-                type={values.showPassword ? "text" : "password"}
-                value={values.password}
-                onChange={handleChange("password")}
-                endAdornment={
-                  <IconButton
-                    color="login"
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                  >
-                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                }
-              />
-            </FormControl>
-          </Box>
-          <Box>
-            <Button color="secondary" style={{ textTransform: "none" }}>
-              Esqueci minha senha
-            </Button>
-          </Box>
+      <form onSubmit={onSubmit}>
+        <Container maxWidth="xs">
           <Box textAlign={"center"}>
-            <Button
-              color="secondary"
-              sx={{
-                marginTop: "2.5rem",
-                px: "2rem",
-                borderRadius: "0.25rem",
-              }}
-              size="large"
-              variant="contained"
-            >
-              Entrar
-            </Button>
+            <img src={logo} width="50%" />
           </Box>
-        </Box>
-      </Container>
+          <Box
+            primary
+            sx={{
+              bgcolor: "primary.main",
+              borderRadius: 4,
+              px: "1.5rem",
+              py: "2.5rem",
+            }}
+            theme={theme}
+          >
+            <div>
+              <Typography
+                color={"#ffffff"}
+                textAlign={"center"}
+                variant="h4"
+                marginBottom={"2.5rem"}
+                gutterBottom
+              >
+                BEM VINDO
+              </Typography>
+            </div>
+            <Box sx={{ my: "0.75rem" }}>
+              <FormControl
+                color="login"
+                variant="standard"
+                sx={{ width: "100%" }}
+              >
+                <InputLabel sx={{ color: "#fff" }}>E-mail</InputLabel>
+                <Input
+                  sx={{
+                    color: "#fff",
+                    ":before": { borderBottomColor: "#fff" },
+                    ":after": { borderBottomColor: "#fff" },
+                  }}
+                  id="email"
+                  label="E-mail"
+                  type="email"
+                  variant="standard"
+                  onChange={handleChange("email")}
+                  value={values.email}
+                />
+              </FormControl>
+            </Box>
+            <Box sx={{ my: "0.75rem" }}>
+              <FormControl
+                color="login"
+                sx={{ width: "100%" }}
+                variant="standard"
+              >
+                <InputLabel sx={{ color: "#fff" }}>Senha</InputLabel>
+                <Input
+                  sx={{
+                    color: "#fff",
+                    ":before": { borderBottomColor: "#fff" },
+                    ":after": { borderBottomColor: "#fff" },
+                  }}
+                  id="senha"
+                  type={values.showPassword ? "text" : "password"}
+                  value={values.password}
+                  onChange={handleChange("password")}
+                  endAdornment={
+                    <IconButton
+                      color="login"
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  }
+                />
+              </FormControl>
+            </Box>
+            <Box>
+              <Button color="secondary" style={{ textTransform: "none" }}>
+                Esqueci minha senha
+              </Button>
+            </Box>
+            <Box textAlign={"center"}>
+              <Button
+                color="secondary"
+                sx={{
+                  marginTop: "2.5rem",
+                  px: "2rem",
+                  borderRadius: "0.25rem",
+                }}
+                size="large"
+                variant="contained"
+                type="submit"
+              >
+                Entrar
+              </Button>
+            </Box>
+          </Box>
+        </Container>
+      </form>
     </ThemeProvider>
   );
 }

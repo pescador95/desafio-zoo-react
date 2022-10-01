@@ -6,7 +6,7 @@ import { api, useAxios } from "./hooks/useAxios";
 
 function Animais() {
   useEffect(() => {
-    api.get("/animal/getListAtivos");
+    api.get("/animal/");
   }, []);
 
   return (

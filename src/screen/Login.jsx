@@ -63,21 +63,23 @@ function Login() {
   const login = async (data) => {
     const response = await api.post("/auth", data);
     signIn(
-      response.data.accessToken,
       response.data.email,
-      response.data.refreshToken
+      response.data.roleUsuario,
+      response.data.accessToken,
+      response.data.expireDateAccessToken,
+      response.data.refreshToken,
+      response.data.expireDateRefreshToken
     );
     navigate("/animais");
   };
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    console.log(values);
     await login(values);
   };
-  if (session.token) {
-    navigate("/animais");
-  }
+  // if (session.token) {
+  //   navigate("/animais");
+  // }
   return (
     <ThemeProvider theme={theme}>
       <form onSubmit={onSubmit}>

@@ -1,67 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { setLocalStorage, getLocalStorage } from "../utils/localStorage";
 
 const SessionContext = React.createContext();
+
 export const SessionProvider = ({ children }) => {
-  const [session, setSession] = React.useState({
+  const [session, setSession] = useState({
     email: null,
     roleUsuario: null,
     token: null,
     expireDateAccessToken: null,
     refreshToken: null,
     expireDateRefreshToken: null,
+    authToken: null,
   });
-  React.useEffect(() => {
-    const email = localStorage.getItem("email");
-    const roleUsuario = localStorage.getItem("roleUsuario");
-    const token = localStorage.getItem("accessToken");
-    const expireDateAccessToken = localStorage.getItem("expireDateAccessToken");
-    const refreshToken = localStorage.getItem("refreshToken");
-    const expireDateRefreshToken = localStorage.getItem(
-      "expireDateRefreshToken"
-    );
-    setSession({
-      email,
-      roleUsuario,
-      token,
-      expireDateAccessToken,
-      refreshToken,
-      expireDateRefreshToken,
-    });
+
+  useEffect(() => {
+    const user = getLocalStorage("user", {});
+    setSession(user);
   }, []);
 
-  const signIn = (
-    email,
-    roleUsuario,
-    token,
-    expireDateAccessToken,
-    refreshToken,
-    expireDateRefreshToken
-  ) => {
-    setSession({
-      email,
-      roleUsuario,
-      token,
-      expireDateAccessToken,
-      refreshToken,
-      expireDateRefreshToken,
-    });
-    localStorage.setItem("email", email);
-    localStorage.setItem("roleUsuario", roleUsuario);
-    localStorage.setItem("accessToken", token);
-    localStorage.setItem("expireDateAccessToken", expireDateAccessToken);
-    localStorage.setItem("refreshToken", refreshToken);
-    localStorage.setItem("expireDateRefreshToken", expireDateRefreshToken);
+  const signIn = (data) => {
+    setSession(data);
+    setLocalStorage("user", data);
   };
   const signOut = () => {
-    setSession({
-      email: null,
-      roleUsuario: null,
-      token: null,
-      expireDateAccessToken: null,
-      refreshToken: null,
-      expireDateRefreshToken: null,
-    });
+    setSession({});
   };
+
   return (
     <SessionContext.Provider value={{ session, signIn, signOut }}>
       {children}

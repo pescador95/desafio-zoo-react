@@ -1,21 +1,21 @@
 /* eslint-disable jsx-a11y/alt-text */
-import * as React from "react";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Box,
-  FormControl,
-  InputLabel,
-  Input,
-  IconButton,
   Button,
-  Typography,
   Container,
+  FormControl,
+  IconButton,
+  Input,
+  InputLabel,
+  Typography,
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import * as React from "react";
 
-import logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
-import { api, useAxios } from "../hooks/useAxios";
+import logo from "../assets/logo.png";
+import { useAxios } from "../hooks/useAxios";
 import { useSession } from "../hooks/useSession";
 
 const theme = createTheme({
@@ -33,15 +33,14 @@ const theme = createTheme({
   },
 });
 
-function Login() {
+export const Login = () => {
   const [values, setValues] = React.useState({
     email: "",
     password: "",
-    weight: "",
-    weightRange: "",
-    showPassword: false,
   });
 
+  const { signIn } = useSession();
+  const axios = useAxios();
   const navigate = useNavigate();
 
   const handleChange = (prop) => (event) => {
@@ -59,17 +58,9 @@ function Login() {
     event.preventDefault();
   };
 
-  const { signIn, session } = useSession();
   const login = async (data) => {
-    const response = await api.post("/auth", data);
-    signIn(
-      response.data.email,
-      response.data.roleUsuario,
-      response.data.accessToken,
-      response.data.expireDateAccessToken,
-      response.data.refreshToken,
-      response.data.expireDateRefreshToken
-    );
+    const response = await axios.post("/auth", data);
+    signIn(response.data);
     navigate("/animais");
   };
 
@@ -77,9 +68,7 @@ function Login() {
     event.preventDefault();
     await login(values);
   };
-  // if (session.token) {
-  //   navigate("/animais");
-  // }
+
   return (
     <ThemeProvider theme={theme}>
       <form onSubmit={onSubmit}>
@@ -185,5 +174,4 @@ function Login() {
       </form>
     </ThemeProvider>
   );
-}
-export default Login;
+};

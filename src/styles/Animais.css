@@ -8,26 +8,21 @@ body {
 }
 
 .animais-container {
-    margin: 0px;
-    padding: 0px;
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    height: 100%;
     width: 100%;
+   display:flex;
 }
 
-.sidebar-menu {
-    height: 100%;
-    width: 250px;
-    background-color: #244726;
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    padding-top: 10px;
-    margin: 0px;
-    position: fixed;
+.animais-content {
+    width: 100%;
+    margin-right: 4rem;
+    margin-left: 2rem;
+    margin-top: 2rem;
 }
+
+.table-container {
+    margin-top: 2rem;
+}
+
 
 .table-container {
     left: 280px;

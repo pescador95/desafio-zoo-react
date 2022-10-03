@@ -1,46 +1,89 @@
-@import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=PT+Sans&display=swap");
 
 body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'PT Sans', sans-serif;
+  font-family: "PT Sans", sans-serif;
 }
 
 .animais-container {
-    width: 100%;
-   display:flex;
+  width: 100%;
+  display: flex;
 }
 
 .animais-content {
-    width: 100%;
-    margin-right: 4rem;
-    margin-left: 2rem;
-    margin-top: 2rem;
+  width: 100%;
+  margin-right: 4rem;
+  margin-left: 2rem;
+  margin-top: 2rem;
 }
 
 .table-container {
-    margin-top: 2rem;
-}
-
-
-.table-container {
-    left: 280px;
-    right: 30px;
-    position: absolute;
+  margin-top: 2rem;
     display: flex;
-    flex-direction: column;
+    align-items: flex-end;
+    justify-items: end;
+    
+
+}
+
+.table-container > div {
+
+
+    width: 100%;
+
+}
+
+.table-container > div >  table {
+    width: 100%;
+    
+} 
+
+.button-add {
+  display: flex;
+  width: 100%;
+  justify-content: end;
+  align-items: center;
+}
+
+.button-add > button {
+  width: 200px;
+  height: 50px;
+  border-radius: 8px;
+  background: #fb8c00;
+  border: none;
+  transition: 0.2s;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.button-add > button:hover {
+  filter: brightness(0.9);
+}
+
+.table-container {
+  left: 280px;
+  right: 30px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
 }
 
 .animais-container .table-container {
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .animais-container .teste {
-    margin-left: auto;
-    margin-right: auto;
-    height: 20px;
-    width: 250px;
-    background-color: blue;
+  margin-left: auto;
+  margin-right: auto;
+  height: 20px;
+  width: 250px;
+  background-color: blue;
 }

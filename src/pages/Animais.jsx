@@ -4,28 +4,39 @@ import { useAxios } from "../hooks/useAxios";
 import { MenuLateral } from "../components/MenuLateral";
 import { Header } from "../components/Header";
 import { Table } from "../components/Table";
+import { FormAnimal } from "../components/FormAnimal";
 
 export const Animais = () => {
   const [animais, setAnimais] = useState([]);
+  const [open, setOpen] = useState(false);
   const axios = useAxios();
 
   useEffect(() => {
-    axios.get("/animal/").then((res) => {
-      const parsed = res?.data?.map((e) => {
-        const parsed = e;
-        delete parsed?.id;
-        delete parsed?.usuario;
-        delete parsed?.usuarioAcao;
-        delete parsed?.isAtivo;
-        delete parsed?.systemDateDeleted;
-        delete parsed?.dataAcao;
-
-        return parsed;
-      });
-
-      setAnimais(parsed);
-    });
+    getData(0);
   }, []);
+
+  const getData = (value) => {
+    axios
+      .get("/animal/", {
+        params: {
+          page: value,
+        },
+      })
+      .then((res) => {
+        const parsed = res?.data?.map((e) => {
+          const parsed = e;
+          delete parsed?.id;
+          delete parsed?.usuario;
+          delete parsed?.usuarioAcao;
+          delete parsed?.isAtivo;
+          delete parsed?.systemDateDeleted;
+          delete parsed?.dataAcao;
+
+          return parsed;
+        });
+        setAnimais(parsed);
+      });
+  };
 
   const columns = useMemo(
     () =>
@@ -38,16 +49,34 @@ export const Animais = () => {
     [animais]
   );
 
+  const onSubmit = (values) => {
+    console.log(values);
+  };
+
   return (
     <div className="animais-container">
       <MenuLateral />
 
       <div className="animais-content">
         <Header title="animais" />
-
         <div className="table-container">
-          {animais?.length && <Table columns={columns} data={animais} />}
+          <div>
+            {animais?.length && (
+              <Table
+                columns={columns}
+                data={animais}
+                onPaginate={(_, value) => getData(value - 1)}
+              />
+            )}
+          </div>
+          <div className="button-add">
+            <button onClick={() => setOpen(true)}>
+              <span>+</span> CADASTRAR
+            </button>
+          </div>
         </div>
+
+        <FormAnimal open={open} handleClose={() => setOpen(false)} />
       </div>
     </div>
   );

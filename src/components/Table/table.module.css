@@ -23,6 +23,7 @@
   margin-top: 1rem;
 }
 
+<<<<<<< HEAD
 .totalElements{
   text-align: right;
 }
@@ -32,3 +33,5 @@
   border: none;
   cursor: pointer;
 }
+=======
+>>>>>>> 8051be6 (modal, botao de cadastro)

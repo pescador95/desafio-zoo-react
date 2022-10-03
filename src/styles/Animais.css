@@ -13,20 +13,14 @@ body {
 }
 
 .animais-content {
-    width: 100%;
-    margin-right: 4rem;
-    margin-left: 2rem;
-    margin-top: 2rem;
+  width: 100%;
+  margin-right: 4rem;
+  margin-left: 2rem;
+  margin-top: 2rem;
 }
 
 .table-container {
-    left: 280px;
-    right: 30px;
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    margin-top: 2rem;
-    margin-top: 2rem;
+  margin-top: 2rem;
     display: flex;
     align-items: flex-end;
     justify-items: end;

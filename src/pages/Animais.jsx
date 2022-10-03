@@ -16,6 +16,7 @@ export const Animais = () => {
     getData(0);
   }, []);
 
+<<<<<<< HEAD
   const countPage = () => {
     axios.get(`/animals/count`).then((response) => {
       const { count } = response.data;
@@ -24,6 +25,8 @@ export const Animais = () => {
     });
   };
 
+=======
+>>>>>>> 8051be6 (modal, botao de cadastro)
   const getData = (value) => {
     axios
       .get("/animal/", {
@@ -68,6 +71,7 @@ export const Animais = () => {
       
       <div className="animais-content">
         <Header title="animais" />
+<<<<<<< HEAD
         <div className="div-form">
           <form>
             <div class="col-md-10">
@@ -128,6 +132,24 @@ export const Animais = () => {
             </button>
           </div>
         </div>
+=======
+        <div className="table-container">
+          <div>
+            {animais?.length && (
+              <Table
+                columns={columns}
+                data={animais}
+                onPaginate={(_, value) => getData(value - 1)}
+              />
+            )}
+          </div>
+          <div className="button-add">
+            <button onClick={() => setOpen(true)}>
+              <span>+</span> CADASTRAR
+            </button>
+          </div>
+        </div>
+>>>>>>> 8051be6 (modal, botao de cadastro)
 
         <FormAnimal open={open} handleClose={() => setOpen(false)} />
       </div>

@@ -3,7 +3,7 @@ import "../../styles/MenuLateral.css";
 import { MenuLateralDados } from "../MenuLateralComponents";
 import zooLogo from "../../assets/ZooLogo.png";
 import style from "./MenuLateral.module.css";
-export function MenuLateral() {
+export const MenuLateral = function MenuLateral() {
   return (
     <div className={style?.container}>
       <img className="zoo-logo" src={zooLogo} alt="Logo zoológico" />
@@ -25,4 +25,4 @@ export function MenuLateral() {
       </ul>
     </div>
   );
-}
+};

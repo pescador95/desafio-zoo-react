@@ -14,6 +14,7 @@ export const Animais = () => {
   useEffect(() => {
     getData(0);
   }, []);
+<<<<<<< HEAD
 
   const countPage = () => {
     axios.get(`/animals/count`).then((response) => {
@@ -40,6 +41,26 @@ export const Animais = () => {
           delete parsed?.systemDateDeleted;
           delete parsed?.dataAcao;
 
+=======
+
+  const getData = (value) => {
+    axios
+      .get("/animal/", {
+        params: {
+          page: value,
+        },
+      })
+      .then((res) => {
+        const parsed = res?.data?.map((e) => {
+          const parsed = e;
+          delete parsed?.id;
+          delete parsed?.usuario;
+          delete parsed?.usuarioAcao;
+          delete parsed?.isAtivo;
+          delete parsed?.systemDateDeleted;
+          delete parsed?.dataAcao;
+
+>>>>>>> 8051be6955a90b139666338f823d5c3428598ef1
           return parsed;
         });
         setAnimais(parsed);

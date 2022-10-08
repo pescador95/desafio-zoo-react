@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useSession } from "../hooks/useSession";
-import { Animais } from "../pages/Animais";
+import { Animais } from "../pages/Animals";
 import { Login } from "../pages/Login";
 
 export const ROUTES = {

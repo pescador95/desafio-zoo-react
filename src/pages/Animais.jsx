@@ -16,6 +16,14 @@ export const Animais = () => {
     getData(0);
   }, []);
 
+  const countPage = () => {
+    axios.get(`/animals/count`).then((response) => {
+      const { count } = response.data;
+      const pages = Math.ceil(count / 20);
+      return pages;
+    });
+  };
+
   const getData = (value) => {
     axios
       .get("/animal/", {

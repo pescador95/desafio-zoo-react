@@ -5,8 +5,8 @@ export const Header = ({ title }) => {
   const { signOut } = useSession();
 
   return (
-    <div class={styles.container}>
-      <h3 class={styles.title}>{title}</h3>
+    <div className={styles.container}>
+      <h3 className={styles.title}>{title}</h3>
 
       <button onClick={signOut}>
         <ExitIcon />

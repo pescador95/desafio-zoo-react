@@ -23,3 +23,12 @@
   margin-top: 1rem;
 }
 
+.totalElements{
+  text-align: right;
+}
+
+.edit{
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}

@@ -1,3 +1,5 @@
+
+
 .title {
   font-size: 2rem;
 }
@@ -17,13 +19,17 @@
   width:100%;
 }
 
-.inputContainer input { 
+.inputContainer input, .inputContainer select { 
   background:#AEFFB2;
-  height:30px;
+  height:35px;
   border:1px solid gray;
   border-radius: 4px;
   width:100%;
+  margin: 0;
+  padding: 0;
 }
+
+
 
 .radioButtons {
   display: flex;
@@ -93,4 +99,10 @@
 
 .save:hover {
   filter: brightness(0.9);
+}
+
+.inputError{
+  font-size: 0.8rem;
+  color: rgb(255, 85, 85);
+  /* white-space: nowrap; */
 }

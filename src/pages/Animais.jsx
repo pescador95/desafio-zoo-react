@@ -5,6 +5,7 @@ import { MenuLateral } from "../components/MenuLateral";
 import { Header } from "../components/Header";
 import { Table } from "../components/Table";
 import { FormAnimal } from "../components/FormAnimal";
+import { ENDPOINTS } from "../services/endpoints";
 
 export const Animais = () => {
   const [animais, setAnimais] = useState([]);
@@ -14,10 +15,9 @@ export const Animais = () => {
   useEffect(() => {
     getData(0);
   }, []);
-<<<<<<< HEAD
 
   const countPage = () => {
-    axios.get(`/animals/count`).then((response) => {
+    axios.get(ENDPOINTS.animal.count).then((response) => {
       const { count } = response.data;
       const pages = Math.ceil(count / 20);
       return pages;
@@ -26,7 +26,7 @@ export const Animais = () => {
 
   const getData = (value) => {
     axios
-      .get("/animal/", {
+      .get(ENDPOINTS.animal.list, {
         params: {
           page: value,
         },
@@ -41,26 +41,6 @@ export const Animais = () => {
           delete parsed?.systemDateDeleted;
           delete parsed?.dataAcao;
 
-=======
-
-  const getData = (value) => {
-    axios
-      .get("/animal/", {
-        params: {
-          page: value,
-        },
-      })
-      .then((res) => {
-        const parsed = res?.data?.map((e) => {
-          const parsed = e;
-          delete parsed?.id;
-          delete parsed?.usuario;
-          delete parsed?.usuarioAcao;
-          delete parsed?.isAtivo;
-          delete parsed?.systemDateDeleted;
-          delete parsed?.dataAcao;
-
->>>>>>> 8051be6955a90b139666338f823d5c3428598ef1
           return parsed;
         });
         setAnimais(parsed);

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { yupResolver } from "@hookform/resolvers/yup";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -12,6 +11,7 @@ import { LIFETIME } from "../../utils/constants";
 import styles from "./FormAnimal.module.css";
 
 export const FormAnimal = ({ open, handleClose, defaultValues }) => {
+<<<<<<< HEAD
 =======
 import * as React from "react";
 import Box from "@mui/material/Box";
@@ -22,6 +22,8 @@ import styles from "./FormAnimal.module.css";
 
 export const FormAnimal = ({ open, handleClose }) => {
 >>>>>>> 8051be6 (modal, botao de cadastro)
+=======
+>>>>>>> f06c0c5 (resolvido conflitos)
   const style = {
     position: "absolute",
     top: "50%",
@@ -33,7 +35,6 @@ export const FormAnimal = ({ open, handleClose }) => {
     p: 4,
   };
 
-<<<<<<< HEAD
   const schema = yup.object().shape({
     nomeApelido: yup.string().required("* O campo é obrigatório"),
     identificacao: yup.string().required("* O campo é obrigatório"),
@@ -207,6 +208,7 @@ export const FormAnimal = ({ open, handleClose }) => {
             <button className={styles.save}>Salvar </button>
           </div>
         </form>
+<<<<<<< HEAD
 =======
   return (
     <Modal
@@ -276,6 +278,8 @@ export const FormAnimal = ({ open, handleClose }) => {
           <button className={styles.save}>Salvar </button>
         </div>
 >>>>>>> 8051be6 (modal, botao de cadastro)
+=======
+>>>>>>> f06c0c5 (resolvido conflitos)
       </Box>
     </Modal>
   );

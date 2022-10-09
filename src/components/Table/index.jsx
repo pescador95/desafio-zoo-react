@@ -1,10 +1,12 @@
 import { Pagination } from "@mui/material";
-<<<<<<< HEAD
 import { Pencil } from "phosphor-react";
 import { useState } from "react";
 import { removeEqualItensArray } from "../../utils/removeEqualItensArray";
+<<<<<<< HEAD
 =======
 >>>>>>> 8051be6 (modal, botao de cadastro)
+=======
+>>>>>>> f06c0c5 (resolvido conflitos)
 import styles from "./table.module.css";
 export const Table = ({
   columns,
@@ -53,10 +55,9 @@ export const Table = ({
     return match?.length === data?.length;
   };
 
-<<<<<<< HEAD
   return (
     <>
-      <p>{selectedItems?.length} item(s) selecionados!</p>
+      <p>{selectedItems?.length} item(s) selecionados.</p>
 
       <table className={styles?.table}>
         <thead>
@@ -68,6 +69,7 @@ export const Table = ({
                 checked={checkedAllItemsPage()}
               />
             </td>
+<<<<<<< HEAD
 =======
 export const Table = ({ columns, data, onPaginate }) => {
   return (
@@ -76,6 +78,8 @@ export const Table = ({ columns, data, onPaginate }) => {
         <thead>
           <tr>
 >>>>>>> 8051be6 (modal, botao de cadastro)
+=======
+>>>>>>> f06c0c5 (resolvido conflitos)
             {columns?.map((column, index) => (
               <td key={index}>
                 {column?.label?.replace(/([a-z])([A-Z])/g, "$1 $2")}
@@ -93,7 +97,6 @@ export const Table = ({ columns, data, onPaginate }) => {
                 backgroundColor: `${dataIndex % 2 === 0 ? "white" : "#AEFFB2"}`,
               }}
             >
-<<<<<<< HEAD
               <td>
                 <input
                   type="checkbox"
@@ -116,19 +119,21 @@ export const Table = ({ columns, data, onPaginate }) => {
                   <Pencil size={24} />
                 </button>
               </td>
+<<<<<<< HEAD
 =======
               {columns?.map((column, columnIndex) => (
                 <td key={`${dataIndex}-${columnIndex}`}>{item[column?.key]}</td>
               ))}
 >>>>>>> 8051be6 (modal, botao de cadastro)
+=======
+>>>>>>> f06c0c5 (resolvido conflitos)
             </tr>
           ))}
         </tbody>
       </table>
 
-<<<<<<< HEAD
       <p className={styles.totalElements}>
-        Exibindo {size * currentPage} de {totalElements}
+        Exibindo {size * currentPage} de {totalElements} registros.
       </p>
 
       <div className={styles.pagination}>
@@ -138,12 +143,15 @@ export const Table = ({ columns, data, onPaginate }) => {
             onPaginate(value);
             setCurrentPage(value);
           }}
+<<<<<<< HEAD
 =======
       <div className={styles.pagination}>
         <Pagination
           count={10}
           onChange={onPaginate}
 >>>>>>> 8051be6 (modal, botao de cadastro)
+=======
+>>>>>>> f06c0c5 (resolvido conflitos)
           variant="outlined"
           shape="rounded"
         />

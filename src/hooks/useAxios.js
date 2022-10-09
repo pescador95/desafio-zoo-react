@@ -1,4 +1,5 @@
 import Axios from "axios";
+import { ENDPOINTS } from "../services/endpoints";
 import { getLocalStorage, setLocalStorage } from "../utils/localStorage";
 
 const axiosRefresh = Axios.create({
@@ -42,9 +43,12 @@ const createAxiosInstance = () => {
         const user = getLocalStorage("user", {});
 
         try {
-          const refreshedData = await axiosRefresh.post("/auth/refresh", {
-            refreshToken: user?.refreshToken,
-          });
+          const refreshedData = await axiosRefresh.post(
+            ENDPOINTS.auth.refresh,
+            {
+              refreshToken: user?.refreshToken,
+            }
+          );
 
           setLocalStorage("user", refreshedData?.data);
           window.location.reload(true);

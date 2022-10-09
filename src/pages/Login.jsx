@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { useAxios } from "../hooks/useAxios";
 import { useSession } from "../hooks/useSession";
+import { ENDPOINTS } from "../services/endpoints";
 
 const theme = createTheme({
   palette: {
@@ -59,7 +60,7 @@ export const Login = () => {
   };
 
   const login = async (data) => {
-    const response = await axios.post("/auth", data);
+    const response = await axios.post(ENDPOINTS.auth.login, data);
     signIn(response.data);
     navigate("/animais");
   };

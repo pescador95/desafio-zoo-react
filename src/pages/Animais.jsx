@@ -6,6 +6,7 @@ import { MenuLateral } from "../components/MenuLateral";
 import { Header } from "../components/Header";
 import { Table } from "../components/Table";
 import { FormAnimal } from "../components/FormAnimal";
+import { ENDPOINTS } from "../services/endpoints";
 
 export const Animais = () => {
   const [animais, setAnimais] = useState([]);
@@ -16,20 +17,17 @@ export const Animais = () => {
     getData(0);
   }, []);
 
-<<<<<<< HEAD
   const countPage = () => {
-    axios.get(`/animals/count`).then((response) => {
+    axios.get(ENDPOINTS.animal.count).then((response) => {
       const { count } = response.data;
       const pages = Math.ceil(count / 20);
       return pages;
     });
   };
 
-=======
->>>>>>> 8051be6 (modal, botao de cadastro)
   const getData = (value) => {
     axios
-      .get("/animal/", {
+      .get(ENDPOINTS.animal.list, {
         params: {
           page: value,
         },
@@ -71,7 +69,6 @@ export const Animais = () => {
       
       <div className="animais-content">
         <Header title="animais" />
-<<<<<<< HEAD
         <div className="div-form">
           <form>
             <div class="col-md-10">
@@ -132,7 +129,6 @@ export const Animais = () => {
             </button>
           </div>
         </div>
-=======
         <div className="table-container">
           <div>
             {animais?.length && (
@@ -149,7 +145,6 @@ export const Animais = () => {
             </button>
           </div>
         </div>
->>>>>>> 8051be6 (modal, botao de cadastro)
 
         <FormAnimal open={open} handleClose={() => setOpen(false)} />
       </div>

@@ -4,7 +4,7 @@ import { ENDPOINTS } from "../endpoints";
 export const createAnimal = async (animal) => {
   const axios = getAxios();
 
-  const { data } = await axios.post(ENDPOINTS.animal.add);
+  const { data } = await axios.post(ENDPOINTS.animal.add, animal);
 
   return data;
 };
@@ -19,7 +19,7 @@ export const getAnimal = async (animal) => {
 export const updateAnimal = async (animal) => {
   const axios = getAxios();
 
-  const { data } = await axios.put(ENDPOINTS.animal.update);
+  const { data } = await axios.put(ENDPOINTS.animal.update, animal);
 
   return data;
 };
@@ -51,7 +51,7 @@ export const deleteAnimals = async (animals) => {
   const axios = getAxios();
 
   await axios.delete(ENDPOINTS.animal.delete, {
-    data: animals,
+    data: animals?.map((e) => e.id),
   });
   console.log(animals);
   return;

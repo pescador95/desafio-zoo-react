@@ -9,7 +9,7 @@ body {
 
 .animais-container {
     width: 100%;
-   display:flex;
+    display:flex;
 }
 
 .animais-content {
@@ -20,16 +20,12 @@ body {
 }
 
 .table-container {
-    margin-top: 2rem;
-}
-
-
-.table-container {
     left: 280px;
     right: 30px;
     position: absolute;
     display: flex;
     flex-direction: column;
+    margin-top: 2rem;
 }
 
 .animais-container .table-container {
@@ -44,3 +40,87 @@ body {
     width: 250px;
     background-color: blue;
 }
+
+
+/*******COPIAR PARA AS DEMAIS TELAS ESTA SESSÃO********/
+input {
+    border-radius: 15px;
+}
+
+.div-form {
+    background-color: #43A047;
+    border-radius: 15px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.div-form form {
+    display: flex;
+    flex-direction: row;
+}
+
+.div-form input {
+    background-color: #AEFFB2;
+}
+
+.div-form input:focus {
+    background-color: #AEFFB2;
+}
+
+.div-form select {
+    background-color: #AEFFB2;
+}
+
+.div-form select:focus {
+    background-color: #AEFFB2;
+}
+
+.div-form option {
+    background-color: #AEFFB2;
+}
+
+.div-form option:focus {
+    background-color: #AEFFB2;
+}
+
+.div-form option:hover {
+    background-color: #2dbd35;
+}
+
+.form-group {
+    margin-bottom: 5px;
+}
+
+.form-group label {
+    margin-bottom: 2px;
+}
+
+.form-control {
+    border-color: #212121;
+}
+
+.div-buttons {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.div-buttons button {
+    margin: 3px;
+    background-color: #FB8C00;
+    border: 0px;
+    color: #212121;
+    font-weight: 700;
+}
+
+.div-buttons button:hover {
+    background-color: #ffcd91;
+    color: #212121;
+}
+
+i {
+    font-size: 18px;
+    margin-right: 30px;
+}
+
+/*************************************************/

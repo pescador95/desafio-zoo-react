@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { setLocalStorage, getLocalStorage } from "../utils/localStorage";
+import { setSessionStorage, getSessionStorage } from "../utils/sessionStorage";
 
 const SessionContext = React.createContext();
 
@@ -15,13 +15,13 @@ export const SessionProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    const user = getLocalStorage("user", {});
+    const user = getSessionStorage("user", {});
     setSession(user);
   }, []);
 
   const signIn = (data) => {
     setSession(data);
-    setLocalStorage("user", data);
+    setSessionStorage("user", data);
   };
   const signOut = () => {
     setSession({});

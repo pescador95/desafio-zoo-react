@@ -1,10 +1,13 @@
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 8051be6 (modal, botao de cadastro)
 =======
 >>>>>>> f06c0c5 (resolvido conflitos)
+=======
+>>>>>>> d08e915ac33273fdb32613fdefbb5af851354aa5
 .title {
   font-size: 2rem;
 }
@@ -37,6 +40,7 @@
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 .inputContainer input { 
   background:#AEFFB2;
@@ -49,6 +53,8 @@
 >>>>>>> 8051be6 (modal, botao de cadastro)
 =======
 >>>>>>> f06c0c5 (resolvido conflitos)
+=======
+>>>>>>> d08e915ac33273fdb32613fdefbb5af851354aa5
 .radioButtons {
   display: flex;
   gap:0.8rem;
@@ -124,8 +130,11 @@
   color: rgb(255, 85, 85);
   /* white-space: nowrap; */
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 8051be6 (modal, botao de cadastro)
 =======
 >>>>>>> f06c0c5 (resolvido conflitos)
+=======
+>>>>>>> d08e915ac33273fdb32613fdefbb5af851354aa5
 }

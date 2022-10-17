@@ -13,6 +13,7 @@ import styles from "./FormAnimal.module.css";
 
 export const FormAnimal = ({ open, handleClose, defaultValues }) => {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import * as React from "react";
 import Box from "@mui/material/Box";
@@ -25,6 +26,8 @@ export const FormAnimal = ({ open, handleClose }) => {
 >>>>>>> 8051be6 (modal, botao de cadastro)
 =======
 >>>>>>> f06c0c5 (resolvido conflitos)
+=======
+>>>>>>> d08e915ac33273fdb32613fdefbb5af851354aa5
   const style = {
     position: "absolute",
     top: "50%",
@@ -220,6 +223,7 @@ export const FormAnimal = ({ open, handleClose }) => {
           </div>
         </form>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   return (
     <Modal
@@ -291,6 +295,8 @@ export const FormAnimal = ({ open, handleClose }) => {
 >>>>>>> 8051be6 (modal, botao de cadastro)
 =======
 >>>>>>> f06c0c5 (resolvido conflitos)
+=======
+>>>>>>> d08e915ac33273fdb32613fdefbb5af851354aa5
       </Box>
     </Modal>
   );

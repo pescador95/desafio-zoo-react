@@ -3,10 +3,13 @@ import { Pencil } from "phosphor-react";
 import { useState } from "react";
 import { removeEqualItensArray } from "../../utils/removeEqualItensArray";
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 8051be6 (modal, botao de cadastro)
 =======
 >>>>>>> f06c0c5 (resolvido conflitos)
+=======
+>>>>>>> d08e915ac33273fdb32613fdefbb5af851354aa5
 import styles from "./table.module.css";
 export const Table = ({
   columns,
@@ -70,6 +73,7 @@ export const Table = ({
               />
             </td>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 export const Table = ({ columns, data, onPaginate }) => {
   return (
@@ -80,6 +84,8 @@ export const Table = ({ columns, data, onPaginate }) => {
 >>>>>>> 8051be6 (modal, botao de cadastro)
 =======
 >>>>>>> f06c0c5 (resolvido conflitos)
+=======
+>>>>>>> d08e915ac33273fdb32613fdefbb5af851354aa5
             {columns?.map((column, index) => (
               <td key={index}>
                 {column?.label?.replace(/([a-z])([A-Z])/g, "$1 $2")}
@@ -120,6 +126,7 @@ export const Table = ({ columns, data, onPaginate }) => {
                 </button>
               </td>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
               {columns?.map((column, columnIndex) => (
                 <td key={`${dataIndex}-${columnIndex}`}>{item[column?.key]}</td>
@@ -127,6 +134,8 @@ export const Table = ({ columns, data, onPaginate }) => {
 >>>>>>> 8051be6 (modal, botao de cadastro)
 =======
 >>>>>>> f06c0c5 (resolvido conflitos)
+=======
+>>>>>>> d08e915ac33273fdb32613fdefbb5af851354aa5
             </tr>
           ))}
         </tbody>
@@ -144,6 +153,7 @@ export const Table = ({ columns, data, onPaginate }) => {
             setCurrentPage(value);
           }}
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
       <div className={styles.pagination}>
         <Pagination
@@ -152,6 +162,8 @@ export const Table = ({ columns, data, onPaginate }) => {
 >>>>>>> 8051be6 (modal, botao de cadastro)
 =======
 >>>>>>> f06c0c5 (resolvido conflitos)
+=======
+>>>>>>> d08e915ac33273fdb32613fdefbb5af851354aa5
           variant="outlined"
           shape="rounded"
         />

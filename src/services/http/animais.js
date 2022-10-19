@@ -4,7 +4,22 @@ import { ENDPOINTS } from "../endpoints";
 export const createAnimal = async (animal) => {
   const axios = getAxios();
 
-  const { data } = await axios.post(ENDPOINTS.createAnimal);
+  const { data } = await axios.post(ENDPOINTS.animal.add, animal);
+
+  return data;
+};
+
+export const getAnimal = async (animal) => {
+  const axios = getAxios();
+  const { data } = await axios.post(ENDPOINTS.animal.getById);
+
+  return data;
+};
+
+export const updateAnimal = async (animal) => {
+  const axios = getAxios();
+
+  const { data } = await axios.put(ENDPOINTS.animal.update, animal);
 
   return data;
 };
@@ -12,7 +27,7 @@ export const createAnimal = async (animal) => {
 export const getAnimals = async (page) => {
   const axios = getAxios();
 
-  const { data } = await axios.get(ENDPOINTS.getAnimals, {
+  const { data } = await axios.get(ENDPOINTS.animal.list, {
     params: {
       page,
     },
@@ -35,7 +50,17 @@ export const getAnimals = async (page) => {
 export const deleteAnimals = async (animals) => {
   const axios = getAxios();
 
-  await axios.delete(ENDPOINTS.deleteAnimals, {
+  await axios.delete(ENDPOINTS.animal.delete, {
+    data: animals?.map((e) => e.id),
+  });
+  console.log(animals);
+  return;
+};
+
+export const reactiveListAnimals = async (animals) => {
+  const axios = getAxios();
+
+  await axios.delete(ENDPOINTS.animal.reactive, {
     data: animals,
   });
 

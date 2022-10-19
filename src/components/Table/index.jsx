@@ -52,7 +52,7 @@ export const Table = ({
 
   return (
     <>
-      <p>{selectedItems?.length} item(s) selecionados!</p>
+      <p>{selectedItems?.length} item(s) selecionados.</p>
 
       <table className={styles?.table}>
         <thead>
@@ -109,7 +109,7 @@ export const Table = ({
       </table>
 
       <p className={styles.totalElements}>
-        Exibindo {size * currentPage} de {totalElements}
+        Exibindo {size * currentPage} de {totalElements} registros.
       </p>
 
       <div className={styles.pagination}>

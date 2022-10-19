@@ -1,10 +1,15 @@
+import { format } from "date-fns/esm";
 import React, { useEffect, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { AlertModal } from "../../components/AlertModal";
 import { FormAnimal } from "../../components/FormAnimal";
 import { Header } from "../../components/Header";
 import { MenuLateral } from "../../components/MenuLateral";
 import { Table } from "../../components/Table";
 import { useAxios } from "../../hooks/useAxios";
 import { deleteAnimals, getAnimals } from "../../services/http/animais";
+import { LIFETIME } from "../../utils/constants";
+import { parsedDate } from "../../utils/parsedDate";
 import styles from "./Animals.module.css";
 import "./index.css";
 
@@ -13,7 +18,8 @@ export const Animais = () => {
 
   const [selectedItems, setSelectedItems] = useState([]);
   const [updateAnimal, setUpdateAnimal] = useState({});
-  const [open, setOpen] = useState(false);
+  const [openFormAnimal, setOpenFormAnimal] = useState(false);
+  const [openAlertModal, setOpenAlertModal] = useState(false);
   const [animais, setAnimais] = useState({
     data: [],
     totalElements: 0,
@@ -54,7 +60,24 @@ export const Animais = () => {
 
   const handleEdit = (item) => {
     setUpdateAnimal(item);
-    setOpen(true);
+    setOpenFormAnimal(true);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({});
+
+  const onSubmit = async (values) => {
+    const animal = {
+      ...values,
+      dataEntrada: format(
+        new Date(parsedDate(values.dataEntrada)),
+        "dd/MM/yyyy 00:00:00"
+      ),
+    };
   };
 
   return (
@@ -148,25 +171,33 @@ export const Animais = () => {
           <div className={styles.actions}>
             <button
               className={styles.exclude}
-              onClick={() => handleDelete(selectedItems)}
+              onClick={() => setOpenAlertModal(true)}
               disabled={!selectedItems?.length}
             >
               Excluir {selectedItems?.length || ""} registros
             </button>
 
-            <button className={styles.add} onClick={() => setOpen(true)}>
+            <button
+              className={styles.add}
+              onClick={() => setOpenAlertModal(true)}
+            >
               <span>+</span> CADASTRAR
             </button>
           </div>
         </div>
 
         <FormAnimal
-          open={open}
+          open={openFormAnimal}
           handleClose={() => {
-            setOpen(false);
+            setOpenFormAnimal(false);
             setUpdateAnimal();
           }}
           defaultValues={updateAnimal}
+        />
+        <AlertModal
+          open={openAlertModal}
+          onDelete={handleDelete}
+          handleClose={() => setOpenAlertModal(false)}
         />
       </div>
     </div>

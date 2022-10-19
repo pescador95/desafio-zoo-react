@@ -1,5 +1,6 @@
 import Axios from "axios";
-import { getLocalStorage, setLocalStorage } from "../utils/localStorage";
+import { ENDPOINTS } from "../services/endpoints";
+import { getSessionStorage, setSessionStorage } from "../utils/sessionStorage";
 
 const axiosRefresh = Axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
@@ -25,7 +26,7 @@ const createAxiosInstance = () => {
   });
 
   axiosInstance.interceptors.request.use(async (config) => {
-    const user = getLocalStorage("user", {});
+    const user = getSessionStorage("user", {});
 
     if (user?.accessToken) {
       config.headers.Authorization = `Bearer ${user?.accessToken}`;
@@ -39,14 +40,17 @@ const createAxiosInstance = () => {
       const statusCode = error?.response?.status;
 
       if (statusCode === 401) {
-        const user = getLocalStorage("user", {});
+        const user = getSessionStorage("user", {});
 
         try {
-          const refreshedData = await axiosRefresh.post("/auth/refresh", {
-            refreshToken: user?.refreshToken,
-          });
+          const refreshedData = await axiosRefresh.post(
+            ENDPOINTS.auth.refresh,
+            {
+              refreshToken: user?.refreshToken,
+            }
+          );
 
-          setLocalStorage("user", refreshedData?.data);
+          setSessionStorage("user", refreshedData?.data);
           window.location.reload(true);
         } catch (error) {}
       }

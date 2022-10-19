@@ -2,12 +2,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { format } from "date-fns";
-import * as React from "react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { createAnimal } from "../../services/http/animais";
+import { createAnimal, updateAnimal } from "../../services/http/animais";
 import { LIFETIME } from "../../utils/constants";
+import { formattedDateForInput, parsedDate } from "../../utils/parsedDate";
 import styles from "./FormAnimal.module.css";
 
 export const FormAnimal = ({ open, handleClose, defaultValues }) => {
@@ -43,18 +43,28 @@ export const FormAnimal = ({ open, handleClose, defaultValues }) => {
   });
 
   useEffect(() => {
-    console.log(defaultValues);
-    defaultValues?.id ? reset({ ...defaultValues }) : reset();
+    defaultValues?.id
+      ? reset({
+          ...defaultValues,
+          dataEntrada: formattedDateForInput(defaultValues.dataEntrada),
+        })
+      : reset();
   }, [defaultValues]);
 
   const onSubmit = async (values) => {
     const animal = {
       ...values,
-      dataEntrada: format(new Date(values?.dataEntrada), "dd/MM/yyyy 00:00:00"),
+      dataEntrada: format(
+        new Date(parsedDate(values.dataEntrada)),
+        "dd/MM/yyyy 00:00:00"
+      ),
     };
-
-    await createAnimal(animal);
-
+    console.log(animal);
+    if (!values.id) {
+      await createAnimal(animal);
+    } else {
+      await updateAnimal(animal);
+    }
     handleClose();
   };
 

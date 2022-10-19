@@ -1,0 +1,25 @@
+.busca-container {
+    background-color: #43A047;
+    display: flex;
+    flex-direction: row;
+}
+
+.busca-container .busca-container-inputs {
+    display: flex;
+    flex-direction: row;
+}
+
+.busca-container .busca-container-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.busca-container-inputs input {
+    background-color: #AEFFB2;
+    border-radius: 15px;
+}
+
+.busca-container-buttons button {
+    background-color: #FB8C00;
+    border-radius: 15px;
+}

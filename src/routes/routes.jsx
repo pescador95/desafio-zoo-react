@@ -16,6 +16,7 @@ const noProtectedRoute = [
   },
 ];
 
+/*Lembrar de descomentar essa seção antes de fazer um merge*/
 const protectedRoute = [
   {
     path: ROUTES.animals,

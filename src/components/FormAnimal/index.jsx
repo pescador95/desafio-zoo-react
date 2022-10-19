@@ -2,7 +2,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { format } from "date-fns";
-import * as React from "react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";

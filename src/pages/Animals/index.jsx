@@ -11,6 +11,7 @@ import { deleteAnimals, getAnimals } from "../../services/http/animais";
 import { LIFETIME } from "../../utils/constants";
 import { parsedDate } from "../../utils/parsedDate";
 import styles from "./Animals.module.css";
+import "./index.css";
 
 export const Animais = () => {
   const axios = useAxios();

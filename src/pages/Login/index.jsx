@@ -14,9 +14,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as React from "react";
 
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/logo.png";
-import { useAxios } from "../hooks/useAxios";
-import { useSession } from "../hooks/useSession";
+import logo from "../../assets/logo.png";
+import { useAxios } from "../../hooks/useAxios";
+import { useSession } from "../../hooks/useSession";
 
 const theme = createTheme({
   palette: {

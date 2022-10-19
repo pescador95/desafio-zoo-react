@@ -6,6 +6,7 @@ import { Table } from "../../components/Table";
 import { useAxios } from "../../hooks/useAxios";
 import { deleteAnimals, getAnimals } from "../../services/http/animais";
 import styles from "./Animals.module.css";
+import "./index.css";
 
 export const Animais = () => {
   const axios = useAxios();
@@ -61,6 +62,70 @@ export const Animais = () => {
       <MenuLateral />
       <div className={styles.content}>
         <Header title="animais" />
+        <div className="div-form">
+          <form>
+            <div class="col-md-10">
+              <div class="form-row">
+                <div class="form-group col-md-3">
+                  <label for="microchip-anilha">Microchip ou Anilha</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="microchip-anilha"
+                  />
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="origem">Origem</label>
+                  <input type="text" class="form-control" id="origem" />
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="data-admissao">Data de Admissão</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="data-admissao"
+                    placeholder="dd/mm/aaaa"
+                  />
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="sexo">Sexo</label>
+                  <select id="sexo" class="form-control">
+                    <option selected value="todos">
+                      Todos
+                    </option>
+                    <option value="macho">Macho</option>
+                    <option value="femea">Fêmea</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="nome-cientifico">Nome Científico</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="nome-cientifico"
+                  />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="nome-apelido">Nome ou Apelido</label>
+                  <input type="text" class="form-control" id="nome-apelido" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2 div-buttons">
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-x"></i>LIMPAR
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-funnel"></i>FILTROS
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-search"></i>BUSCAR
+              </button>
+            </div>
+          </form>
+        </div>
         <div className={styles.table}>
           <div>
             {animais?.data?.length ? (

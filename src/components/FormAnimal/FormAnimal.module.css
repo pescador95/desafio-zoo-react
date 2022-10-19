@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 8051be6955a90b139666338f823d5c3428598ef1
 .title {
   font-size: 2rem;
 }
@@ -22,7 +19,6 @@
   width:100%;
 }
 
-<<<<<<< HEAD
 .inputContainer input, .inputContainer select { 
   background:#AEFFB2;
   height:35px;
@@ -35,16 +31,6 @@
 
 
 
-=======
-.inputContainer input { 
-  background:#AEFFB2;
-  height:30px;
-  border:1px solid gray;
-  border-radius: 4px;
-  width:100%;
-}
-
->>>>>>> 8051be6955a90b139666338f823d5c3428598ef1
 .radioButtons {
   display: flex;
   gap:0.8rem;
@@ -113,13 +99,10 @@
 
 .save:hover {
   filter: brightness(0.9);
-<<<<<<< HEAD
 }
 
 .inputError{
   font-size: 0.8rem;
   color: rgb(255, 85, 85);
   /* white-space: nowrap; */
-=======
->>>>>>> 8051be6955a90b139666338f823d5c3428598ef1
 }

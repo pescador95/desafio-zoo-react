@@ -1,10 +1,7 @@
 import { Pagination } from "@mui/material";
-<<<<<<< HEAD
 import { Pencil } from "phosphor-react";
 import { useState } from "react";
 import { removeEqualItensArray } from "../../utils/removeEqualItensArray";
-=======
->>>>>>> 8051be6955a90b139666338f823d5c3428598ef1
 import styles from "./table.module.css";
 export const Table = ({
   columns,
@@ -53,7 +50,6 @@ export const Table = ({
     return match?.length === data?.length;
   };
 
-<<<<<<< HEAD
   return (
     <>
       <p>{selectedItems?.length} item(s) selecionados!</p>
@@ -68,14 +64,6 @@ export const Table = ({
                 checked={checkedAllItemsPage()}
               />
             </td>
-=======
-export const Table = ({ columns, data, onPaginate }) => {
-  return (
-    <>
-      <table className={styles?.table}>
-        <thead>
-          <tr>
->>>>>>> 8051be6955a90b139666338f823d5c3428598ef1
             {columns?.map((column, index) => (
               <td key={index}>
                 {column?.label?.replace(/([a-z])([A-Z])/g, "$1 $2")}
@@ -93,7 +81,6 @@ export const Table = ({ columns, data, onPaginate }) => {
                 backgroundColor: `${dataIndex % 2 === 0 ? "white" : "#AEFFB2"}`,
               }}
             >
-<<<<<<< HEAD
               <td>
                 <input
                   type="checkbox"
@@ -116,17 +103,11 @@ export const Table = ({ columns, data, onPaginate }) => {
                   <Pencil size={24} />
                 </button>
               </td>
-=======
-              {columns?.map((column, columnIndex) => (
-                <td key={`${dataIndex}-${columnIndex}`}>{item[column?.key]}</td>
-              ))}
->>>>>>> 8051be6955a90b139666338f823d5c3428598ef1
             </tr>
           ))}
         </tbody>
       </table>
 
-<<<<<<< HEAD
       <p className={styles.totalElements}>
         Exibindo {size * currentPage} de {totalElements}
       </p>
@@ -138,12 +119,6 @@ export const Table = ({ columns, data, onPaginate }) => {
             onPaginate(value);
             setCurrentPage(value);
           }}
-=======
-      <div className={styles.pagination}>
-        <Pagination
-          count={10}
-          onChange={onPaginate}
->>>>>>> 8051be6955a90b139666338f823d5c3428598ef1
           variant="outlined"
           shape="rounded"
         />

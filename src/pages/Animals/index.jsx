@@ -9,6 +9,7 @@ import { Table } from "../../components/Table";
 import { useAxios } from "../../hooks/useAxios";
 import { deleteAnimals, getAnimals } from "../../services/http/animais";
 import { LIFETIME } from "../../utils/constants";
+import { makeMultiFilterParams } from "../../utils/multiFilters";
 import { parsedDate } from "../../utils/parsedDate";
 import styles from "./Animals.module.css";
 import "./index.css";
@@ -31,8 +32,8 @@ export const Animais = () => {
     getTotalElements();
   }, []);
 
-  const getData = async (page = 0) => {
-    const data = await getAnimals(page);
+  const getData = async (page = 0, strgFilter = "") => {
+    const data = await getAnimals(page, strgFilter);
     setAnimais((prev) => ({ ...prev, data, size: data?.length }));
   };
 
@@ -71,13 +72,30 @@ export const Animais = () => {
   } = useForm({});
 
   const onSubmit = async (values) => {
-    const animal = {
-      ...values,
-      dataEntrada: format(
-        new Date(parsedDate(values.dataEntrada)),
-        "dd/MM/yyyy 00:00:00"
-      ),
-    };
+    const filters = {};
+    Object.keys(values).forEach((key) => {
+      if (key === "dataEntrada") {
+        return Object.assign(filters, {
+          dataEntrada:
+            values.dataEntrada &&
+            values.dataEntrada?.split("-")?.reverse()?.join("-"),
+        });
+      }
+      if (values[key] || values[key] !== "") {
+        Object.assign(filters, { [key]: values[key] });
+      }
+    });
+
+    filters.sexo === "todos" && delete filters.sexo;
+
+    filters.dataEntrada === "" && delete filters.dataEntrada;
+
+    const parsedFilters = makeMultiFilterParams({
+      ...filters,
+    });
+    console.log({ values, parsedFilters, filters });
+    getData(0, parsedFilters);
+    getTotalElements();
   };
 
   return (
@@ -85,139 +103,91 @@ export const Animais = () => {
       <MenuLateral />
       <div className={styles.content}>
         <Header title="animais" />
-        <div>
+        <div className="div-form">
           <form onSubmit={handleSubmit(onSubmit)}>
-            <h3 className={styles?.title}></h3>
-            <div className={styles?.container}>
-              <div style={{ width: "40%" }}>
-                <div className={styles?.inputContainer}>
-                  <label htmlFor="nomeApelido">Nome apelido</label>
-                  <input {...register("nomeApelido")} />
-                  {errors?.nomeApelido && (
-                    <span className={styles.inputError}>
-                      {errors?.nomeApelido?.message}
-                    </span>
-                  )}
+            <div class="col-md-10">
+              <div class="form-row">
+                <div class="form-group col-md-3">
+                  <label for="identificacao">Microchip ou Anilha</label>
+                  <input
+                    {...register("identificacao")}
+                    type="text"
+                    class="form-control"
+                    id="identificacao"
+                  />
                 </div>
-              </div>
-              <div style={{ width: "60%", display: "flex", gap: "0.8rem" }}>
-                <div className={styles?.inputContainer}>
-                  <label htmlFor="identificacao">Microchip/Anilha</label>
-                  <input {...register("identificacao")} />
-                  {errors?.identificacao && (
-                    <span className={styles.inputError}>
-                      {errors?.identificacao?.message}
-                    </span>
-                  )}
+                <div class="form-group col-md-3">
+                  <label for="origem">Origem</label>
+                  <input
+                    {...register("origem")}
+                    type="text"
+                    class="form-control"
+                    id="origem"
+                  />
                 </div>
-                <div className={styles?.inputContainer}>
-                  <label htmlFor="dataEntrada">Data de entrada</label>
-                  <input type="date" {...register("dataEntrada")} />
-                  {errors?.dataEntrada && (
-                    <span className={styles.inputError}>
-                      {errors?.dataEntrada?.message}
-                    </span>
-                  )}
+                <div class="form-group col-md-3">
+                  <label for="data-admissao">Data de Admissão</label>
+                  <input
+                    {...register("dataEntrada")}
+                    type="date"
+                    class="form-control"
+                    id="dataEntrada"
+                  />
                 </div>
-              </div>
-            </div>
-
-            <div className={styles?.container}>
-              <div className={styles?.inputContainer}>
-                <label htmlFor="nomeComum">Nome comum</label>
-                <input {...register("nomeComum")} />
-                {errors?.nomeComum && (
-                  <span className={styles.inputError}>
-                    {errors?.nomeComum?.message}
-                  </span>
-                )}
-              </div>
-              <div className={styles?.inputContainer}>
-                <label htmlFor="origem">Origem</label>
-                <input {...register("origem")} />
-                {errors?.origem && (
-                  <span className={styles.inputError}>
-                    {errors?.origem?.message}
-                  </span>
-                )}
-              </div>
-            </div>
-
-            <div className={styles?.container}>
-              <div className={styles?.inputContainer}>
-                <label htmlFor="nomeCientifico">Nome cientifico</label>
-                <input {...register("nomeCientifico")} />
-                {errors?.nomeCientifico && (
-                  <span className={styles.inputError}>
-                    {errors?.nomeCientifico?.message}
-                  </span>
-                )}
-              </div>
-              <div className={styles?.inputContainer}>
-                <label htmlFor="idade">Tempo de vida</label>
-                <select {...register("idade")}>
-                  {Object.keys(LIFETIME).map((key) => (
-                    <option key={LIFETIME[key]} value={LIFETIME[key]}>
-                      {LIFETIME[key]}
+                <div class="form-group col-md-3">
+                  <label for="sexo">Sexo</label>
+                  <select id="sexo" class="form-control" {...register("sexo")}>
+                    <option selected value="todos">
+                      Todos
                     </option>
-                  ))}
-                </select>
-                {errors?.idade && (
-                  <span className={styles.inputError}>
-                    {errors?.idade?.message}
-                  </span>
-                )}
-              </div>
-              <div className={styles?.inputContainer}>
-                <label>Sexo</label>
-                <div className={styles?.radioButtons}>
-                  <div>
-                    <input
-                      {...register("sexo")}
-                      type="radio"
-                      value="Male"
-                      id="field-sun"
-                    />
-                    <label htmlFor="Male">Macho</label>
-                  </div>
-
-                  <div>
-                    <input
-                      {...register("sexo")}
-                      type="radio"
-                      value="Female"
-                      id="field-sun"
-                    />
-                    <label htmlFor="Female">Fêmea</label>
-                  </div>
+                    <option value="Macho">Macho</option>
+                    <option value="Fêmea">Fêmea</option>
+                  </select>
                 </div>
-                {errors?.sexo && (
-                  <span className={styles.inputError}>
-                    {errors?.sexo?.message}
-                  </span>
-                )}
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="nome-cientifico">Nome Científico</label>
+                  <input
+                    {...register("nomeCientifico")}
+                    type="text"
+                    class="form-control"
+                    id="nomecientifico"
+                  />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="nome-apelido">Nome ou Apelido</label>
+                  <input
+                    {...register("nomeComum")}
+                    type="text"
+                    class="form-control"
+                    id="nomeComum"
+                  />
+                </div>
               </div>
             </div>
-
-            <div className={styles.buttons}>
+            <div class="col-md-2 div-buttons">
               <button
-                className={styles.cancel}
                 onClick={() =>
                   reset({
                     nomeComum: "",
-                    nomeApelido: "",
-                    sexo: "",
-                    idade: "",
-                    nomeCientifico: "",
-                    origem: "",
                     identificacao: "",
                     dataEntrada: "",
+                    nomeCientifico: "",
+                    sexo: "",
+                    origem: "",
                   })
                 }
+                class="btn btn-primary"
               >
-                LIMPAR
+                <i class="bi bi-x"></i>LIMPAR
               </button>
-              <button className={styles.save}>FILTRAR </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-funnel"></i>FILTROS
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-search"></i>BUSCAR
+              </button>
             </div>
           </form>
         </div>
@@ -251,7 +221,7 @@ export const Animais = () => {
 
             <button
               className={styles.add}
-              onClick={() => setOpenAlertModal(true)}
+              onClick={() => setOpenFormAnimal(true)}
             >
               <span>+</span> CADASTRAR
             </button>

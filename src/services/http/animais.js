@@ -24,12 +24,13 @@ export const updateAnimal = async (animal) => {
   return data;
 };
 
-export const getAnimals = async (page) => {
+export const getAnimals = async (page, strgFilter) => {
   const axios = getAxios();
 
   const { data } = await axios.get(ENDPOINTS.animal.list, {
     params: {
       page,
+      strgFilter,
     },
   });
 

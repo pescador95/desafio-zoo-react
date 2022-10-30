@@ -1,11 +1,18 @@
-export const makeMultiFilterParams = (...data) => {
-  let strgFilter = "";
-  let quote = "'";
+import { DATAS } from "./constants";
 
-  data.forEach((key, value) => {
-    strgFilter += "and " + key + " like" + quote + "%" + value + "%" + quote;
-    console.log(key, value);
-    console.log(strgFilter);
+export const makeMultiFilterParams = (obj) => {
+  let query = "";
+
+  Object.keys(obj)?.forEach((key, index, arr) => {
+    if (DATAS.includes(key)) {
+      return (query = query.concat(
+        `${index != arr?.length ? "and" : ""} ${key} = '${obj[key]}' `
+      ));
+    }
+    query = query.concat(
+      `${index != arr?.length ? "and" : ""} ${key} like '%${obj[key]}%' `
+    );
   });
-  return strgFilter;
+
+  return query;
 };

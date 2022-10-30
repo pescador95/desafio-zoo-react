@@ -9,6 +9,7 @@ import { Table } from "../../components/Table";
 import { useAxios } from "../../hooks/useAxios";
 import { deleteAnimals, getAnimals } from "../../services/http/animais";
 import { LIFETIME } from "../../utils/constants";
+import { makeMultiFilterParams } from "../../utils/multiFilters";
 import { parsedDate } from "../../utils/parsedDate";
 import styles from "./Animals.module.css";
 import "./index.css";
@@ -31,8 +32,8 @@ export const Animais = () => {
     getTotalElements();
   }, []);
 
-  const getData = async (page = 0) => {
-    const data = await getAnimals(page);
+  const getData = async (page = 0, strgFilter = "") => {
+    const data = await getAnimals(page, strgFilter);
     setAnimais((prev) => ({ ...prev, data, size: data?.length }));
   };
 
@@ -71,13 +72,30 @@ export const Animais = () => {
   } = useForm({});
 
   const onSubmit = async (values) => {
-    const animal = {
-      ...values,
-      dataEntrada: format(
-        new Date(parsedDate(values.dataEntrada)),
-        "dd/MM/yyyy 00:00:00"
-      ),
-    };
+    const filters = {};
+    Object.keys(values).forEach((key) => {
+      if (key === "dataEntrada") {
+        return Object.assign(filters, {
+          dataEntrada:
+            values.dataEntrada &&
+            values.dataEntrada?.split("-")?.reverse()?.join("-"),
+        });
+      }
+      if (values[key] || values[key] !== "") {
+        Object.assign(filters, { [key]: values[key] });
+      }
+    });
+
+    filters.sexo === "todos" && delete filters.sexo;
+
+    filters.dataEntrada === "" && delete filters.dataEntrada;
+
+    const parsedFilters = makeMultiFilterParams({
+      ...filters,
+    });
+    console.log({ values, parsedFilters, filters });
+    getData(0, parsedFilters);
+    getTotalElements();
   };
 
   return (
@@ -86,38 +104,44 @@ export const Animais = () => {
       <div className={styles.content}>
         <Header title="animais" />
         <div className="div-form">
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div class="col-md-10">
               <div class="form-row">
                 <div class="form-group col-md-3">
-                  <label for="microchip-anilha">Microchip ou Anilha</label>
+                  <label for="identificacao">Microchip ou Anilha</label>
                   <input
+                    {...register("identificacao")}
                     type="text"
                     class="form-control"
-                    id="microchip-anilha"
+                    id="identificacao"
                   />
                 </div>
                 <div class="form-group col-md-3">
                   <label for="origem">Origem</label>
-                  <input type="text" class="form-control" id="origem" />
+                  <input
+                    {...register("origem")}
+                    type="text"
+                    class="form-control"
+                    id="origem"
+                  />
                 </div>
                 <div class="form-group col-md-3">
                   <label for="data-admissao">Data de Admissão</label>
                   <input
-                    type="text"
+                    {...register("dataEntrada")}
+                    type="date"
                     class="form-control"
-                    id="data-admissao"
-                    placeholder="dd/mm/aaaa"
+                    id="dataEntrada"
                   />
                 </div>
                 <div class="form-group col-md-3">
                   <label for="sexo">Sexo</label>
-                  <select id="sexo" class="form-control">
+                  <select id="sexo" class="form-control" {...register("sexo")}>
                     <option selected value="todos">
                       Todos
                     </option>
-                    <option value="macho">Macho</option>
-                    <option value="femea">Fêmea</option>
+                    <option value="Macho">Macho</option>
+                    <option value="Fêmea">Fêmea</option>
                   </select>
                 </div>
               </div>
@@ -125,19 +149,37 @@ export const Animais = () => {
                 <div class="form-group col-md-6">
                   <label for="nome-cientifico">Nome Científico</label>
                   <input
+                    {...register("nomeCientifico")}
                     type="text"
                     class="form-control"
-                    id="nome-cientifico"
+                    id="nomecientifico"
                   />
                 </div>
                 <div class="form-group col-md-6">
                   <label for="nome-apelido">Nome ou Apelido</label>
-                  <input type="text" class="form-control" id="nome-apelido" />
+                  <input
+                    {...register("nomeComum")}
+                    type="text"
+                    class="form-control"
+                    id="nomeComum"
+                  />
                 </div>
               </div>
             </div>
             <div class="col-md-2 div-buttons">
-              <button type="submit" class="btn btn-primary">
+              <button
+                onClick={() =>
+                  reset({
+                    nomeComum: "",
+                    identificacao: "",
+                    dataEntrada: "",
+                    nomeCientifico: "",
+                    sexo: "",
+                    origem: "",
+                  })
+                }
+                class="btn btn-primary"
+              >
                 <i class="bi bi-x"></i>LIMPAR
               </button>
               <button type="submit" class="btn btn-primary">
@@ -179,7 +221,7 @@ export const Animais = () => {
 
             <button
               className={styles.add}
-              onClick={() => setOpenAlertModal(true)}
+              onClick={() => setOpenFormAnimal(true)}
             >
               <span>+</span> CADASTRAR
             </button>

@@ -151,7 +151,11 @@ export const Login = () => {
               </FormControl>
             </Box>
             <Box>
-              <Button color="secondary" style={{ textTransform: "none" }}>
+              <Button color="secondary" style={{ textTransform: "none" }} 
+                onClick={() => {
+                  window.location.pathname = "/esqueciSenha";
+                }}
+              >
                 Esqueci minha senha
               </Button>
             </Box>

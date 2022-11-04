@@ -3,7 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useSession } from "../hooks/useSession";
 import { Animais } from "../pages/Animals";
 import { Login } from "../pages/Login/";
-import { ForgotPassword } from "../pages/RecoveryPassword";
+import { ForgotPassword } from "../pages/RecoverPassword";
 
 
 export const ROUTES = {

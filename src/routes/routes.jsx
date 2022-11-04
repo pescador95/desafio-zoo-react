@@ -5,6 +5,7 @@ import { Animais } from "../pages/Animals";
 import { Login } from "../pages/Login/";
 import { ForgotPassword } from "../pages/RecoveryPassword";
 
+
 export const ROUTES = {
   login: "/login",
   animals: "/animais",
@@ -19,6 +20,7 @@ const noProtectedRoute = [
   {
     path: ROUTES.esqueciSenha,
     element: <ForgotPassword />,
+
   },
 ];
 

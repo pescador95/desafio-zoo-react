@@ -66,6 +66,7 @@ export const ENDPOINTS = {
   auth: {
     login: "/auth",
     refresh: "/auth/refresh",
+    recoverPassword: "/recoverPassword/",
   },
   recoverPassword: "/recoverPassword/",
 };

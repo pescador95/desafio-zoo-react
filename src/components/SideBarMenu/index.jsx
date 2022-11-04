@@ -1,14 +1,14 @@
 import React from "react";
-import "../../styles/MenuLateral.css";
-import { MenuLateralDados } from "../MenuLateralComponents";
+import "../../styles/SideBarMenu.css";
+import { SideBarMenuData } from "../SideBarMenuComponents";
 import zooLogo from "../../assets/ZooLogo.png";
-import style from "./MenuLateral.module.css";
-export const MenuLateral = function MenuLateral() {
+import style from "./SideBarMenu.module.css";
+export const SideBarMenu = function SideBarMenu() {
   return (
     <div className={style?.container}>
       <img className="zoo-logo" src={zooLogo} alt="Logo zoológico" />
       <ul className="sidebar-list">
-        {MenuLateralDados.map((val, key) => {
+        {SideBarMenuData.map((val, key) => {
           return (
             <li
               key={key}

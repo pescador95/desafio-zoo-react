@@ -1,4 +1,5 @@
 export const ENDPOINTS = {
+  email: "",
   animal: {
     count: "/animal/count",
     add: "/animal/",
@@ -67,4 +68,5 @@ export const ENDPOINTS = {
     refresh: "/auth/refresh",
     recoverPassword: "/recoverPassword/",
   },
+  recoverPassword: "/recoverPassword/",
 };

@@ -9,6 +9,17 @@ export const createAnimal = async (animal) => {
   return data;
 };
 
+export const countAnimal = async (strgFilter) => {
+  const axios = getAxios();
+
+  const { data } = await axios.get(ENDPOINTS.animal.count, {
+    params: {
+      strgFilter,
+    },
+  });
+  return data;
+};
+
 export const getAnimal = async (animal) => {
   const axios = getAxios();
   const { data } = await axios.post(ENDPOINTS.animal.getById);

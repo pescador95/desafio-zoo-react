@@ -3,7 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useSession } from "../hooks/useSession";
 import { Animais } from "../pages/Animals";
 import { Login } from "../pages/Login/";
-import { EsqueciSenha } from "../pages/EsqueciSenha";
+import { ForgotPassword } from "../pages/RecoveryPassword";
 
 export const ROUTES = {
   login: "/login",
@@ -18,7 +18,7 @@ const noProtectedRoute = [
   },
   {
     path: ROUTES.esqueciSenha,
-    element: <EsqueciSenha />,
+    element: <ForgotPassword />,
   },
 ];
 

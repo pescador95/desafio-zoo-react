@@ -6,7 +6,7 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import MedicalInformationIcon from "@mui/icons-material/MedicalInformation";
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 
-export const MenuLateralDados = [
+export const SideBarMenuData = [
   {
     titulo: "Animais",
     icon: <PetsIcon />,

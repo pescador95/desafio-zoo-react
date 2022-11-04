@@ -4,10 +4,14 @@ import { useForm } from "react-hook-form";
 import { AlertModal } from "../../components/AlertModal";
 import { FormAnimal } from "../../components/FormAnimal";
 import { Header } from "../../components/Header";
-import { MenuLateral } from "../../components/MenuLateral";
+import { SideBarMenu } from "../../components/SideBarMenu";
 import { Table } from "../../components/Table";
 import { useAxios } from "../../hooks/useAxios";
-import { deleteAnimals, getAnimals } from "../../services/http/animais";
+import {
+  deleteAnimals,
+  getAnimals,
+  countAnimal,
+} from "../../services/http/animais";
 import { LIFETIME } from "../../utils/constants";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
 import { parsedDate } from "../../utils/parsedDate";
@@ -37,9 +41,10 @@ export const Animais = () => {
     setAnimais((prev) => ({ ...prev, data, size: data?.length }));
   };
 
-  const getTotalElements = async () => {
-    const response = await axios.get("/animal/count");
-    setAnimais((prev) => ({ ...prev, totalElements: response?.data }));
+  const getTotalElements = async (stringFilter = "") => {
+    const response = await countAnimal(stringFilter);
+    setAnimais((prev) => ({ ...prev, totalElements: response }));
+    console.log(setAnimais((prev) => ({ ...prev, totalElements: response })));
   };
 
   const columns = useMemo(
@@ -95,12 +100,12 @@ export const Animais = () => {
     });
     console.log({ values, parsedFilters, filters });
     getData(0, parsedFilters);
-    getTotalElements();
+    getTotalElements(parsedFilters);
   };
 
   return (
     <div className={styles.container}>
-      <MenuLateral />
+      <SideBarMenu />
       <div className={styles.content}>
         <Header title="animais" />
         <div className="div-form">

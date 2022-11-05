@@ -24,7 +24,7 @@ export const SessionProvider = ({ children }) => {
     setSessionStorage("user", data);
   };
   const signOut = () => {
-    setSession({});
+    setSession(sessionStorage.clear());
   };
 
   return (

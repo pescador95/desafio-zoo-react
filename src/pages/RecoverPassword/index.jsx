@@ -59,9 +59,18 @@ export const ForgotPassword = () => {
                   />
                 </div>
                 <div class="mb-3 d-grid">
-                  <button type="submit" class="btn btn-primary">
-                    ENVIAR
-                  </button>
+                  <div class="btn box">
+                    <button type="submit" class="btn btn-primary">
+                      ENVIAR
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      onClick={() => navigate("/login")}
+                    >
+                      VOLTAR
+                    </button>
+                  </div>
                 </div>
               </form>
             </div>

@@ -19,3 +19,8 @@
 .form-control {
     border: none;
 }
+
+.box {
+    display: flex;
+    justify-content: space-between;
+  }

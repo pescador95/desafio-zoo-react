@@ -95,6 +95,8 @@ export const Animais = () => {
 
     filters.dataEntrada === "" && delete filters.dataEntrada;
 
+    delete filters.selectedItems;
+
     const parsedFilters = makeMultiFilterParams({
       ...filters,
     });
@@ -131,7 +133,7 @@ export const Animais = () => {
                   />
                 </div>
                 <div class="form-group col-md-3">
-                  <label for="data-admissao">Data de Admissão</label>
+                  <label for="data-admissao">Data Entrada</label>
                   <input
                     {...register("dataEntrada")}
                     type="date"
@@ -161,7 +163,7 @@ export const Animais = () => {
                   />
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="nome-apelido">Nome ou Apelido</label>
+                  <label for="nome-apelido">Nome Comum</label>
                   <input
                     {...register("nomeComum")}
                     type="text"
@@ -181,6 +183,7 @@ export const Animais = () => {
                     nomeCientifico: "",
                     sexo: "",
                     origem: "",
+                    selectedItems: setSelectedItems([]),
                   })
                 }
                 class="btn btn-primary"

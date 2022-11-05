@@ -1,8 +1,10 @@
 import { Pagination } from "@mui/material";
 import { Pencil } from "phosphor-react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { removeEqualItensArray } from "../../utils/removeEqualItensArray";
 import styles from "./table.module.css";
+
 export const Table = ({
   columns,
   data,
@@ -23,6 +25,8 @@ export const Table = ({
       setSelectedItems((prev) => prev?.filter((e) => e?.id !== item?.id));
     }
   };
+
+  const { reset } = useForm({});
 
   const onToggleAllItems = (event) => {
     if (event?.target?.checked) {
@@ -52,7 +56,18 @@ export const Table = ({
 
   return (
     <>
-      <p>{selectedItems?.length} item(s) selecionados.</p>
+      <div class="col-md-2 div-buttons">
+        <button
+          onClick={() =>
+            reset({
+              selectedItems: setSelectedItems([]),
+            })
+          }
+          class="btn btn-primary"
+        >
+          <i class="bi bi-x"></i>LIMPAR SELECIONADOS
+        </button>
+      </div>
 
       <table className={styles?.table}>
         <thead>
@@ -107,6 +122,10 @@ export const Table = ({
           ))}
         </tbody>
       </table>
+
+      <p className={styles.selectedItems}>
+        {selectedItems?.length} item(s) selecionados.
+      </p>
 
       <p className={styles.totalElements}>
         Exibindo {size * currentPage} de {totalElements} registros.

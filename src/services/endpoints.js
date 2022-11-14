@@ -9,7 +9,7 @@ export const ENDPOINTS = {
     delete: "/animal/",
     reactive: "/animal/reactive",
   },
-  usuario: {
+  user: {
     count: "/usuario/count",
     add: "/usuario/",
     update: "/usuario/",

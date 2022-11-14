@@ -1,28 +1,28 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AlertModal } from "../../components/AlertModal";
-import { FormAnimal } from "../../components/FormAnimal";
+import { FormUsuario } from "../../components/FormUsuario";
 import { Header } from "../../components/Header";
 import { SideBarMenu } from "../../components/SideBarMenu";
 import { Table } from "../../components/Table";
 import { useAxios } from "../../hooks/useAxios";
 import {
-  deleteAnimals,
-  getAnimals,
-  countAnimal,
-} from "../../services/http/animais";
+  deleteUsers,
+  getUsers,
+  countUser,
+} from "../../services/http/users";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
-import styles from "./Animals.module.css";
+import styles from "./Users.module.css";
 import "./index.css";
 
-export const Animais = () => {
+export const Usuarios = () => {
   const axios = useAxios();
 
   const [selectedItems, setSelectedItems] = useState([]);
-  const [updateAnimal, setUpdateAnimal] = useState({});
-  const [openFormAnimal, setOpenFormAnimal] = useState(false);
+  const [updateUsuario, setUpdateUsuario] = useState({});
+  const [openFormUsuario, setOpenFormUsuario] = useState(false);
   const [openAlertModal, setOpenAlertModal] = useState(false);
-  const [animais, setAnimais] = useState({
+  const [usuarios, setUsuarios] = useState({
     data: [],
     totalElements: 0,
     size: 0,
@@ -34,35 +34,36 @@ export const Animais = () => {
   }, []);
 
   const getData = async (page = 0, strgFilter = "") => {
-    const data = await getAnimals(page, strgFilter);
-    setAnimais((prev) => ({ ...prev, data, size: data?.length }));
+    const data = await getUsers(page, strgFilter);
+    setUsuarios((prev) => ({ ...prev, data, size: data?.length }));
   };
 
   const getTotalElements = async (stringFilter = "") => {
-    const response = await countAnimal(stringFilter);
-    setAnimais((prev) => ({ ...prev, totalElements: response }));
+    const response = await countUser(stringFilter);
+    setUsuarios((prev) => ({ ...prev, totalElements: response }));
+    console.log(setUsuarios((prev) => ({ ...prev, totalElements: response })));
   };
 
   const columns = useMemo(
     () =>
-      animais?.data?.length
-        ? Object.keys(animais?.data[0])?.map((key) => ({
+      usuarios?.data?.length
+        ? Object.keys(usuarios?.data[0])?.map((key) => ({
             key,
             label: key,
           }))
         : [],
-    [animais]
+    [usuarios]
   );
 
   const handleDelete = async () => {
-    await deleteAnimals(selectedItems);
+    await deleteUsers(selectedItems);
     await getData();
     await getTotalElements();
   };
 
   const handleEdit = (item) => {
-    setUpdateAnimal(item);
-    setOpenFormAnimal(true);
+    setUpdateUsuario(item);
+    setOpenFormUsuario(true);
   };
 
   const {
@@ -96,6 +97,7 @@ export const Animais = () => {
     const parsedFilters = makeMultiFilterParams({
       ...filters,
     });
+    console.log({ values, parsedFilters, filters });
     getData(0, parsedFilters);
     getTotalElements(parsedFilters);
   };
@@ -104,66 +106,38 @@ export const Animais = () => {
     <div className={styles.container}>
       <SideBarMenu />
       <div className={styles.content}>
-        <Header title="Animais" />
+        <Header title="Usuários" />
         <div className="div-form">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div class="col-md-10">
               <div class="form-row">
-                <div class="form-group col-md-3">
-                  <label for="identificacao">Microchip ou Anilha</label>
+                <div class="form-group col-md-4">
+                  <label for="nome">Nome</label>
                   <input
-                    {...register("identificacao")}
+                    {...register("nome")}
                     type="text"
                     class="form-control"
-                    id="identificacao"
+                    id="nome"
                   />
-                </div>
-                <div class="form-group col-md-3">
-                  <label for="origem">Origem</label>
+                </div> 
+                <div class="form-group col-md-4">
+                  <label for="roleusuario">Função</label>
                   <input
-                    {...register("origem")}
+                    {...register("roleusuario")}
                     type="text"
                     class="form-control"
-                    id="origem"
+                    id="roleusuario"
                   />
-                </div>
-                <div class="form-group col-md-3">
-                  <label for="data-admissao">Data Entrada</label>
-                  <input
-                    {...register("dataEntrada")}
-                    type="date"
-                    class="form-control"
-                    id="dataEntrada"
-                  />
-                </div>
-                <div class="form-group col-md-3">
-                  <label for="sexo">Sexo</label>
-                  <select id="sexo" class="form-control" {...register("sexo")}>
-                    <option selected value="todos">
-                      Todos
-                    </option>
-                    <option value="Macho">Macho</option>
-                    <option value="Fêmea">Fêmea</option>
-                  </select>
                 </div>
               </div>
               <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="nome-cientifico">Nome Científico</label>
+                <div class="form-group col-md-8">
+                  <label for="email">Email</label>
                   <input
-                    {...register("nomeCientifico")}
+                    {...register("email")}
                     type="text"
                     class="form-control"
-                    id="nomecientifico"
-                  />
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="nome-apelido">Nome Comum</label>
-                  <input
-                    {...register("nomeComum")}
-                    type="text"
-                    class="form-control"
-                    id="nomeComum"
+                    id="email"
                   />
                 </div>
               </div>
@@ -172,18 +146,18 @@ export const Animais = () => {
               <button
                 onClick={() =>
                   reset({
-                    nomeComum: "",
-                    identificacao: "",
-                    dataEntrada: "",
-                    nomeCientifico: "",
-                    sexo: "",
-                    origem: "",
+                    nome: "",
+                    email: "",
+                    roleusuario: "",
                     selectedItems: setSelectedItems([]),
                   })
                 }
                 class="btn btn-primary"
               >
                 <i class="bi bi-x"></i>LIMPAR
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-funnel"></i>FILTROS
               </button>
               <button type="submit" class="btn btn-primary">
                 <i class="bi bi-search"></i>BUSCAR
@@ -193,16 +167,16 @@ export const Animais = () => {
         </div>
         <div className={styles.table}>
           <div>
-            {animais?.data?.length ? (
+            {usuarios?.data?.length ? (
               <Table
                 columns={columns}
-                data={animais?.data}
+                data={usuarios?.data}
                 onPaginate={(value) => getData(value - 1)}
-                totalElements={animais?.totalElements}
-                size={animais?.size}
+                totalElements={usuarios?.totalElements}
+                size={usuarios?.size}
                 selectedItems={selectedItems}
                 setSelectedItems={setSelectedItems}
-                pages={Math.ceil(animais?.totalElements / animais?.size)}
+                pages={Math.ceil(usuarios?.totalElements / usuarios?.size)}
                 handleEdit={handleEdit}
               />
             ) : (
@@ -221,20 +195,20 @@ export const Animais = () => {
 
             <button
               className={styles.add}
-              onClick={() => setOpenFormAnimal(true)}
+              onClick={() => setOpenFormUsuario(true)}
             >
               <span>+</span> CADASTRAR
             </button>
           </div>
         </div>
 
-        <FormAnimal
-          open={openFormAnimal}
+        <FormUsuario
+          open={openFormUsuario}
           handleClose={() => {
-            setOpenFormAnimal(false);
-            setUpdateAnimal();
+            setOpenFormUsuario(false);
+            setUpdateUsuario();
           }}
-          defaultValues={updateAnimal}
+          defaultValues={updateUsuario}
         />
         <AlertModal
           open={openAlertModal}

@@ -33,3 +33,8 @@ export const useSession = () => {
     return { ...payload, session: {} };
   }
 };
+
+export const getLocalSessionData = () => {
+  const user = getSessionStorage("user", {});
+  return user;
+}

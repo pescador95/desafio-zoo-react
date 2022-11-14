@@ -12,3 +12,8 @@ export const DATAS = [
   "dataInicio",
   "dataFim",
 ];
+
+export const ROLES = {
+  admin: "Administrador",
+  dev: "Desenvolvedor",
+};

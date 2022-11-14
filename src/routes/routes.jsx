@@ -3,14 +3,19 @@ import { BrowserRouter, Link, Navigate, Route, Routes } from "react-router-dom";
 import { useSession } from "../hooks/useSession";
 import { Animais } from "../pages/Animals";
 import { Login } from "../pages/Login/";
+import { Usuarios } from "../pages/Users";
 import { ForgotPassword } from "../pages/RecoverPassword";
 import { Arquivos } from "../pages/Archives";
+import { Profile } from "../pages/Profile";
+
 
 export const ROUTES = {
   login: "/login",
   animals: "/animais",
   arquivos: "/arquivos",
   esqueciSenha: "/esqueciSenha",
+  usuarios: "/usuarios",
+  profile: "/profile"
 };
 
 const noProtectedRoute = [
@@ -33,6 +38,15 @@ const protectedRoute = [
     path: ROUTES.arquivos,
     element: <Arquivos />,
   },
+  {
+    path: ROUTES.usuarios,
+    element: <Usuarios />,
+  },
+  {
+    path: ROUTES.profile,
+    element: <Profile />
+  }
+  
 ];
 
 const AuthRoute = ({ children }) => {
@@ -48,9 +62,8 @@ const NoAuthRoute = ({ children }) => {
   const { session } = useSession();
 
   if (session?.accessToken || session?.refreshToken) {
-    return <Navigate to={ROUTES.animals} replace />;
+    return <Navigate to={ROUTES.profile} replace />;
   }
-
   return children;
 };
 

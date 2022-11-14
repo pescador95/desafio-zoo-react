@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { getAccordionDetailsUtilityClass } from "@mui/material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { format } from "date-fns";
@@ -9,6 +10,7 @@ import { createAnimal, updateAnimal } from "../../services/http/animais";
 import { LIFETIME } from "../../utils/constants";
 import { formattedDateForInput, parsedDate } from "../../utils/parsedDate";
 import styles from "./FormAnimal.module.css";
+import { Animais } from "../../pages/Animals";
 
 export const FormAnimal = ({ open, handleClose, defaultValues }) => {
   const style = {
@@ -174,20 +176,20 @@ export const FormAnimal = ({ open, handleClose, defaultValues }) => {
                   <input
                     {...register("sexo")}
                     type="radio"
-                    value="Male"
+                    value="Macho"
                     id="field-sun"
                   />
-                  <label htmlFor="Male">Macho</label>
+                  <label htmlFor="Macho">Macho</label>
                 </div>
 
                 <div>
                   <input
                     {...register("sexo")}
                     type="radio"
-                    value="Female"
+                    value="Fêmea"
                     id="field-sun"
                   />
-                  <label htmlFor="Female">Fêmea</label>
+                  <label htmlFor="Fêmea">Fêmea</label>
                 </div>
               </div>
               {errors?.sexo && (

@@ -30,7 +30,7 @@ export const SideBarMenuData = [
   {
     titulo: "Histórico Clínico",
     icon: <MedicalInformationIcon />,
-    link: "/enriquecimento_ambiental",
+    link: "/historico_clinico",
   },
   {
     titulo: "Sinais Vitais",

@@ -109,7 +109,7 @@ export const Animais = () => {
     <div className={styles.container}>
       <SideBarMenu />
       <div className={styles.content}>
-        <Header title="animais" />
+        <Header title="Animais" />
         <div className="div-form">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div class="col-md-10">
@@ -189,9 +189,6 @@ export const Animais = () => {
                 class="btn btn-primary"
               >
                 <i class="bi bi-x"></i>LIMPAR
-              </button>
-              <button type="submit" class="btn btn-primary">
-                <i class="bi bi-funnel"></i>FILTROS
               </button>
               <button type="submit" class="btn btn-primary">
                 <i class="bi bi-search"></i>BUSCAR

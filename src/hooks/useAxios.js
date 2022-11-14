@@ -49,7 +49,6 @@ const createAxiosInstance = () => {
               refreshToken: user?.refreshToken,
             }
           );
-
           setSessionStorage("user", refreshedData?.data);
           window.location.reload(true);
         } catch (error) {}

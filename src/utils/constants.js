@@ -1,7 +1,7 @@
 export const LIFETIME = {
-  FILHOTE: "FILHOTE",
-  ADULTO: "ADULTO",
-  IDOSO: "IDOSO",
+  FILHOTE: "Filhote",
+  ADULTO: "Adulto",
+  IDOSO: "Idoso",
 };
 
 export const DATAS = [

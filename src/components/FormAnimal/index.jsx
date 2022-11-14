@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { getAccordionDetailsUtilityClass } from "@mui/material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { format } from "date-fns";
@@ -9,6 +10,7 @@ import { createAnimal, updateAnimal } from "../../services/http/animais";
 import { LIFETIME } from "../../utils/constants";
 import { formattedDateForInput, parsedDate } from "../../utils/parsedDate";
 import styles from "./FormAnimal.module.css";
+import { Animais } from "../../pages/Animals";
 
 export const FormAnimal = ({ open, handleClose, defaultValues }) => {
   const style = {
@@ -167,27 +169,30 @@ export const FormAnimal = ({ open, handleClose, defaultValues }) => {
                 </span>
               )}
             </div>
+
             <div className={styles?.inputContainer}>
               <label>Sexo</label>
               <div className={styles?.radioButtons}>
                 <div>
                   <input
+                    className={styles?.radio}
                     {...register("sexo")}
                     type="radio"
-                    value="Male"
+                    value="Macho"
                     id="field-sun"
                   />
-                  <label htmlFor="Male">Macho</label>
+                  <label htmlFor="Macho">Macho</label>
                 </div>
 
                 <div>
                   <input
+                    className={styles?.radio}
                     {...register("sexo")}
                     type="radio"
-                    value="Female"
+                    value="Fêmea"
                     id="field-sun"
                   />
-                  <label htmlFor="Female">Fêmea</label>
+                  <label htmlFor="Fêmea">Fêmea</label>
                 </div>
               </div>
               {errors?.sexo && (
@@ -197,12 +202,22 @@ export const FormAnimal = ({ open, handleClose, defaultValues }) => {
               )}
             </div>
           </div>
-
+          <div className={styles?.inputUpload}>
+            <label htmlFor="arquivo">Arquivos</label>
+            <input multiple type="file" {...register("arquivo")} />
+            {errors?.arquivo && (
+              <span className={styles.inputError}>
+                {errors?.arquivo?.message}
+              </span>
+            )}
+          </div>
           <div className={styles.buttons}>
             <button className={styles.cancel} onClick={onClose}>
               Cancelar{" "}
             </button>
-            <button className={styles.save}>Salvar </button>
+            <button className={styles.save} onClick={onSubmit}>
+              Salvar
+            </button>
           </div>
         </form>
       </Box>

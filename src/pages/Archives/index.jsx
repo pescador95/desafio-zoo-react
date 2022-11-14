@@ -15,17 +15,17 @@ import {
 import { LIFETIME } from "../../utils/constants";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
 import { parsedDate } from "../../utils/parsedDate";
-import styles from "./Animals.module.css";
+import styles from "./Archives.module.css";
 import "./index.css";
 
-export const Animais = () => {
+export const Arquivos = () => {
   const axios = useAxios();
 
   const [selectedItems, setSelectedItems] = useState([]);
-  const [updateAnimal, setUpdateAnimal] = useState({});
-  const [openFormAnimal, setOpenFormAnimal] = useState(false);
+  const [updateArquivo, setUpdateArquivo] = useState({});
+  const [openFormArquivo, setOpenFormArquivo] = useState(false);
   const [openAlertModal, setOpenAlertModal] = useState(false);
-  const [animais, setAnimais] = useState({
+  const [arquivos, setArquivos] = useState({
     data: [],
     totalElements: 0,
     size: 0,
@@ -38,24 +38,24 @@ export const Animais = () => {
 
   const getData = async (page = 0, strgFilter = "") => {
     const data = await getAnimals(page, strgFilter);
-    setAnimais((prev) => ({ ...prev, data, size: data?.length }));
+    setArquivos((prev) => ({ ...prev, data, size: data?.length }));
   };
 
   const getTotalElements = async (stringFilter = "") => {
     const response = await countAnimal(stringFilter);
-    setAnimais((prev) => ({ ...prev, totalElements: response }));
-    console.log(setAnimais((prev) => ({ ...prev, totalElements: response })));
+    setArquivos((prev) => ({ ...prev, totalElements: response }));
+    console.log(setArquivos((prev) => ({ ...prev, totalElements: response })));
   };
 
   const columns = useMemo(
     () =>
-      animais?.data?.length
-        ? Object.keys(animais?.data[0])?.map((key) => ({
+      arquivos?.data?.length
+        ? Object.keys(arquivos?.data[0])?.map((key) => ({
             key,
             label: key,
           }))
         : [],
-    [animais]
+    [arquivos]
   );
 
   const handleDelete = async () => {
@@ -65,8 +65,8 @@ export const Animais = () => {
   };
 
   const handleEdit = (item) => {
-    setUpdateAnimal(item);
-    setOpenFormAnimal(true);
+    setUpdateArquivo(item);
+    setOpenFormArquivo(true);
   };
 
   const {
@@ -79,11 +79,10 @@ export const Animais = () => {
   const onSubmit = async (values) => {
     const filters = {};
     Object.keys(values).forEach((key) => {
-      if (key === "dataEntrada") {
+      if (key === "animal") {
         return Object.assign(filters, {
-          dataEntrada:
-            values.dataEntrada &&
-            values.dataEntrada?.split("-")?.reverse()?.join("-"),
+          animal:
+            values.animal && values.animal?.split("-")?.reverse()?.join("-"),
         });
       }
       if (values[key] || values[key] !== "") {
@@ -91,9 +90,9 @@ export const Animais = () => {
       }
     });
 
-    filters.sexo === "todos" && delete filters.sexo;
+    filters.tipo === "todos" && delete filters.tipo;
 
-    filters.dataEntrada === "" && delete filters.dataEntrada;
+    filters.animal === "" && delete filters.animal;
 
     delete filters.selectedItems;
 
@@ -109,67 +108,69 @@ export const Animais = () => {
     <div className={styles.container}>
       <SideBarMenu />
       <div className={styles.content}>
-        <Header title="Animais" />
+        <Header title="Arquivos" />
         <div className="div-form">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div class="col-md-10">
               <div class="form-row">
                 <div class="form-group col-md-3">
-                  <label for="identificacao">Microchip ou Anilha</label>
+                  <label for="nomeArquivo">Nome do arquivo</label>
                   <input
-                    {...register("identificacao")}
+                    {...register("nomeArquivo")}
                     type="text"
                     class="form-control"
-                    id="identificacao"
+                    id="nomeArquivo"
                   />
                 </div>
+
                 <div class="form-group col-md-3">
-                  <label for="origem">Origem</label>
+                  <label for="upload">Data Upload</label>
                   <input
-                    {...register("origem")}
-                    type="text"
-                    class="form-control"
-                    id="origem"
-                  />
-                </div>
-                <div class="form-group col-md-3">
-                  <label for="data-admissao">Data Entrada</label>
-                  <input
-                    {...register("dataEntrada")}
+                    {...register("upload")}
                     type="date"
                     class="form-control"
-                    id="dataEntrada"
+                    id="upload"
                   />
                 </div>
                 <div class="form-group col-md-3">
-                  <label for="sexo">Sexo</label>
-                  <select id="sexo" class="form-control" {...register("sexo")}>
+                  <label for="tipo">Tipo</label>
+                  <select id="tipo" class="form-control" {...register("tipo")}>
                     <option selected value="todos">
                       Todos
                     </option>
-                    <option value="Macho">Macho</option>
-                    <option value="Fêmea">Fêmea</option>
+                    <option value="animais">Animais</option>
+                    <option value="enriquecimento-ambiental">
+                      Enriquecimento ambiental
+                    </option>
+                    <option value="nutricao">Nutrição</option>
+                    <option value="historico-etologico">
+                      Histórico etológico
+                    </option>
+                    <option value="sinais-vitais">Sinais vitais</option>
+                    <option value="outros">Outros</option>
                   </select>
                 </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="nome-cientifico">Nome Científico</label>
-                  <input
-                    {...register("nomeCientifico")}
-                    type="text"
+                <div class="form-group col-md-3">
+                  <label for="animal">Animal</label>
+                  <select
+                    id="animal"
                     class="form-control"
-                    id="nomecientifico"
-                  />
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="nome-apelido">Nome Comum</label>
-                  <input
-                    {...register("nomeComum")}
-                    type="text"
-                    class="form-control"
-                    id="nomeComum"
-                  />
+                    {...register("animal")}
+                  >
+                    <option selected value="todos">
+                      Todos
+                    </option>
+                    <option value="animais">Animais</option>
+                    <option value="enriquecimento-ambiental">
+                      Enriquecimento ambiental
+                    </option>
+                    <option value="nutricao">Nutrição</option>
+                    <option value="historico-etologico">
+                      Histórico etológico
+                    </option>
+                    <option value="sinais-vitais">Sinais vitais</option>
+                    <option value="outros">Outros</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -177,12 +178,10 @@ export const Animais = () => {
               <button
                 onClick={() =>
                   reset({
-                    nomeComum: "",
-                    identificacao: "",
-                    dataEntrada: "",
-                    nomeCientifico: "",
-                    sexo: "",
-                    origem: "",
+                    nomeArquivo: "",
+                    animal: "",
+                    tipo: "",
+                    upload: "",
                     selectedItems: setSelectedItems([]),
                   })
                 }
@@ -198,16 +197,16 @@ export const Animais = () => {
         </div>
         <div className={styles.table}>
           <div>
-            {animais?.data?.length ? (
+            {arquivos?.data?.length ? (
               <Table
                 columns={columns}
-                data={animais?.data}
+                data={arquivos?.data}
                 onPaginate={(value) => getData(value - 1)}
-                totalElements={animais?.totalElements}
-                size={animais?.size}
+                totalElements={arquivos?.totalElements}
+                size={arquivos?.size}
                 selectedItems={selectedItems}
                 setSelectedItems={setSelectedItems}
-                pages={Math.ceil(animais?.totalElements / animais?.size)}
+                pages={Math.ceil(arquivos?.totalElements / arquivos?.size)}
                 handleEdit={handleEdit}
               />
             ) : (
@@ -226,7 +225,7 @@ export const Animais = () => {
 
             <button
               className={styles.add}
-              onClick={() => setOpenFormAnimal(true)}
+              onClick={() => setOpenFormArquivo(true)}
             >
               <span>+</span> CADASTRAR
             </button>
@@ -234,12 +233,12 @@ export const Animais = () => {
         </div>
 
         <FormAnimal
-          open={openFormAnimal}
+          open={openFormArquivo}
           handleClose={() => {
-            setOpenFormAnimal(false);
-            setUpdateAnimal();
+            setOpenFormArquivo(false);
+            setUpdateArquivo();
           }}
-          defaultValues={updateAnimal}
+          defaultValues={updateArquivo}
         />
         <AlertModal
           open={openAlertModal}

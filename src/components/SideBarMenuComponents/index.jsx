@@ -5,7 +5,7 @@ import RestaurantIcon from "@mui/icons-material/Restaurant";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import MedicalInformationIcon from "@mui/icons-material/MedicalInformation";
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
-
+import InventoryIcon from "@mui/icons-material/Inventory";
 export const SideBarMenuData = [
   {
     titulo: "Animais",
@@ -30,11 +30,16 @@ export const SideBarMenuData = [
   {
     titulo: "Histórico Clínico",
     icon: <MedicalInformationIcon />,
-    link: "/enriquecimento_ambiental",
+    link: "/historico_clinico",
   },
   {
     titulo: "Sinais Vitais",
     icon: <HealthAndSafetyIcon />,
     link: "/sinais_vitais",
+  },
+  {
+    titulo: "Arquivos",
+    icon: <InventoryIcon />,
+    link: "/arquivos",
   },
 ];

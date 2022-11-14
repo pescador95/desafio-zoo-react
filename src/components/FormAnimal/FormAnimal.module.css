@@ -13,17 +13,28 @@
 .inputContainer {
   display: flex;
   flex-direction: column;
-}
-
-.inputContainer {
   width:100%;
 }
 
+.inputUpload {
+  display: flex;
+  flex-direction: column;
+  
+}
+.inputUpload input {
+  background:#AEFFB2;
+  height:100%;
+  border:1px solid gray;
+  border-radius: 5px;
+  width:100%;
+  margin: 0;
+  padding: 10px;
+}
 .inputContainer input, .inputContainer select { 
   background:#AEFFB2;
   height:35px;
   border:1px solid gray;
-  border-radius: 4px;
+  border-radius: 5px;
   width:100%;
   margin: 0;
   padding: 0;
@@ -40,7 +51,8 @@
 .radioButtons > div {
   display:flex;
   align-items: center;
-  justify-items:center
+  justify-items:center;
+ 
 }
 
 
@@ -50,7 +62,6 @@
   align-items: flex-end;
   justify-content: end;
   width: 100%;
-
   margin-top:2rem;
 
 }
@@ -58,7 +69,12 @@
 .buttons button + button {
   margin-left:0.5rem;
 }
-
+.radioButtons input, .radioButtons label {
+  margin:0;
+}
+.radioButtons label {
+  margin-left:0.2rem;
+}
 .cancel {
   height: 35px;
 

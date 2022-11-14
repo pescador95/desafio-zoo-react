@@ -1,14 +1,15 @@
 import React from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Link, Navigate, Route, Routes } from "react-router-dom";
 import { useSession } from "../hooks/useSession";
 import { Animais } from "../pages/Animals";
 import { Login } from "../pages/Login/";
 import { ForgotPassword } from "../pages/RecoverPassword";
-
+import { Arquivos } from "../pages/Archives";
 
 export const ROUTES = {
   login: "/login",
   animals: "/animais",
+  arquivos: "/arquivos",
   esqueciSenha: "/esqueciSenha",
 };
 
@@ -20,7 +21,6 @@ const noProtectedRoute = [
   {
     path: ROUTES.esqueciSenha,
     element: <ForgotPassword />,
-
   },
 ];
 
@@ -29,6 +29,10 @@ const protectedRoute = [
   {
     path: ROUTES.animals,
     element: <Animais />,
+  },
+  {
+    path: ROUTES.arquivos,
+    element: <Arquivos />,
   },
 ];
 

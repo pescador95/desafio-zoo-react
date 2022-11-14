@@ -44,7 +44,6 @@ export const Arquivos = () => {
   const getTotalElements = async (stringFilter = "") => {
     const response = await countAnimal(stringFilter);
     setArquivos((prev) => ({ ...prev, totalElements: response }));
-    console.log(setArquivos((prev) => ({ ...prev, totalElements: response })));
   };
 
   const columns = useMemo(
@@ -99,7 +98,6 @@ export const Arquivos = () => {
     const parsedFilters = makeMultiFilterParams({
       ...filters,
     });
-    console.log({ values, parsedFilters, filters });
     getData(0, parsedFilters);
     getTotalElements(parsedFilters);
   };

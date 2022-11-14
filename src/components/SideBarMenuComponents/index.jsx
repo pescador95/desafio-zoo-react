@@ -6,6 +6,7 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import MedicalInformationIcon from "@mui/icons-material/MedicalInformation";
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 import InventoryIcon from "@mui/icons-material/Inventory";
+import { ROUTES } from "../../routes/routes";
 export const SideBarMenuData = [
   {
     titulo: "Animais",

@@ -24,7 +24,6 @@ const noProtectedRoute = [
   },
 ];
 
-/*Lembrar de descomentar essa seção antes de fazer um merge*/
 const protectedRoute = [
   {
     path: ROUTES.animals,
@@ -38,11 +37,10 @@ const protectedRoute = [
 
 const AuthRoute = ({ children }) => {
   const { session } = useSession();
-
+  console.log(session);
   if (!session?.accessToken || !session?.refreshToken) {
     return <Navigate to={ROUTES.login} replace />;
   }
-
   return children;
 };
 

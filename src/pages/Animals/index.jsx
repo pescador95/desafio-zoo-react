@@ -44,7 +44,6 @@ export const Animais = () => {
   const getTotalElements = async (stringFilter = "") => {
     const response = await countAnimal(stringFilter);
     setAnimais((prev) => ({ ...prev, totalElements: response }));
-    console.log(setAnimais((prev) => ({ ...prev, totalElements: response })));
   };
 
   const columns = useMemo(
@@ -100,7 +99,6 @@ export const Animais = () => {
     const parsedFilters = makeMultiFilterParams({
       ...filters,
     });
-    console.log({ values, parsedFilters, filters });
     getData(0, parsedFilters);
     getTotalElements(parsedFilters);
   };

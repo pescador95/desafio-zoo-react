@@ -14,8 +14,6 @@ export const ForgotPassword = () => {
   };
 
   const handleSubmit = async (email) => {
-    console.log(email);
-    //alert(email);
     const response = await axios.get(ENDPOINTS.recoverPassword + email);
     alert(response);
     navigate("/login");

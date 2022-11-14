@@ -61,7 +61,6 @@ export const FormAnimal = ({ open, handleClose, defaultValues }) => {
         "dd/MM/yyyy 00:00:00"
       ),
     };
-    console.log(animal);
     if (!values.id) {
       await createAnimal(animal);
     } else {

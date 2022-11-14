@@ -65,7 +65,6 @@ export const deleteAnimals = async (animals) => {
   await axios.delete(ENDPOINTS.animal.delete, {
     data: animals?.map((e) => e.id),
   });
-  console.log(animals);
   return;
 };
 

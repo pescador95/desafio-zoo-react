@@ -169,11 +169,13 @@ export const FormAnimal = ({ open, handleClose, defaultValues }) => {
                 </span>
               )}
             </div>
+
             <div className={styles?.inputContainer}>
               <label>Sexo</label>
               <div className={styles?.radioButtons}>
                 <div>
                   <input
+                    className={styles?.radio}
                     {...register("sexo")}
                     type="radio"
                     value="Macho"
@@ -184,6 +186,7 @@ export const FormAnimal = ({ open, handleClose, defaultValues }) => {
 
                 <div>
                   <input
+                    className={styles?.radio}
                     {...register("sexo")}
                     type="radio"
                     value="Fêmea"
@@ -199,12 +202,22 @@ export const FormAnimal = ({ open, handleClose, defaultValues }) => {
               )}
             </div>
           </div>
-
+          <div className={styles?.inputUpload}>
+            <label htmlFor="arquivo">Arquivos</label>
+            <input multiple type="file" {...register("arquivo")} />
+            {errors?.arquivo && (
+              <span className={styles.inputError}>
+                {errors?.arquivo?.message}
+              </span>
+            )}
+          </div>
           <div className={styles.buttons}>
             <button className={styles.cancel} onClick={onClose}>
               Cancelar{" "}
             </button>
-            <button className={styles.save}>Salvar </button>
+            <button className={styles.save} onClick={onSubmit}>
+              Salvar
+            </button>
           </div>
         </form>
       </Box>

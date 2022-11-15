@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Header } from "../../components/Header";
 import { SideBarMenu } from "../../components/SideBarMenu";
@@ -24,11 +24,20 @@ export const Profile = () => {
   const [roleUsuario, setRoleUsuario] = useState({});
   const [password, setPassword] = useState({});
 
+  const setAttribute = () => {
+    if(user.roleUsuario === "dev"){
+      document.getElementById('option-dev').setAttribute('selected', 'selected');
+    } else {
+      document.getElementById('option-admin').setAttribute('selected', 'selected');
+    }
+  }
+
   useEffect(() => {
-    setNome(user.nomeUsuario);
-    setEmail(user.email);
-    setRoleUsuario(user.roleUsuario);
-  }, [nome, email, roleUsuario]);
+    setNome(user.nomeUsuario)
+    setEmail(user.email)
+    setRoleUsuario(user.roleUsuario)
+    setAttribute();
+  }, []);
 
   const {
     register,
@@ -37,7 +46,31 @@ export const Profile = () => {
     formState: { errors },
   } = useForm({});
 
-  const onSubmit = (submit) => {};
+  const onSubmit = async () => {
+    const senha = document.getElementById('password').value
+    setPassword(senha)
+    
+    // console.log("Nome input:" + nome)
+    // console.log("Email input: " + email)
+    // console.log("Role input: " + roleUsuario)
+    console.log("Senha input: " + password)
+
+    const user = {
+      "nome": nome,
+      "email": email,
+      "password": password,
+      "roleUsuario": roleUsuario
+    }
+      
+
+    const response = await updateUserProfile(user)
+    
+    if(response !== null){
+      console.log("Retorno: " + response)
+      window.location.reload();
+    }
+  }
+
 
   return (
     <div className={styles.container}>
@@ -55,7 +88,7 @@ export const Profile = () => {
                     class="form-control"
                     id="nome"
                     value={nome}
-                    onChange={setNome}
+                    onChange={(e) => setNome(e.target.value)}
                   />
                 </div>
                 <div class="form-group col-md-3">
@@ -65,26 +98,32 @@ export const Profile = () => {
                     class="form-control"
                     id="email"
                     value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div class="form-group col-md-2">
                   <label for="roleUsuario">Função</label>
-                  <select id="roleUsuario" class="form-control">
-                    <option selected>Todos</option>
-                    <option value="admin">Administrador</option>
-                    <option value="dev">Desenvolvedor</option>
-                    <option value="biologo">Biólogo</option>
-                    <option value="veterinario">Veterinário</option>
+                  <select id="roleUsuario" class="form-control" onChange={(e) => setRoleUsuario(e.target.value)}>
+                    <option id="option-admin" value="admin">Administrador</option>
+                    <option id="option-dev" value="dev">Desenvolvedor</option>
                   </select>
                 </div>
                 <div class="form-group col-md-3">
-                  <label for="nome-apelido">Senha</label>
-                  <input type="password" class="form-control" id="password" />
+                  <label for="password">Senha</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                  />
                 </div>
               </div>
               <div class="form-row form-row-buttons">
-                <button className={styles.add}>Salvar</button>
-                <button className={styles.exclude}>Cancelar</button>
+                <button className={styles.add} type="submit">
+                  Salvar
+                </button>
+                <button className={styles.exclude}>
+                  Cancelar
+                </button>
               </div>
             </div>
           </form>

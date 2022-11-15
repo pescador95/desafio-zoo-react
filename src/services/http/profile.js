@@ -1,22 +1,26 @@
 import { getAxios } from "../../hooks/useAxios";
 import { ENDPOINTS } from "../endpoints";
 
-export const getUser = async (user) => {
+export const getUserProfile = async (user) => {
   const axios = getAxios();
   const { data } = await axios.post(ENDPOINTS.user.getById);
 
   return data;
 };
 
-export const updateUser = async (user) => {
+export const updateUserProfile = async (user) => {
   const axios = getAxios();
 
-  const { data } = await axios.put(ENDPOINTS.user.update, user);
+  try {
+    const data = await axios.put(ENDPOINTS.user.update, user);
 
-  return data;
+    return data;
+  } catch (error) {
+    return error;
+  }
 };
 
-export const getUsers = async (page, strgFilter) => {
+export const getUsersProfile = async (page, strgFilter) => {
   const axios = getAxios();
 
   const { data } = await axios.get(ENDPOINTS.user.list, {
@@ -40,7 +44,7 @@ export const getUsers = async (page, strgFilter) => {
   return parsed;
 };
 
-export const deleteUsers = async (users) => {
+export const deleteUsersProfile = async (users) => {
   const axios = getAxios();
 
   await axios.delete(ENDPOINTS.user.delete, {
@@ -50,7 +54,7 @@ export const deleteUsers = async (users) => {
   return;
 };
 
-export const reactiveListUsers = async (users) => {
+export const reactiveListUsersProfile = async (users) => {
   const axios = getAxios();
 
   await axios.delete(ENDPOINTS.user.reactive, {

@@ -10,6 +10,7 @@ import {
   deleteUsers,
   getUsers,
   countUser,
+  getMyProfile,
 } from "../../services/http/users";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
 import styles from "./Users.module.css";
@@ -36,6 +37,11 @@ export const Usuarios = () => {
   const getData = async (page = 0, strgFilter = "") => {
     const data = await getUsers(page, strgFilter);
     setUsuarios((prev) => ({ ...prev, data, size: data?.length }));
+  };
+
+  const getMyUser = async () => {
+    const data = await getMyProfile();
+    setUsuarios((prev) => ({ ...prev, data }));
   };
 
   const getTotalElements = async (stringFilter = "") => {
@@ -119,7 +125,7 @@ export const Usuarios = () => {
                     class="form-control"
                     id="nome"
                   />
-                </div> 
+                </div>
                 <div class="form-group col-md-4">
                   <label for="roleusuario">Função</label>
                   <input
@@ -155,9 +161,6 @@ export const Usuarios = () => {
                 class="btn btn-primary"
               >
                 <i class="bi bi-x"></i>LIMPAR
-              </button>
-              <button type="submit" class="btn btn-primary">
-                <i class="bi bi-funnel"></i>FILTROS
               </button>
               <button type="submit" class="btn btn-primary">
                 <i class="bi bi-search"></i>BUSCAR

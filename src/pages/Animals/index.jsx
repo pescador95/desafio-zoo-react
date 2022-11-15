@@ -1,3 +1,5 @@
+import { Alert } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AlertModal } from "../../components/AlertModal";
@@ -6,10 +8,11 @@ import { Header } from "../../components/Header";
 import { SideBarMenu } from "../../components/SideBarMenu";
 import { Table } from "../../components/Table";
 import { useAxios } from "../../hooks/useAxios";
+import { useToast } from "../../hooks/useToast";
 import {
+  countAnimal,
   deleteAnimals,
   getAnimals,
-  countAnimal,
 } from "../../services/http/animais";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
 import styles from "./Animals.module.css";
@@ -27,6 +30,7 @@ export const Animais = () => {
     totalElements: 0,
     size: 0,
   });
+  const { openToast } = useToast();
 
   useEffect(() => {
     getData();
@@ -55,7 +59,12 @@ export const Animais = () => {
   );
 
   const handleDelete = async () => {
-    await deleteAnimals(selectedItems);
+    const response = await deleteAnimals(selectedItems);
+    if (response?.status !== 500) {
+      openToast(response.message, "success");
+    } else {
+      openToast(response, "error");
+    }
     await getData();
     await getTotalElements();
   };

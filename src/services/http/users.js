@@ -4,9 +4,13 @@ import { ENDPOINTS } from "../endpoints";
 export const createUser = async (user) => {
   const axios = getAxios();
 
-  const { data } = await axios.post(ENDPOINTS.user.add, user);
+  try {
+    const data = await axios.post(ENDPOINTS.user.add, user);
 
-  return data;
+    return data;
+  } catch (error) {
+    return error;
+  }
 };
 
 export const countUser = async (strgFilter) => {
@@ -77,4 +81,11 @@ export const reactiveListUsers = async (users) => {
   });
 
   return;
+};
+
+export const getMyProfile = async (user) => {
+  const axios = getAxios();
+  const { data } = await axios.post(ENDPOINTS.user.getMyProfile);
+
+  return data;
 };

@@ -3,29 +3,31 @@ import { useForm } from "react-hook-form";
 import { Header } from "../../components/Header";
 import { SideBarMenu } from "../../components/SideBarMenu";
 import { useAxios } from "../../hooks/useAxios";
-import { getLocalSessionData } from "../../hooks/useSession"
+import { getLocalSessionData } from "../../hooks/useSession";
 import {
-  deleteUsers,
-  getUsers,
-  countUser,
+  deleteUsersProfile,
+  getUsersProfile,
+  updateUserProfile,
 } from "../../services/http/profile";
 import styles from "./Profile.module.css";
 import "./index.css";
+import { useToast } from "../../hooks/useToast";
+import { ROLES } from "../../utils/constants";
 
 export const Profile = () => {
   const axios = useAxios();
-  const user = getLocalSessionData();//Email do usuário atual para a busca
-  console.log(user)
+  const user = getLocalSessionData(); //Email do usuário atual para a busca
 
+  const { openToast } = useToast();
   const [nome, setNome] = useState({});
   const [email, setEmail] = useState({});
   const [roleUsuario, setRoleUsuario] = useState({});
-  const [password, setPassword] = useState({})
+  const [password, setPassword] = useState({});
 
   useEffect(() => {
-    setNome(user.nomeUsuario)
-    setEmail(user.email)
-    setRoleUsuario(user.roleUsuario)
+    setNome(user.nomeUsuario);
+    setEmail(user.email);
+    setRoleUsuario(user.roleUsuario);
   }, [nome, email, roleUsuario]);
 
   const {
@@ -35,17 +37,14 @@ export const Profile = () => {
     formState: { errors },
   } = useForm({});
 
-  const onSubmit = (submit) => {
-
-  }
-
+  const onSubmit = (submit) => {};
 
   return (
-      <div className={styles.container}>
-        <SideBarMenu />
-        <div className={styles.content}>
-          <Header title="Meu perfil" />
-          <div className="div-form">
+    <div className={styles.container}>
+      <SideBarMenu />
+      <div className={styles.content}>
+        <Header title="Meu perfil" />
+        <div className="div-form">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div class="col-md-12">
               <div class="form-row">
@@ -71,29 +70,21 @@ export const Profile = () => {
                 <div class="form-group col-md-2">
                   <label for="roleUsuario">Função</label>
                   <select id="roleUsuario" class="form-control">
-                    <option selected>
-                      Todos
-                    </option>
+                    <option selected>Todos</option>
                     <option value="admin">Administrador</option>
                     <option value="dev">Desenvolvedor</option>
+                    <option value="biologo">Biólogo</option>
+                    <option value="veterinario">Veterinário</option>
                   </select>
                 </div>
                 <div class="form-group col-md-3">
                   <label for="nome-apelido">Senha</label>
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="password"
-                  />
+                  <input type="password" class="form-control" id="password" />
                 </div>
               </div>
               <div class="form-row form-row-buttons">
-                <button className={styles.add}>
-                  Salvar
-                </button>
-                <button className={styles.exclude}>
-                  Cancelar
-                </button>
+                <button className={styles.add}>Salvar</button>
+                <button className={styles.exclude}>Cancelar</button>
               </div>
             </div>
           </form>
@@ -102,21 +93,3 @@ export const Profile = () => {
     </div>
   );
 };
-
-
-
-//TODO forma de pegar manualmente somente as colunas que desejar
-// const column = [
-//   {
-//     key: 'nomeComum',
-//     label: 'Nome Comum'
-//   },
-//   {
-//     key: 'id',
-//     label: 'Identificador'
-//   }
-// ]
-
-//return ({...parsed, nomeUsuario: e?.usuario?.nomeUsuario}); TODO para acessar um atributo do objeto filho
-
-// key:string

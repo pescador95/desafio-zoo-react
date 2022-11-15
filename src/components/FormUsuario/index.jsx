@@ -4,6 +4,7 @@ import Modal from "@mui/material/Modal";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+import { useToast } from "../../hooks/useToast";
 import { createUser, updateUser } from "../../services/http/users";
 import { ROLES } from "../../utils/constants";
 import styles from "./FormUsuario.module.css";
@@ -26,6 +27,8 @@ export const FormUsuario = ({ open, handleClose, defaultValues }) => {
     password: yup.string().required("* O campo é obrigatório"),
     roleUsuario: yup.string().required("* O campo é obrigatório"),
   });
+
+  const { openToast } = useToast();
 
   const {
     register,
@@ -50,9 +53,21 @@ export const FormUsuario = ({ open, handleClose, defaultValues }) => {
     };
     console.log(usuario);
     if (!values.id) {
-      await createUser(usuario);
+      const response = await createUser(usuario);
+      console.log(response);
+      if (response?.status !== 500) {
+        openToast(response.message, "success");
+      } else {
+        openToast(response, "error");
+      }
     } else {
-      await updateUser(usuario);
+      const response = await updateUser(usuario);
+      console.log(response);
+      if (response?.status !== 500) {
+        openToast(response.message, "success");
+      } else {
+        openToast(response, "error");
+      }
     }
     handleClose();
   };
@@ -72,9 +87,7 @@ export const FormUsuario = ({ open, handleClose, defaultValues }) => {
       <Box className={style} sx={style}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <h3 className={styles?.title}>
-            {defaultValues?.id
-              ? "Editar usuário"
-              : "Cadatrar usuário"}
+            {defaultValues?.id ? "Editar usuário" : "Cadatrar usuário"}
           </h3>
           <div className={styles?.container}>
             <div style={{ width: "100%" }}>
@@ -136,7 +149,9 @@ export const FormUsuario = ({ open, handleClose, defaultValues }) => {
             <button className={styles.cancel} onClick={onClose}>
               Cancelar{" "}
             </button>
-            <button className={styles.save}>Salvar </button>
+            <button className={styles.save} type="submit">
+              Salvar{" "}
+            </button>
           </div>
         </form>
       </Box>

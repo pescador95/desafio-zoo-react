@@ -1,16 +1,15 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { getAccordionDetailsUtilityClass } from "@mui/material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { format } from "date-fns";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+import { useToast } from "../../hooks/useToast";
 import { createAnimal, updateAnimal } from "../../services/http/animais";
 import { LIFETIME } from "../../utils/constants";
 import { formattedDateForInput, parsedDate } from "../../utils/parsedDate";
 import styles from "./FormAnimal.module.css";
-import { Animais } from "../../pages/Animals";
 
 export const FormAnimal = ({ open, handleClose, defaultValues }) => {
   const style = {
@@ -35,6 +34,8 @@ export const FormAnimal = ({ open, handleClose, defaultValues }) => {
     idade: yup.string().required("* O campo é obrigatório").nullable(),
   });
 
+  const { openToast } = useToast();
+
   const {
     register,
     handleSubmit,
@@ -54,17 +55,33 @@ export const FormAnimal = ({ open, handleClose, defaultValues }) => {
   }, [defaultValues]);
 
   const onSubmit = async (values) => {
+    console.log(values);
     const animal = {
       ...values,
       dataEntrada: format(
         new Date(parsedDate(values.dataEntrada)),
-        "dd/MM/yyyy 00:00:00"
+        "dd/MM/yyyy"
       ),
     };
     if (!values.id) {
-      await createAnimal(animal);
+      const response = await createAnimal(animal);
+      console.log(response);
+      console.log(response.message);
+
+      if (response?.status !== 500) {
+        openToast(response.message, "success");
+      } else {
+        openToast(response, "error");
+      }
     } else {
-      await updateAnimal(animal);
+      const response = await updateAnimal(animal);
+      console.log(response);
+      console.log(response.message);
+      if (response?.status !== 500) {
+        openToast(response.message, "success");
+      } else {
+        openToast(response, "error");
+      }
     }
     handleClose();
   };
@@ -214,7 +231,7 @@ export const FormAnimal = ({ open, handleClose, defaultValues }) => {
             <button className={styles.cancel} onClick={onClose}>
               Cancelar{" "}
             </button>
-            <button className={styles.save} onClick={onSubmit}>
+            <button className={styles.save} type="submit">
               Salvar
             </button>
           </div>

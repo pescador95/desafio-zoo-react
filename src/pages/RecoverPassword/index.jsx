@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ENDPOINTS } from "../../services/endpoints";
 import { useAxios } from "../../hooks/useAxios";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../../hooks/useToast";
 
 export const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -12,10 +13,16 @@ export const ForgotPassword = () => {
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
+  const { openToast } = useToast();
 
   const handleSubmit = async (email) => {
     const response = await axios.get(ENDPOINTS.recoverPassword + email);
-    alert(response);
+
+    if (response?.status !== 500) {
+      openToast(response.message, "success");
+    } else {
+      openToast(response, "error");
+    }
     navigate("/login");
   };
 

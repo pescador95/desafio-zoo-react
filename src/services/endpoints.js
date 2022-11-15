@@ -17,6 +17,7 @@ export const ENDPOINTS = {
     list: "/usuario/",
     delete: "/usuario/",
     reactive: "/usuario/reactive",
+    getMyProfile: "/usuario/myprofile",
   },
   nutricao: {
     count: "/nutricao/count",

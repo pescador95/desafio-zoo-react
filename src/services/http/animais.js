@@ -4,9 +4,13 @@ import { ENDPOINTS } from "../endpoints";
 export const createAnimal = async (animal) => {
   const axios = getAxios();
 
-  const { data } = await axios.post(ENDPOINTS.animal.add, animal);
+  try {
+    const data = await axios.post(ENDPOINTS.animal.add, animal);
 
-  return data;
+    return data;
+  } catch (error) {
+    return error;
+  }
 };
 
 export const countAnimal = async (strgFilter) => {
@@ -65,7 +69,6 @@ export const deleteAnimals = async (animals) => {
   await axios.delete(ENDPOINTS.animal.delete, {
     data: animals?.map((e) => e.id),
   });
-  console.log(animals);
   return;
 };
 

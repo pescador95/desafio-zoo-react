@@ -4,16 +4,7 @@ import { setSessionStorage, getSessionStorage } from "../utils/sessionStorage";
 const SessionContext = React.createContext();
 
 export const SessionProvider = ({ children }) => {
-  const [session, setSession] = useState({
-    email: null,
-    roleUsuario: null,
-    token: null,
-    expireDateAccessToken: null,
-    refreshToken: null,
-    expireDateRefreshToken: null,
-    authToken: null,
-  });
-
+  const [session, setSession] = useState({});
   useEffect(() => {
     const user = getSessionStorage("user", {});
     setSession(user);
@@ -33,4 +24,17 @@ export const SessionProvider = ({ children }) => {
     </SessionContext.Provider>
   );
 };
-export const useSession = () => React.useContext(SessionContext);
+export const useSession = () => {
+  const payload = React.useContext(SessionContext);
+  try {
+    let user = getSessionStorage("user", {});
+    return { ...payload, session: user };
+  } catch (err) {
+    return { ...payload, session: {} };
+  }
+};
+
+export const getLocalSessionData = () => {
+  const user = getSessionStorage("user", {});
+  return user;
+};

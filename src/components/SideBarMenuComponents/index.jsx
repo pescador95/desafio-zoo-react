@@ -6,7 +6,14 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import MedicalInformationIcon from "@mui/icons-material/MedicalInformation";
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 import InventoryIcon from "@mui/icons-material/Inventory";
+import PersonIcon from '@mui/icons-material/Person';
+
 export const SideBarMenuData = [
+  {
+    titulo: "Usuários",
+    icon: <PersonIcon />,
+    link: "/usuarios",
+  },
   {
     titulo: "Animais",
     icon: <PetsIcon />,

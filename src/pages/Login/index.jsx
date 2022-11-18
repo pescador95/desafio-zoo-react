@@ -39,7 +39,6 @@ export const Login = () => {
     email: "",
     password: "",
   });
-
   const { signIn } = useSession();
   const axios = useAxios();
   const navigate = useNavigate();
@@ -151,7 +150,9 @@ export const Login = () => {
               </FormControl>
             </Box>
             <Box>
-              <Button color="secondary" style={{ textTransform: "none" }} 
+              <Button
+                color="secondary"
+                style={{ textTransform: "none" }}
                 onClick={() => {
                   window.location.pathname = "/esqueciSenha";
                 }}

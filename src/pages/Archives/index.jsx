@@ -1,4 +1,3 @@
-import { format } from "date-fns/esm";
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AlertModal } from "../../components/AlertModal";
@@ -8,13 +7,11 @@ import { SideBarMenu } from "../../components/SideBarMenu";
 import { Table } from "../../components/Table";
 import { useAxios } from "../../hooks/useAxios";
 import {
+  countAnimal,
   deleteAnimals,
   getAnimals,
-  countAnimal,
 } from "../../services/http/animais";
-import { LIFETIME } from "../../utils/constants";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
-import { parsedDate } from "../../utils/parsedDate";
 import styles from "./Archives.module.css";
 import "./index.css";
 
@@ -44,7 +41,6 @@ export const Arquivos = () => {
   const getTotalElements = async (stringFilter = "") => {
     const response = await countAnimal(stringFilter);
     setArquivos((prev) => ({ ...prev, totalElements: response }));
-    console.log(setArquivos((prev) => ({ ...prev, totalElements: response })));
   };
 
   const columns = useMemo(
@@ -99,7 +95,6 @@ export const Arquivos = () => {
     const parsedFilters = makeMultiFilterParams({
       ...filters,
     });
-    console.log({ values, parsedFilters, filters });
     getData(0, parsedFilters);
     getTotalElements(parsedFilters);
   };

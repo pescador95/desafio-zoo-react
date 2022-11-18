@@ -103,7 +103,7 @@ export const FormAnimal = ({ open, handleClose, defaultValues }) => {
           <h3 className={styles?.title}>
             {defaultValues?.id
               ? "Editar ficha do animal"
-              : "Cadatrar ficha do animal"}
+              : "Cadastrar ficha do animal"}
           </h3>
           <div className={styles?.container}>
             <div style={{ width: "40%" }}>

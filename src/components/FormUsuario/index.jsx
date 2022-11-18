@@ -87,7 +87,7 @@ export const FormUsuario = ({ open, handleClose, defaultValues }) => {
       <Box className={style} sx={style}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <h3 className={styles?.title}>
-            {defaultValues?.id ? "Editar usuário" : "Cadatrar usuário"}
+            {defaultValues?.id ? "Editar usuário" : "Cadastrar usuário"}
           </h3>
           <div className={styles?.container}>
             <div style={{ width: "100%" }}>

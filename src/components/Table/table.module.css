@@ -1,3 +1,7 @@
+.containerTable {
+  width: 100%;
+  overflow-x: auto;
+}
 .table {
   text-align: center;
 }
@@ -23,12 +27,23 @@
   margin-top: 1rem;
 }
 
-.totalElements{
+.totalElements {
   text-align: right;
 }
 
-.edit{
+.edit {
   background-color: transparent;
   border: none;
   cursor: pointer;
+}
+
+.clearSelectedItems {
+  margin: 1rem 0;
+  border: none;
+  background-color: #fb8c00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  border-radius: 4px;
 }

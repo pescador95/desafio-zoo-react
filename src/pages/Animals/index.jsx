@@ -1,5 +1,11 @@
-import { Alert } from "@mui/material";
-import Snackbar from "@mui/material/Snackbar";
+import {
+  Box,
+  Button,
+  MenuItem,
+  Select,
+  TextField,
+  Typography
+} from "@mui/material";
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AlertModal } from "../../components/AlertModal";
@@ -12,14 +18,110 @@ import { useToast } from "../../hooks/useToast";
 import {
   countAnimal,
   deleteAnimals,
-  getAnimals,
+  getAnimals
 } from "../../services/http/animais";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
 import styles from "./Animals.module.css";
-import "./index.css";
 
 export const Animais = () => {
-  const axios = useAxios();
+  const style = {
+    container: {
+      padding: '1rem',
+    },
+    formContainer: {
+      background: "#43A047",
+      borderRadius: "1rem",
+      margin: "1rem 0",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "stretch",
+      padding: "1rem",
+      flexDirection: {
+        xs: "column",
+        sm: "column",
+        md: "column",
+        lg: "column",
+        xl: "row",
+      },
+      gap: "1rem",
+    },
+    inputs: {
+      width: {
+        xs: "100%",
+        sm: "100%",
+        md: "100%",
+        lg: "100%",
+        xl: "80%",
+      },
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: "1rem",
+      flexDirection: {
+        xs: "column",
+        sm: "column",
+        md: "column",
+        lg: "column",
+        xl: "row",
+      },
+    },
+    actions: {
+      width: {
+        xs: "100%",
+        sm: "100%",
+        md: "100%",
+        lg: "100%",
+        xl: "20%",
+      },
+      gap: "1rem",
+      display: "flex",
+      flexDirection: {
+        xs: "row",
+        sm: "row",
+        md: "row",
+        lg: "row",
+        xl: "column",
+      },
+      marginTop: "1.5rem",
+      gap: "2rem",
+      justifyContent: "space-between",
+    },
+    inputsContainer: {
+      width: "100%",
+      display: "flex",
+      flexDirection: "column",
+      gap: "1rem",
+    },
+    inputSeparator: {
+      width: "100%",
+      display: "flex",
+      gap: "1rem",
+    },
+    label: {
+      color: "white",
+    },
+    input: {
+      background: "#AEFFB2",
+      border: "none",
+      borderRadius: "0.5rem",
+    },
+    inputContainer: {
+      width: "100%",
+      display: "flex",
+      flexDirection: "column",
+    },
+    filterButton: {
+      width: "100%",
+      maxWidth: "100%",
+      height: "3.5rem",
+      background: "#FB8C00",
+      transition: '0.2s',
+      "&:hover": {
+         background: "#FB8C00",
+        filter: "brightness(0.8)",
+      },
+    },
+  };
 
   const [selectedItems, setSelectedItems] = useState([]);
   const [updateAnimal, setUpdateAnimal] = useState({});
@@ -110,114 +212,141 @@ export const Animais = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <SideBarMenu />
-      <div className={styles.content}>
+    <Box sx={style.container}>
         <Header title="Animais" />
-        <div className="div-form">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div class="col-md-10">
-              <div class="form-row">
-                <div class="form-group col-md-3">
-                  <label for="identificacao">Microchip ou Anilha</label>
-                  <input
+        <Box
+          component="form"
+          sx={style.formContainer}
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <Box sx={style.inputs}>
+            <Box sx={style.inputsContainer}>
+              <Box sx={style.inputSeparator}>
+                <Box sx={style.inputContainer}>
+                  <Typography component="label" sx={style.label} htmlFor="identificacao">
+                    Microchip ou Anilha
+                  </Typography>
+                  <TextField
+                    sx={style.input}
                     {...register("identificacao")}
-                    type="text"
-                    class="form-control"
                     id="identificacao"
+                    type="text"
                   />
-                </div>
-                <div class="form-group col-md-3">
-                  <label for="origem">Origem</label>
-                  <input
+                </Box>
+
+                <Box sx={style.inputContainer}>
+                  <Typography
+                    sx={style.label}
+                    component="label"
+                    htmlFor="origem"
+                  >
+                    Origem
+                  </Typography>
+                  <TextField
+                    sx={style.input}
                     {...register("origem")}
                     type="text"
-                    class="form-control"
                     id="origem"
                   />
-                </div>
-                <div class="form-group col-md-3">
-                  <label for="data-admissao">Data Entrada</label>
-                  <input
+                </Box>
+              </Box>
+
+              <Box sx={style.inputContainer}>
+                <Typography component="label" htmlFor="nome-cientifico" sx={style.label}>
+                  Nome Científico
+                </Typography>
+                <TextField
+                  sx={style.input}
+                  {...register("nomeCientifico")}
+                  type="text"
+                  id="nome-cientifico"
+                />
+              </Box>
+            </Box>
+            <Box sx={style.inputsContainer}>
+              <Box sx={style.inputSeparator}>
+                <Box sx={style.inputContainer}>
+                  <Typography component="label" sx={style.label} htmlFor="data-admissao">
+                    Data Entrada
+                  </Typography>
+                  <TextField
+                    sx={style.input}
                     {...register("dataEntrada")}
                     type="date"
-                    class="form-control"
-                    id="dataEntrada"
+                    id="data-admissao"
                   />
-                </div>
-                <div class="form-group col-md-3">
-                  <label for="sexo">Sexo</label>
-                  <select id="sexo" class="form-control" {...register("sexo")}>
-                    <option selected value="todos">
-                      Todos
-                    </option>
-                    <option value="Macho">Macho</option>
-                    <option value="Fêmea">Fêmea</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="nome-cientifico">Nome Científico</label>
-                  <input
-                    {...register("nomeCientifico")}
+                </Box>
+
+                <Box sx={style.inputContainer}>
+                  <Typography component="label" htmlFor="sexo" sx={style.label}>
+                    Sexo
+                  </Typography>
+                  <Select
+                    sx={style.input}
+                    {...register("sexo")}
                     type="text"
-                    class="form-control"
-                    id="nomecientifico"
-                  />
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="nome-apelido">Nome Comum</label>
-                  <input
-                    {...register("nomeComum")}
-                    type="text"
-                    class="form-control"
-                    id="nomeComum"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="col-md-2 div-buttons">
-              <button
-                onClick={() =>
-                  reset({
-                    nomeComum: "",
-                    identificacao: "",
-                    dataEntrada: "",
-                    nomeCientifico: "",
-                    sexo: "",
-                    origem: "",
-                    selectedItems: setSelectedItems([]),
-                  })
-                }
-                class="btn btn-primary"
-              >
-                <i class="bi bi-x"></i>LIMPAR
-              </button>
-              <button type="submit" class="btn btn-primary">
-                <i class="bi bi-search"></i>BUSCAR
-              </button>
-            </div>
-          </form>
-        </div>
+                    id="sexo"
+                  >
+                    <MenuItem value="todos">Todos</MenuItem>
+                    <MenuItem value="Macho">Macho</MenuItem>
+                    <MenuItem value="Fêmea">Fêmea</MenuItem>
+                  </Select>
+                </Box>
+              </Box>
+
+              <Box sx={style.inputContainer}>
+                <Typography component="label" htmlFor="nome-apelido" sx={style.label}>
+                  Nome Comum
+                </Typography>
+                <TextField
+                  sx={style.input}
+                  {...register("nomeComum")}
+                  type="text"
+                  id="nome-apelido"
+                />
+              </Box>
+            </Box>
+          </Box>
+
+          <Box sx={style.actions}>
+            <Button
+              variant="contained"
+              onClick={() =>
+                reset({
+                  nomeComum: "",
+                  identificacao: "",
+                  dataEntrada: "",
+                  nomeCientifico: "",
+                  sexo: "",
+                  origem: "",
+                  selectedItems: setSelectedItems([]),
+                })
+              }
+              sx={style.filterButton}
+            >
+              <i className="bi bi-x"></i>LIMPAR
+            </Button>
+            <Button variant="contained" type="submit" sx={style.filterButton}>
+              <i className="bi bi-search"></i>BUSCAR
+            </Button>
+          </Box>
+        </Box>
         <div className={styles.table}>
-          <div>
-            {animais?.data?.length ? (
-              <Table
-                columns={columns}
-                data={animais?.data}
-                onPaginate={(value) => getData(value - 1)}
-                totalElements={animais?.totalElements}
-                size={animais?.size}
-                selectedItems={selectedItems}
-                setSelectedItems={setSelectedItems}
-                pages={Math.ceil(animais?.totalElements / animais?.size)}
-                handleEdit={handleEdit}
-              />
-            ) : (
-              ""
-            )}
-          </div>
+          {animais?.data?.length ? (
+            <Table
+              columns={columns}
+              data={animais?.data}
+              onPaginate={(value) => getData(value - 1)}
+              totalElements={animais?.totalElements}
+              size={animais?.size}
+              selectedItems={selectedItems}
+              setSelectedItems={setSelectedItems}
+              pages={Math.ceil(animais?.totalElements / animais?.size)}
+              handleEdit={handleEdit}
+            />
+          ) : (
+            ""
+          )}
 
           <div className={styles.actions}>
             <button
@@ -250,8 +379,7 @@ export const Animais = () => {
           onDelete={handleDelete}
           handleClose={() => setOpenAlertModal(false)}
         />
-      </div>
-    </div>
+     </Box>
   );
 };
 

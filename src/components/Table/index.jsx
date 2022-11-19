@@ -3,7 +3,7 @@ import { Pencil } from "phosphor-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { removeEqualItensArray } from "../../utils/removeEqualItensArray";
-import styles from "./table.module.css";
+import styles from "./Table.module.css";
 
 export const Table = ({
   columns,
@@ -56,73 +56,77 @@ export const Table = ({
 
   return (
     <>
-      <div class="col-md-2 div-buttons">
-        <button
-          onClick={() =>
-            reset({
-              selectedItems: setSelectedItems([]),
-            })
-          }
-          class="btn btn-primary"
-        >
-          <i class="bi bi-x"></i>LIMPAR SELECIONADOS
-        </button>
-      </div>
+      <button
+      className={styles.clearSelectedItems}
+        onClick={() =>
+          reset({
+            selectedItems: setSelectedItems([]),
+          })
+        }
+        class="btn btn-primary"
+      >
+        <i class="bi bi-x"></i>LIMPAR SELECIONADOS
+      </button>
 
-      <table className={styles?.table}>
-        <thead>
-          <tr>
-            <td>
-              <input
-                type="checkbox"
-                onChange={onToggleAllItems}
-                checked={checkedAllItemsPage()}
-              />
-            </td>
-            {columns?.map((column, index) => (
-              <td key={index}>
-                {column?.label?.replace(/([a-z])([A-Z])/g, "$1 $2")}
-              </td>
-            ))}
-
-            <td>Editar</td>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.map((item, dataIndex) => (
-            <tr
-              key={dataIndex}
-              style={{
-                backgroundColor: `${dataIndex % 2 === 0 ? "white" : "#AEFFB2"}`,
-              }}
-            >
+      <div className={styles.containerTable}>
+        <table className={styles?.table}>
+          <thead>
+            <tr>
               <td>
                 <input
                   type="checkbox"
-                  onChange={(event) => onToggleItem(event, item)}
-                  checked={
-                    selectedItems?.find((e) => e?.id === item?.id) || false
-                  }
+                  onChange={onToggleAllItems}
+                  checked={checkedAllItemsPage()}
                 />
               </td>
-
-              {columns?.map((column, columnIndex) => (
-                <td key={`${dataIndex}-${columnIndex}`}>{item[column?.key]}</td>
+              {columns?.map((column, index) => (
+                <td key={index}>
+                  {column?.label?.replace(/([a-z])([A-Z])/g, "$1 $2")}
+                </td>
               ))}
 
-              <td>
-                <button
-                  className={styles.edit}
-                  onClick={() => handleEdit(item)}
-                >
-                  <Pencil size={24} />
-                </button>
-              </td>
+              <td>Editar</td>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data?.map((item, dataIndex) => (
+              <tr
+                key={dataIndex}
+                style={{
+                  backgroundColor: `${
+                    dataIndex % 2 === 0 ? "white" : "#AEFFB2"
+                  }`,
+                }}
+              >
+                <td>
+                  <input
+                    type="checkbox"
+                    onChange={(event) => onToggleItem(event, item)}
+                    checked={
+                      selectedItems?.find((e) => e?.id === item?.id) || false
+                    }
+                  />
+                </td>
 
+                {columns?.map((column, columnIndex) => (
+                  <td key={`${dataIndex}-${columnIndex}`}>
+                    {item[column?.key]}
+                  </td>
+                ))}
+
+                <td>
+                  <button
+                    className={styles.edit}
+                    onClick={() => handleEdit(item)}
+                  >
+                    <Pencil size={24} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <p className={styles.selectedItems}>
         {selectedItems?.length} item(s) selecionados.
       </p>

@@ -1,4 +1,4 @@
-import { Pagination } from "@mui/material";
+import { Button, Pagination } from "@mui/material";
 import { Pencil } from "phosphor-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -17,6 +17,24 @@ export const Table = ({
   handleEdit = () => {},
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
+
+  const style = {
+    addRegister : {
+      margin: '0.5rem 0',
+      color: '#fff',
+      width: "100%",
+      maxWidth: '12rem',
+      height: "3.5rem",
+      background: "#FB8C00",
+      transition: "0.2s",
+      "&:hover": {
+        background: "#FB8C00",
+        filter: "brightness(0.8)",
+      },
+      display: "flex",
+      gap: "0.5rem",
+    },
+  }
 
   const onToggleItem = (event, item) => {
     if (event?.target?.checked) {
@@ -56,17 +74,7 @@ export const Table = ({
 
   return (
     <>
-      <button
-      className={styles.clearSelectedItems}
-        onClick={() =>
-          reset({
-            selectedItems: setSelectedItems([]),
-          })
-        }
-        class="btn btn-primary"
-      >
-        <i class="bi bi-x"></i>LIMPAR SELECIONADOS
-      </button>
+      
 
       <div className={styles.containerTable}>
         <table className={styles?.table}>
@@ -127,6 +135,16 @@ export const Table = ({
           </tbody>
         </table>
       </div>
+      <Button
+          sx={style.addRegister}
+          onClick={() =>
+            reset({
+              selectedItems: setSelectedItems([]),
+            })
+          }
+        >
+          LIMPAR SELECIONADOS
+        </Button>
       <p className={styles.selectedItems}>
         {selectedItems?.length} item(s) selecionados.
       </p>
@@ -146,6 +164,7 @@ export const Table = ({
           shape="rounded"
         />
       </div>
+     
     </>
   );
 };

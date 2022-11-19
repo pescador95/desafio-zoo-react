@@ -64,7 +64,7 @@ const NoAuthRoute = ({ children }) => {
   if (session?.accessToken || session?.refreshToken) {
     return <Navigate to={ROUTES.profile} replace />;
   }
-  return <DefaultLayout>{children}</DefaultLayout>;
+  return children;
 };
 
 export const CustomRoutes = () => {

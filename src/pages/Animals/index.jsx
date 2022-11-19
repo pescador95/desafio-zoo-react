@@ -1,32 +1,32 @@
+import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   Box,
   Button,
   MenuItem,
   Select,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AlertModal } from "../../components/AlertModal";
 import { FormAnimal } from "../../components/FormAnimal";
 import { Header } from "../../components/Header";
-import { SideBarMenu } from "../../components/SideBarMenu";
 import { Table } from "../../components/Table";
-import { useAxios } from "../../hooks/useAxios";
 import { useToast } from "../../hooks/useToast";
 import {
   countAnimal,
   deleteAnimals,
-  getAnimals
+  getAnimals,
 } from "../../services/http/animais";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
-import styles from "./Animals.module.css";
+// import styles from "./Animals.module.css";
 
 export const Animais = () => {
   const style = {
     container: {
-      padding: '1rem',
+      padding: "1rem",
     },
     formContainer: {
       background: "#43A047",
@@ -83,7 +83,6 @@ export const Animais = () => {
         xl: "column",
       },
       marginTop: "1.5rem",
-      gap: "2rem",
       justifyContent: "space-between",
     },
     inputsContainer: {
@@ -96,6 +95,13 @@ export const Animais = () => {
       width: "100%",
       display: "flex",
       gap: "1rem",
+      flexDirection: {
+        xs: "column",
+        sm: "row",
+        md: "row",
+        lg: "row",
+        xl: "row",
+      },
     },
     label: {
       color: "white",
@@ -115,12 +121,67 @@ export const Animais = () => {
       maxWidth: "100%",
       height: "3.5rem",
       background: "#FB8C00",
-      transition: '0.2s',
+      transition: "0.2s",
       "&:hover": {
-         background: "#FB8C00",
+        background: "#FB8C00",
         filter: "brightness(0.8)",
       },
+      display: "flex",
+      gap: "0.5rem",
     },
+    table: {
+      width: "100%",
+    },
+    icon: {
+      display: {
+        xs: "none",
+        sm: "block",
+        md: "block",
+        lg: "block",
+        xl: "block",
+      },
+    },
+    actionsTable: {
+      width: "100%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      margin: '1rem 0'
+    },
+    addRegister : {
+      color: '#fff',
+      width: "100%",
+      maxWidth: '12rem',
+      height: "3.5rem",
+      background: "#FB8C00",
+      transition: "0.2s",
+      "&:hover": {
+        background: "#FB8C00",
+        filter: "brightness(0.8)",
+      },
+      display: "flex",
+      gap: "0.5rem",
+    },
+    excludeRegister : {
+      color: '#fff',
+      width: "100%",
+      maxWidth: '12rem',
+      height: "3.5rem",
+      background: "#ff7878",
+      transition: "0.2s",
+      "&:hover": {
+        background: "#ff7878",
+        filter: "brightness(0.8)",
+      },
+      "&:disabled": {
+        background: "#ffb1b1",
+        color: '#fff',
+        filter: "brightness(1)",
+        cursor: 'not-allowed'
+      },
+      display: "flex",
+      gap: "0.5rem",
+    }
   };
 
   const [selectedItems, setSelectedItems] = useState([]);
@@ -213,173 +274,187 @@ export const Animais = () => {
 
   return (
     <Box sx={style.container}>
-        <Header title="Animais" />
-        <Box
-          component="form"
-          sx={style.formContainer}
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <Box sx={style.inputs}>
-            <Box sx={style.inputsContainer}>
-              <Box sx={style.inputSeparator}>
-                <Box sx={style.inputContainer}>
-                  <Typography component="label" sx={style.label} htmlFor="identificacao">
-                    Microchip ou Anilha
-                  </Typography>
-                  <TextField
-                    sx={style.input}
-                    {...register("identificacao")}
-                    id="identificacao"
-                    type="text"
-                  />
-                </Box>
-
-                <Box sx={style.inputContainer}>
-                  <Typography
-                    sx={style.label}
-                    component="label"
-                    htmlFor="origem"
-                  >
-                    Origem
-                  </Typography>
-                  <TextField
-                    sx={style.input}
-                    {...register("origem")}
-                    type="text"
-                    id="origem"
-                  />
-                </Box>
-              </Box>
-
+      <Header title="Animais" />
+      <Box
+        component="form"
+        sx={style.formContainer}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Box sx={style.inputs}>
+          <Box sx={style.inputsContainer}>
+            <Box sx={style.inputSeparator}>
               <Box sx={style.inputContainer}>
-                <Typography component="label" htmlFor="nome-cientifico" sx={style.label}>
-                  Nome Científico
+                <Typography
+                  component="label"
+                  sx={style.label}
+                  htmlFor="identificacao"
+                >
+                  Microchip ou Anilha
                 </Typography>
                 <TextField
                   sx={style.input}
-                  {...register("nomeCientifico")}
+                  {...register("identificacao")}
+                  id="identificacao"
                   type="text"
-                  id="nome-cientifico"
+                />
+              </Box>
+
+              <Box sx={style.inputContainer}>
+                <Typography sx={style.label} component="label" htmlFor="origem">
+                  Origem
+                </Typography>
+                <TextField
+                  sx={style.input}
+                  {...register("origem")}
+                  type="text"
+                  id="origem"
                 />
               </Box>
             </Box>
-            <Box sx={style.inputsContainer}>
-              <Box sx={style.inputSeparator}>
-                <Box sx={style.inputContainer}>
-                  <Typography component="label" sx={style.label} htmlFor="data-admissao">
-                    Data Entrada
-                  </Typography>
-                  <TextField
-                    sx={style.input}
-                    {...register("dataEntrada")}
-                    type="date"
-                    id="data-admissao"
-                  />
-                </Box>
 
-                <Box sx={style.inputContainer}>
-                  <Typography component="label" htmlFor="sexo" sx={style.label}>
-                    Sexo
-                  </Typography>
-                  <Select
-                    sx={style.input}
-                    {...register("sexo")}
-                    type="text"
-                    id="sexo"
-                  >
-                    <MenuItem value="todos">Todos</MenuItem>
-                    <MenuItem value="Macho">Macho</MenuItem>
-                    <MenuItem value="Fêmea">Fêmea</MenuItem>
-                  </Select>
-                </Box>
-              </Box>
-
-              <Box sx={style.inputContainer}>
-                <Typography component="label" htmlFor="nome-apelido" sx={style.label}>
-                  Nome Comum
-                </Typography>
-                <TextField
-                  sx={style.input}
-                  {...register("nomeComum")}
-                  type="text"
-                  id="nome-apelido"
-                />
-              </Box>
+            <Box sx={style.inputContainer}>
+              <Typography
+                component="label"
+                htmlFor="nome-cientifico"
+                sx={style.label}
+              >
+                Nome Científico
+              </Typography>
+              <TextField
+                sx={style.input}
+                {...register("nomeCientifico")}
+                type="text"
+                id="nome-cientifico"
+              />
             </Box>
           </Box>
+          <Box sx={style.inputsContainer}>
+            <Box sx={style.inputSeparator}>
+              <Box sx={style.inputContainer}>
+                <Typography
+                  component="label"
+                  sx={style.label}
+                  htmlFor="data-admissao"
+                >
+                  Data Entrada
+                </Typography>
+                <TextField
+                  sx={style.input}
+                  {...register("dataEntrada")}
+                  type="date"
+                  id="data-admissao"
+                />
+              </Box>
 
-          <Box sx={style.actions}>
-            <Button
-              variant="contained"
-              onClick={() =>
-                reset({
-                  nomeComum: "",
-                  identificacao: "",
-                  dataEntrada: "",
-                  nomeCientifico: "",
-                  sexo: "",
-                  origem: "",
-                  selectedItems: setSelectedItems([]),
-                })
-              }
-              sx={style.filterButton}
-            >
-              <i className="bi bi-x"></i>LIMPAR
-            </Button>
-            <Button variant="contained" type="submit" sx={style.filterButton}>
-              <i className="bi bi-search"></i>BUSCAR
-            </Button>
+              <Box sx={style.inputContainer}>
+                <Typography component="label" htmlFor="sexo" sx={style.label}>
+                  Sexo
+                </Typography>
+                <Select
+                  sx={style.input}
+                  {...register("sexo")}
+                  type="text"
+                  id="sexo"
+                >
+                  <MenuItem value="todos">Todos</MenuItem>
+                  <MenuItem value="Macho">Macho</MenuItem>
+                  <MenuItem value="Fêmea">Fêmea</MenuItem>
+                </Select>
+              </Box>
+            </Box>
+
+            <Box sx={style.inputContainer}>
+              <Typography
+                component="label"
+                htmlFor="nome-apelido"
+                sx={style.label}
+              >
+                Nome Comum
+              </Typography>
+              <TextField
+                sx={style.input}
+                {...register("nomeComum")}
+                type="text"
+                id="nome-apelido"
+              />
+            </Box>
           </Box>
         </Box>
-        <div className={styles.table}>
-          {animais?.data?.length ? (
-            <Table
-              columns={columns}
-              data={animais?.data}
-              onPaginate={(value) => getData(value - 1)}
-              totalElements={animais?.totalElements}
-              size={animais?.size}
-              selectedItems={selectedItems}
-              setSelectedItems={setSelectedItems}
-              pages={Math.ceil(animais?.totalElements / animais?.size)}
-              handleEdit={handleEdit}
-            />
-          ) : (
-            ""
-          )}
 
-          <div className={styles.actions}>
-            <button
-              className={styles.exclude}
-              onClick={() => setOpenAlertModal(true)}
-              disabled={!selectedItems?.length}
-            >
-              Excluir {selectedItems?.length || ""} registros
-            </button>
+        <Box sx={style.actions}>
+          <Button
+            variant="contained"
+            onClick={() =>
+              reset({
+                nomeComum: "",
+                identificacao: "",
+                dataEntrada: "",
+                nomeCientifico: "",
+                sexo: "",
+                origem: "",
+                selectedItems: setSelectedItems([]),
+              })
+            }
+            sx={style.filterButton}
+          >
+            <ClearIcon sx={style.icon} /> LIMPAR
+          </Button>
+          <Button variant="contained" type="submit" sx={style.filterButton}>
+            <SearchIcon sx={style.icon} />
+            BUSCAR
+          </Button>
+        </Box>
+      </Box>
 
-            <button
-              className={styles.add}
-              onClick={() => setOpenFormAnimal(true)}
-            >
-              <span>+</span> CADASTRAR
-            </button>
-          </div>
-        </div>
+      <Box sx={style.actionsTable}>
+        <Button
+          sx={style.excludeRegister}
+          onClick={() => setOpenAlertModal(true)}
+          disabled={!selectedItems?.length}
+        >
+          Excluir {selectedItems?.length || ""} registros
+        </Button>
 
-        <FormAnimal
-          open={openFormAnimal}
-          handleClose={() => {
-            setOpenFormAnimal(false);
-            setUpdateAnimal();
-          }}
-          defaultValues={updateAnimal}
-        />
-        <AlertModal
-          open={openAlertModal}
-          onDelete={handleDelete}
-          handleClose={() => setOpenAlertModal(false)}
-        />
-     </Box>
+        <Button
+          sx={style.addRegister}
+          onClick={() => setOpenFormAnimal(true)}
+        >
+          <span>+</span> CADASTRAR
+        </Button>
+      </Box>
+
+      <div className={style.table}>
+        {animais?.data?.length ? (
+          <Table
+            columns={columns}
+            data={animais?.data}
+            onPaginate={(value) => getData(value - 1)}
+            totalElements={animais?.totalElements}
+            size={animais?.size}
+            selectedItems={selectedItems}
+            setSelectedItems={setSelectedItems}
+            pages={Math.ceil(animais?.totalElements / animais?.size)}
+            handleEdit={handleEdit}
+          />
+        ) : (
+          ""
+        )}
+      </div>
+
+      <FormAnimal
+        open={openFormAnimal}
+        handleClose={() => {
+          setOpenFormAnimal(false);
+          setUpdateAnimal();
+        }}
+        defaultValues={updateAnimal}
+      />
+      <AlertModal
+        open={openAlertModal}
+        onDelete={handleDelete}
+        handleClose={() => setOpenAlertModal(false)}
+      />
+    </Box>
   );
 };
 

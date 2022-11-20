@@ -7,7 +7,7 @@ import { ROUTES } from "../../routes/routes";
 export const Header = ({ title }) => {
   const styles = {
     container: {
-      padding: '0.5rem',
+      padding: '1rem',
       width: " 100%",
       display: "flex",
       justifyContent: "space-between",
@@ -26,40 +26,45 @@ export const Header = ({ title }) => {
     title: {
       fontSize: {
         xs: "1.5rem",
-        sm: "2rem",
-        md: "2rem",
-        lg: "3rem",
-        xl: "3rem",
+        sm: "1.5rem",
+        md: "1.5rem",
+        lg: "2rem",
+        xl: "2rem",
       },
       margin: 0,
-      padding: "1rem",
     },
     actions: {
       display: "flex",
       flexDirection: "row",
       gap: '0.5rem',
-      width: '100%',
+      width: {
+        xs: "100%",
+        sm: "auto",
+        md: "auto",
+        lg: "auto",
+        xl: "auto",
+      },
       justifyContent:"end"
     },
     button: {
       width: {
         xs: "100%",
-        sm: "7rem",
-        md: "7rem",
-        lg: "7rem",
-        xl: "7rem",
+        sm: "10rem",
+        md: "10rem",
+        lg: "10rem",
+        xl: "10rem",
       },
+      height: '3rem',
       background: "green",
       border: "none",
       cursor: "pointer",
-      height: "70px",
       color: "#fff",
       borderRadius: "8px",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       gap: "8px",
-      flexDirection: "column",
+      flexDirection: "row",
       transition: "0.2s",
       "&:hover": {
         background: "green",

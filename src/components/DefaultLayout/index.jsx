@@ -12,6 +12,7 @@ export const DefaultLayout = ({ children }) => {
       display: "flex",
     },
     sidebar: {
+      position: 'fixed',
       width: "15.625rem",
       display: {
         xs: "none",
@@ -76,6 +77,13 @@ export const DefaultLayout = ({ children }) => {
         lg: "calc(100% - 15.625rem)",
         xl: "calc(100% - 15.625rem)",
       },
+      marginLeft: {
+        xs: "0",
+        sm: "0",
+        md: "15.625rem",
+        lg: "15.625rem",
+        xl: "15.625rem",
+      }
     },
     noChildren: {
       display: {

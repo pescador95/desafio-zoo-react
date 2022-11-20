@@ -1,9 +1,8 @@
-import { Button, Pagination } from "@mui/material";
+import { Box, Button, Pagination, Typography } from "@mui/material";
 import { Pencil } from "phosphor-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { removeEqualItensArray } from "../../utils/removeEqualItensArray";
-import styles from "./Table.module.css";
 
 export const Table = ({
   columns,
@@ -19,12 +18,12 @@ export const Table = ({
   const [currentPage, setCurrentPage] = useState(1);
 
   const style = {
-    addRegister : {
-      margin: '0.5rem 0',
-      color: '#fff',
+    addRegister: {
+      margin: "0.5rem 0",
+      color: "#fff",
       width: "100%",
-      maxWidth: '12rem',
-      height: "3.5rem",
+      maxWidth: "12rem",
+      height: "2.5rem",
       background: "#FB8C00",
       transition: "0.2s",
       "&:hover": {
@@ -34,7 +33,52 @@ export const Table = ({
       display: "flex",
       gap: "0.5rem",
     },
-  }
+    containerTable: {
+      width: "100%",
+      overflowX: "auto",
+    },
+    table: {
+      textAlign: "center",
+      width: "100%",
+      minWidth: "43.75rem",
+    },
+    tableHeader: {
+      background: "#43a047",
+      padding: "1rem",
+      color: "#fff",
+      fontWeight: "600",
+      fontSize: "1rem",
+      textAlign: "center",
+      textTransform: "capitalize",
+    },
+    pagination: {
+      textAlign: "center",
+      width: "100%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      marginTop: "1rem",
+    },
+    totalElements: {
+      textAlign: "right",
+    },
+    edit: {
+      backgroundColor: "transparent",
+      border: "none",
+      cursor: "pointer",
+    },
+
+    clearSelectedItems: {
+      margin: "1rem 0",
+      border: "none",
+      backgroundColor: "#fb8c00",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      height: "3rem",
+      borderRadius: "4px",
+    },
+  };
 
   const onToggleItem = (event, item) => {
     if (event?.target?.checked) {
@@ -74,26 +118,26 @@ export const Table = ({
 
   return (
     <>
-      
-
-      <div className={styles.containerTable}>
-        <table className={styles?.table}>
+      <Box sx={style.containerTable}>
+        <Box component="table" sx={style.table}>
           <thead>
             <tr>
-              <td>
+              <Box component="td" sx={style.tableHeader}>
                 <input
                   type="checkbox"
                   onChange={onToggleAllItems}
                   checked={checkedAllItemsPage()}
                 />
-              </td>
+              </Box>
               {columns?.map((column, index) => (
-                <td key={index}>
+                <Box component="td" sx={style.tableHeader}>
                   {column?.label?.replace(/([a-z])([A-Z])/g, "$1 $2")}
-                </td>
+                </Box>
               ))}
 
-              <td>Editar</td>
+              <Box component="td" sx={style.tableHeader}>
+                Editar
+              </Box>
             </tr>
           </thead>
           <tbody>
@@ -123,37 +167,34 @@ export const Table = ({
                 ))}
 
                 <td>
-                  <button
-                    className={styles.edit}
-                    onClick={() => handleEdit(item)}
-                  >
-                    <Pencil size={24} />
-                  </button>
+                  <Button sx={style.edit} onClick={() => handleEdit(item)}>
+                    <Pencil size={24} color="#000" />
+                  </Button>
                 </td>
               </tr>
             ))}
           </tbody>
-        </table>
-      </div>
+        </Box>
+      </Box>
       <Button
-          sx={style.addRegister}
-          onClick={() =>
-            reset({
-              selectedItems: setSelectedItems([]),
-            })
-          }
-        >
-          LIMPAR SELECIONADOS
-        </Button>
-      <p className={styles.selectedItems}>
+        sx={style.addRegister}
+        onClick={() =>
+          reset({
+            selectedItems: setSelectedItems([]),
+          })
+        }
+      >
+        LIMPAR SELECIONADOS
+      </Button>
+      <Typography sx={style.selectedItems}>
         {selectedItems?.length} item(s) selecionados.
-      </p>
+      </Typography>
 
-      <p className={styles.totalElements}>
+      <Typography sx={style.totalElements}>
         Exibindo {size * currentPage} de {totalElements} registros.
-      </p>
+      </Typography>
 
-      <div className={styles.pagination}>
+      <Box sx={style.pagination}>
         <Pagination
           count={pages}
           onChange={(_, value) => {
@@ -163,8 +204,7 @@ export const Table = ({
           variant="outlined"
           shape="rounded"
         />
-      </div>
-     
+      </Box>
     </>
   );
 };

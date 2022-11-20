@@ -21,9 +21,9 @@ import {
   getAnimals,
 } from "../../services/http/animais";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
-// import styles from "./Animals.module.css";
 
 export const Animais = () => {
+ 
   const style = {
     container: {
       padding: "1rem",
@@ -119,7 +119,7 @@ export const Animais = () => {
     filterButton: {
       width: "100%",
       maxWidth: "100%",
-      height: "3.5rem",
+      height: "2.5rem",
       background: "#FB8C00",
       transition: "0.2s",
       "&:hover": {
@@ -146,13 +146,14 @@ export const Animais = () => {
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      margin: '1rem 0'
+      margin: '1rem 0',
+      gap: '0.5rem'
     },
     addRegister : {
       color: '#fff',
       width: "100%",
       maxWidth: '12rem',
-      height: "3.5rem",
+      height: "2.5rem",
       background: "#FB8C00",
       transition: "0.2s",
       "&:hover": {
@@ -166,7 +167,7 @@ export const Animais = () => {
       color: '#fff',
       width: "100%",
       maxWidth: '12rem',
-      height: "3.5rem",
+      height: "2.5rem",
       background: "#ff7878",
       transition: "0.2s",
       "&:hover": {
@@ -292,6 +293,7 @@ export const Animais = () => {
                   Microchip ou Anilha
                 </Typography>
                 <TextField
+                size="small"
                   sx={style.input}
                   {...register("identificacao")}
                   id="identificacao"
@@ -304,6 +306,7 @@ export const Animais = () => {
                   Origem
                 </Typography>
                 <TextField
+                size="small"
                   sx={style.input}
                   {...register("origem")}
                   type="text"
@@ -321,6 +324,7 @@ export const Animais = () => {
                 Nome Científico
               </Typography>
               <TextField
+              size="small"
                 sx={style.input}
                 {...register("nomeCientifico")}
                 type="text"
@@ -339,6 +343,7 @@ export const Animais = () => {
                   Data Entrada
                 </Typography>
                 <TextField
+                size="small"
                   sx={style.input}
                   {...register("dataEntrada")}
                   type="date"
@@ -351,6 +356,7 @@ export const Animais = () => {
                   Sexo
                 </Typography>
                 <Select
+                size="small"
                   sx={style.input}
                   {...register("sexo")}
                   type="text"
@@ -372,6 +378,7 @@ export const Animais = () => {
                 Nome Comum
               </Typography>
               <TextField
+              size="small"
                 sx={style.input}
                 {...register("nomeComum")}
                 type="text"

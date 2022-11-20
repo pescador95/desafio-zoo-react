@@ -1,18 +1,15 @@
-import React from "react";
-import "./index.css";
-import { useState } from "react";
-import { ENDPOINTS } from "../../services/endpoints";
-import { useAxios } from "../../hooks/useAxios";
+import { Box, Button, TextField, Typography } from "@mui/material";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAxios } from "../../hooks/useAxios";
 import { useToast } from "../../hooks/useToast";
+import { ENDPOINTS } from "../../services/endpoints";
 
 export const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const axios = useAxios();
   const navigate = useNavigate();
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
+  
   const { openToast } = useToast();
 
   const handleSubmit = async (email) => {
@@ -31,57 +28,97 @@ export const ForgotPassword = () => {
     await handleSubmit(email);
   };
 
+  const style = {
+    container: {
+      width: "100vw",
+      height: "100%",
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      color: "#ffff",
+    },
+    content: {
+      padding: "1rem",
+      width: "25rem",
+      background: "#1b5e20",
+      borderRadius: "4px",
+    },
+    title: {
+      fontSize: "1.5rem",
+      fontWeight: "bold",
+    },
+    description: {
+      fontSize: "1rem",
+      fontWeight: "400",
+    },
+    actions: {
+      marginTop: "1rem",
+      display: "flex",
+      gap: "0.5rem",
+      width: "100%",
+      justifyContent: "space-between",
+    },
+    inputContainer: {
+      marginTop: "1rem",
+      display: "flex",
+      flexDirection: "column",
+    },
+    input: {
+      background: "#fff",
+      border: "none",
+      borderRadius: "0.5rem",
+    },
+    button: {
+      color: "#000",
+      maxWidth: "100%",
+      height: "2.5rem",
+      background: "#FB8C00",
+      transition: "0.2s",
+      "&:hover": {
+        background: "#FB8C00",
+        filter: "brightness(0.8)",
+      },
+      display: "flex",
+      gap: "0.5rem",
+    },
+  };
+
   return (
-    <div class="container d-flex flex-column">
-      <div
-        class="row align-items-center justify-content-center
-                min-vh-100 g-0"
+
+    <Box sx={style.container}>
+      <Box
+        sx={style.content}
+        component="form"
+        onSubmit={onSubmit}
       >
-        <div class="col-12 col-md-8 col-lg-4">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <div class="mb-4">
-                <h5>Esqueceu sua senha?</h5>
-                <p class="mb-2">
-                  Entre com seu email cadastrado no sistema para receber uma
-                  nova
-                </p>
-              </div>
-              <form onSubmit={onSubmit}>
-                <div class="mb-3">
-                  <label for="email" class="form-label">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    class="form-control"
-                    name="email"
-                    placeholder="Digite seu email"
-                    required=""
-                    value={email}
-                    onChange={handleEmailChange}
-                  />
-                </div>
-                <div class="mb-3 d-grid">
-                  <div class="btn box">
-                    <button type="submit" class="btn btn-primary">
-                      ENVIAR
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      onClick={() => navigate("/login")}
-                    >
-                      VOLTAR
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+        <Box component="header" sx={style.header}>
+          <Typography sx={style.title}> Esqueceu sua senha?</Typography>
+          <Typography sx={style.description}>
+            {" "}
+            Entre com seu email cadastrado no sistema para receber uma nova.
+          </Typography>
+        </Box>
+
+        <Box sx={style.inputContainer}>
+          <Box component="label" htmlFor="email">
+            E-mail
+          </Box>
+
+          <TextField sx={style.input} onChange={e=>setEmail(e?.target?.value)} value={email} />
+        </Box>
+
+        <Box component="footer" sx={style.actions}>
+          <Button sx={style.button} onClick={() => navigate("/login")}>
+            {" "}
+            Voltar
+          </Button>
+          <Button sx={style.button} type="submit">
+            {" "}
+            Enviar
+          </Button>
+        </Box>
+      </Box>
+    </Box>
   );
 };

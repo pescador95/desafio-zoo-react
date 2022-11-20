@@ -4,7 +4,6 @@ import Modal from "@mui/material/Modal";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { useToast } from "../../hooks/useToast";
 import { createUser, updateUser } from "../../services/http/users";
 import { ROLES } from "../../utils/constants";
 import styles from "./FormUsuario.module.css";
@@ -28,8 +27,6 @@ export const FormUsuario = ({ open, handleClose, defaultValues }) => {
     roleUsuario: yup.string().required("* O campo é obrigatório"),
   });
 
-  const { openToast } = useToast();
-
   const {
     register,
     handleSubmit,
@@ -48,28 +45,28 @@ export const FormUsuario = ({ open, handleClose, defaultValues }) => {
   }, [defaultValues]);
 
   const onSubmit = async (values) => {
-    const usuario = {
-      ...values,
-    };
-    console.log(usuario);
-    if (!values.id) {
-      const response = await createUser(usuario);
-      console.log(response);
-      if (response?.status !== 500) {
-        openToast(response.message, "success");
-      } else {
-        openToast(response, "error");
-      }
-    } else {
-      const response = await updateUser(usuario);
-      console.log(response);
-      if (response?.status !== 500) {
-        openToast(response.message, "success");
-      } else {
-        openToast(response, "error");
-      }
-    }
-    handleClose();
+    // const usuario = {
+    //   ...values,
+    // };
+    // console.log(usuario);
+    // if (!values.id) {
+    //   const response = await createUser(usuario);
+    //   console.log(response);
+    //   if (response?.status !== 500) {
+    //     openToast(response.message, "success");
+    //   } else {
+    //     openToast(response, "error");
+    //   }
+    // } else {
+    //   const response = await updateUser(usuario);
+    //   console.log(response);
+    //   if (response?.status !== 500) {
+    //     openToast(response.message, "success");
+    //   } else {
+    //     openToast(response, "error");
+    //   }
+    // }
+    // handleClose();
   };
 
   const onClose = () => {

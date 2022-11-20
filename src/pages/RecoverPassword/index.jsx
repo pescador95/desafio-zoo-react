@@ -2,24 +2,15 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAxios } from "../../hooks/useAxios";
-import { useToast } from "../../hooks/useToast";
 import { ENDPOINTS } from "../../services/endpoints";
 
 export const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const axios = useAxios();
   const navigate = useNavigate();
-  
-  const { openToast } = useToast();
 
   const handleSubmit = async (email) => {
     const response = await axios.get(ENDPOINTS.recoverPassword + email);
-
-    if (response?.status !== 500) {
-      openToast(response.message, "success");
-    } else {
-      openToast(response, "error");
-    }
     navigate("/login");
   };
 
@@ -85,13 +76,8 @@ export const ForgotPassword = () => {
   };
 
   return (
-
     <Box sx={style.container}>
-      <Box
-        sx={style.content}
-        component="form"
-        onSubmit={onSubmit}
-      >
+      <Box sx={style.content} component="form" onSubmit={onSubmit}>
         <Box component="header" sx={style.header}>
           <Typography sx={style.title}> Esqueceu sua senha?</Typography>
           <Typography sx={style.description}>
@@ -105,7 +91,11 @@ export const ForgotPassword = () => {
             E-mail
           </Box>
 
-          <TextField sx={style.input} onChange={e=>setEmail(e?.target?.value)} value={email} />
+          <TextField
+            sx={style.input}
+            onChange={(e) => setEmail(e?.target?.value)}
+            value={email}
+          />
         </Box>
 
         <Box component="footer" sx={style.actions}>

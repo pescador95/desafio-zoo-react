@@ -3,19 +3,11 @@ import { useForm } from "react-hook-form";
 import { Header } from "../../components/Header";
 import { useAxios } from "../../hooks/useAxios";
 import { getLocalSessionData } from "../../hooks/useSession";
-import { useToast } from "../../hooks/useToast";
-import {
-  updateUserProfile
-} from "../../services/http/profile";
+import { updateUserProfile } from "../../services/http/profile";
 
-import {
-  Box,
-  Button, TextField,
-  Typography
-} from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 
 export const Profile = () => {
-
   const style = {
     container: {
       padding: "1rem",
@@ -138,13 +130,13 @@ export const Profile = () => {
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      margin: '1rem 0',
-      gap: '0.5rem'
+      margin: "1rem 0",
+      gap: "0.5rem",
     },
-    addRegister : {
-      color: '#fff',
+    addRegister: {
+      color: "#fff",
       width: "100%",
-      maxWidth: '12rem',
+      maxWidth: "12rem",
       height: "2.5rem",
       background: "#FB8C00",
       transition: "0.2s",
@@ -155,10 +147,10 @@ export const Profile = () => {
       display: "flex",
       gap: "0.5rem",
     },
-    excludeRegister : {
-      color: '#fff',
+    excludeRegister: {
+      color: "#fff",
       width: "100%",
-      maxWidth: '12rem',
+      maxWidth: "12rem",
       height: "2.5rem",
       background: "#ff7878",
       transition: "0.2s",
@@ -168,26 +160,22 @@ export const Profile = () => {
       },
       "&:disabled": {
         background: "#ffb1b1",
-        color: '#fff',
+        color: "#fff",
         filter: "brightness(1)",
-        cursor: 'not-allowed'
+        cursor: "not-allowed",
       },
       display: "flex",
       gap: "0.5rem",
-    }
+    },
   };
-
 
   const axios = useAxios();
   const user = getLocalSessionData(); //Email do usuário atual para a busca
 
-  const { openToast } = useToast();
   const [nome, setNome] = useState({});
   const [email, setEmail] = useState({});
   const [roleUsuario, setRoleUsuario] = useState({});
   const [password, setPassword] = useState({});
-
-
 
   const {
     register,
@@ -197,33 +185,31 @@ export const Profile = () => {
   } = useForm({});
 
   const onSubmit = async () => {
-    const senha = document.getElementById('password').value
-    setPassword(senha)
-    
+    const senha = document.getElementById("password").value;
+    setPassword(senha);
+
     // console.log("Nome input:" + nome)
     // console.log("Email input: " + email)
     // console.log("Role input: " + roleUsuario)
-    console.log("Senha input: " + password)
+    console.log("Senha input: " + password);
 
     const user = {
-      "nome": nome,
-      "email": email,
-      "password": password,
-      "roleUsuario": roleUsuario
-    }
-      
+      nome: nome,
+      email: email,
+      password: password,
+      roleUsuario: roleUsuario,
+    };
 
-    const response = await updateUserProfile(user)
-    
-    if(response !== null){
-      console.log("Retorno: " + response)
+    const response = await updateUserProfile(user);
+
+    if (response !== null) {
+      console.log("Retorno: " + response);
       window.location.reload();
     }
-  }
-
+  };
 
   return (
-    <Box sx={style.container} >
+    <Box sx={style.container}>
       <Header title="Meu perfil" />
       <Box
         component="form"
@@ -234,15 +220,11 @@ export const Profile = () => {
           <Box sx={style.inputsContainer}>
             <Box sx={style.inputSeparator}>
               <Box sx={style.inputContainer}>
-                <Typography
-                  component="label"
-                  sx={style.label}
-                  htmlFor="name"
-                >
+                <Typography component="label" sx={style.label} htmlFor="name">
                   Nome
                 </Typography>
                 <TextField
-                size="small"
+                  size="small"
                   sx={style.input}
                   {...register("nome")}
                   id="name"
@@ -255,14 +237,14 @@ export const Profile = () => {
                   Email
                 </Typography>
                 <TextField
-                 size="small"
+                  size="small"
                   sx={style.input}
                   {...register("email")}
                   type="text"
                   id="email"
                 />
               </Box>
-            </Box>   
+            </Box>
           </Box>
         </Box>
 

@@ -119,88 +119,95 @@ export const Table = ({
   return (
     <>
       <Box sx={style.containerTable}>
-        <Box component="table" sx={style.table}>
-          <thead>
-            <tr>
-              <Box component="td" sx={style.tableHeader}>
-                <input
-                  type="checkbox"
-                  onChange={onToggleAllItems}
-                  checked={checkedAllItemsPage()}
-                />
-              </Box>
-              {columns?.map((column, index) => (
+        {!!data?.length && (
+          <Box component="table" sx={style.table}>
+            <thead>
+              <tr>
                 <Box component="td" sx={style.tableHeader}>
-                  {column?.label?.replace(/([a-z])([A-Z])/g, "$1 $2")}
-                </Box>
-              ))}
-
-              <Box component="td" sx={style.tableHeader}>
-                Editar
-              </Box>
-            </tr>
-          </thead>
-          <tbody>
-            {data?.map((item, dataIndex) => (
-              <tr
-                key={dataIndex}
-                style={{
-                  backgroundColor: `${
-                    dataIndex % 2 === 0 ? "white" : "#AEFFB2"
-                  }`,
-                }}
-              >
-                <td>
                   <input
                     type="checkbox"
-                    onChange={(event) => onToggleItem(event, item)}
-                    checked={
-                      selectedItems?.find((e) => e?.id === item?.id) || false
-                    }
+                    onChange={onToggleAllItems}
+                    checked={checkedAllItemsPage()}
                   />
-                </td>
-
-                {columns?.map((column, columnIndex) => (
-                  <td key={`${dataIndex}-${columnIndex}`}>
-                    {item[column?.key]}
-                  </td>
+                </Box>
+                {columns?.map((column, index) => (
+                  <Box key={index} component="td" sx={style.tableHeader}>
+                    {column?.label?.replace(/([a-z])([A-Z])/g, "$1 $2")}
+                  </Box>
                 ))}
 
-                <td>
-                  <Button sx={style.edit} onClick={() => handleEdit(item)}>
-                    <Pencil size={24} color="#000" />
-                  </Button>
-                </td>
+                <Box component="td" sx={style.tableHeader}>
+                  Editar
+                </Box>
               </tr>
-            ))}
-          </tbody>
-        </Box>
-      </Box>
-      <Button
-        sx={style.addRegister}
-        onClick={() =>
-          reset({
-            selectedItems: setSelectedItems([]),
-          })
-        }
-      >
-        LIMPAR SELECIONADOS
-      </Button>
-      <Typography sx={style.selectedItems}>
-        {selectedItems?.length} item(s) selecionados.
-      </Typography>
+            </thead>
+            <tbody>
+              {data?.map((item, dataIndex) => (
+                <tr
+                  key={dataIndex}
+                  style={{
+                    backgroundColor: `${
+                      dataIndex % 2 === 0 ? "white" : "#AEFFB2"
+                    }`,
+                  }}
+                >
+                  <td>
+                    <input
+                      type="checkbox"
+                      onChange={(event) => onToggleItem(event, item)}
+                      checked={
+                        selectedItems?.find((e) => e?.id === item?.id) || false
+                      }
+                    />
+                  </td>
 
-      <Typography sx={style.totalElements}>
-        Exibindo {size * currentPage} de {totalElements} registros.
-      </Typography>
+                  {columns?.map((column, columnIndex) => (
+                    <td key={`${dataIndex}-${columnIndex}`}>
+                      {item[column?.key]}
+                    </td>
+                  ))}
+
+                  <td>
+                    <Button sx={style.edit} onClick={() => handleEdit(item)}>
+                      <Pencil size={24} color="#000" />
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Box>
+        )}
+      </Box>
+      {!!data?.length && (
+        <>
+          <Button
+            sx={style.addRegister}
+            onClick={() =>
+              reset({
+                selectedItems: setSelectedItems([]),
+              })
+            }
+          >
+            LIMPAR SELECIONADOS
+          </Button>
+          <Typography sx={style.selectedItems}>
+            {selectedItems?.length} item(s) selecionados.
+          </Typography>
+
+          <Typography sx={style.totalElements}>
+            Exibindo {size * currentPage} de {totalElements} registros.
+          </Typography>
+        </>
+      )}
 
       <Box sx={style.pagination}>
         <Pagination
-          count={pages}
+          count={pages || 0}
           onChange={(_, value) => {
             onPaginate(value);
             setCurrentPage(value);
           }}
+          page={currentPage}
           variant="outlined"
           shape="rounded"
         />

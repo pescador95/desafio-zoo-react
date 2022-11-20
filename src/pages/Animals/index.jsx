@@ -14,17 +14,17 @@ import { AlertModal } from "../../components/AlertModal";
 import { FormAnimal } from "../../components/FormAnimal";
 import { Header } from "../../components/Header";
 import { Table } from "../../components/Table";
-import { useToast } from "../../hooks/useToast";
 import {
   countAnimal,
   deleteAnimals,
   getAnimals,
 } from "../../services/http/animais";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 export const Animais = () => {
- 
-  const style = {
+  const styles = {
     container: {
       padding: "1rem",
     },
@@ -146,13 +146,13 @@ export const Animais = () => {
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      margin: '1rem 0',
-      gap: '0.5rem'
+      margin: "1rem 0",
+      gap: "0.5rem",
     },
-    addRegister : {
-      color: '#fff',
+    addRegister: {
+      color: "#fff",
       width: "100%",
-      maxWidth: '12rem',
+      maxWidth: "12rem",
       height: "2.5rem",
       background: "#FB8C00",
       transition: "0.2s",
@@ -163,10 +163,10 @@ export const Animais = () => {
       display: "flex",
       gap: "0.5rem",
     },
-    excludeRegister : {
-      color: '#fff',
+    excludeRegister: {
+      color: "#fff",
       width: "100%",
-      maxWidth: '12rem',
+      maxWidth: "12rem",
       height: "2.5rem",
       background: "#ff7878",
       transition: "0.2s",
@@ -176,74 +176,82 @@ export const Animais = () => {
       },
       "&:disabled": {
         background: "#ffb1b1",
-        color: '#fff',
+        color: "#fff",
         filter: "brightness(1)",
-        cursor: 'not-allowed'
+        cursor: "not-allowed",
       },
       display: "flex",
       gap: "0.5rem",
-    }
+    },
   };
 
+  const [filter, setFilter] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
   const [updateAnimal, setUpdateAnimal] = useState({});
-  const [openFormAnimal, setOpenFormAnimal] = useState(false);
-  const [openAlertModal, setOpenAlertModal] = useState(false);
-  const [animais, setAnimais] = useState({
-    data: [],
-    totalElements: 0,
-    size: 0,
-  });
-  const { openToast } = useToast();
 
-  useEffect(() => {
-    getData();
-    getTotalElements();
-  }, []);
+  const [isOpenFormAnimal, setIsOpenFormAnimal] = useState(false);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
 
-  const getData = async (page = 0, strgFilter = "") => {
-    const data = await getAnimals(page, strgFilter);
-    setAnimais((prev) => ({ ...prev, data, size: data?.length }));
+  const { register, handleSubmit, reset } = useForm({});
+
+  const { mutate: getAnimalsMutate, data: animals } = useMutation(
+    ({ page = 0, strgFilter = "" }) => getAnimals(page, strgFilter),
+    {
+      onError: (error) => {
+        toast.error(error?.response?.data?.messages?.join(", "));
+      },
+    }
+  );
+
+  const { mutate: getTotalElementsMutate, data: totalElements } = useMutation(
+    ({ strgFilter = "" }) => countAnimal(strgFilter),
+    {
+      onError: (error) => {
+        toast.error(error?.response?.data?.messages?.join(", "));
+      },
+    }
+  );
+
+  const { mutate: deleteAnimalsMutate } = useMutation(
+    () => deleteAnimals(selectedItems),
+    {
+      onSuccess: () => {
+        toast.success("Animais excluídos com sucesso!");
+        getTableData();
+        setSelectedItems([]);
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.messages?.join(", "));
+      },
+    }
+  );
+
+  const getTableData = (page = 0, strgFilter = "") => {
+    getAnimalsMutate({ page, strgFilter });
+    getTotalElementsMutate({ strgFilter });
   };
 
-  const getTotalElements = async (stringFilter = "") => {
-    const response = await countAnimal(stringFilter);
-    setAnimais((prev) => ({ ...prev, totalElements: response }));
-  };
+  useEffect(() => getTableData(), []);
 
   const columns = useMemo(
     () =>
-      animais?.data?.length
-        ? Object.keys(animais?.data[0])?.map((key) => ({
+      animals
+        ? Object.keys(animals[0])?.map((key) => ({
             key,
             label: key,
           }))
         : [],
-    [animais]
+    [animals]
   );
 
-  const handleDelete = async () => {
-    const response = await deleteAnimals(selectedItems);
-    if (response?.status !== 500) {
-      openToast(response.message, "success");
-    } else {
-      openToast(response, "error");
-    }
-    await getData();
-    await getTotalElements();
+  const onDelete = async () => {
+    deleteAnimalsMutate();
   };
 
-  const handleEdit = (item) => {
+  const onEdit = (item) => {
     setUpdateAnimal(item);
-    setOpenFormAnimal(true);
+    setIsOpenFormAnimal(true);
   };
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({});
 
   const onSubmit = async (values) => {
     const filters = {};
@@ -266,48 +274,51 @@ export const Animais = () => {
 
     delete filters.selectedItems;
 
-    const parsedFilters = makeMultiFilterParams({
-      ...filters,
-    });
-    getData(0, parsedFilters);
-    getTotalElements(parsedFilters);
+    const parsedFilters = makeMultiFilterParams(filters);
+
+    setFilter(parsedFilters);
+    getTableData(0, parsedFilters);
   };
 
   return (
-    <Box sx={style.container}>
+    <Box sx={styles.container}>
       <Header title="Animais" />
       <Box
         component="form"
-        sx={style.formContainer}
+        sx={styles.formContainer}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Box sx={style.inputs}>
-          <Box sx={style.inputsContainer}>
-            <Box sx={style.inputSeparator}>
-              <Box sx={style.inputContainer}>
+        <Box sx={styles.inputs}>
+          <Box sx={styles.inputsContainer}>
+            <Box sx={styles.inputSeparator}>
+              <Box sx={styles.inputContainer}>
                 <Typography
                   component="label"
-                  sx={style.label}
+                  sx={styles.label}
                   htmlFor="identificacao"
                 >
                   Microchip ou Anilha
                 </Typography>
                 <TextField
-                size="small"
-                  sx={style.input}
+                  size="small"
+                  sx={styles.input}
                   {...register("identificacao")}
                   id="identificacao"
                   type="text"
                 />
               </Box>
 
-              <Box sx={style.inputContainer}>
-                <Typography sx={style.label} component="label" htmlFor="origem">
+              <Box sx={styles.inputContainer}>
+                <Typography
+                  sx={styles.label}
+                  component="label"
+                  htmlFor="origem"
+                >
                   Origem
                 </Typography>
                 <TextField
-                size="small"
-                  sx={style.input}
+                  size="small"
+                  sx={styles.input}
                   {...register("origem")}
                   type="text"
                   id="origem"
@@ -315,49 +326,49 @@ export const Animais = () => {
               </Box>
             </Box>
 
-            <Box sx={style.inputContainer}>
+            <Box sx={styles.inputContainer}>
               <Typography
                 component="label"
                 htmlFor="nome-cientifico"
-                sx={style.label}
+                sx={styles.label}
               >
                 Nome Científico
               </Typography>
               <TextField
-              size="small"
-                sx={style.input}
+                size="small"
+                sx={styles.input}
                 {...register("nomeCientifico")}
                 type="text"
                 id="nome-cientifico"
               />
             </Box>
           </Box>
-          <Box sx={style.inputsContainer}>
-            <Box sx={style.inputSeparator}>
-              <Box sx={style.inputContainer}>
+          <Box sx={styles.inputsContainer}>
+            <Box sx={styles.inputSeparator}>
+              <Box sx={styles.inputContainer}>
                 <Typography
                   component="label"
-                  sx={style.label}
+                  sx={styles.label}
                   htmlFor="data-admissao"
                 >
                   Data Entrada
                 </Typography>
                 <TextField
-                size="small"
-                  sx={style.input}
+                  size="small"
+                  sx={styles.input}
                   {...register("dataEntrada")}
                   type="date"
                   id="data-admissao"
                 />
               </Box>
 
-              <Box sx={style.inputContainer}>
-                <Typography component="label" htmlFor="sexo" sx={style.label}>
+              <Box sx={styles.inputContainer}>
+                <Typography component="label" htmlFor="sexo" sx={styles.label}>
                   Sexo
                 </Typography>
                 <Select
-                size="small"
-                  sx={style.input}
+                  size="small"
+                  sx={styles.input}
                   {...register("sexo")}
                   type="text"
                   id="sexo"
@@ -369,17 +380,17 @@ export const Animais = () => {
               </Box>
             </Box>
 
-            <Box sx={style.inputContainer}>
+            <Box sx={styles.inputContainer}>
               <Typography
                 component="label"
                 htmlFor="nome-apelido"
-                sx={style.label}
+                sx={styles.label}
               >
                 Nome Comum
               </Typography>
               <TextField
-              size="small"
-                sx={style.input}
+                size="small"
+                sx={styles.input}
                 {...register("nomeComum")}
                 type="text"
                 id="nome-apelido"
@@ -388,7 +399,7 @@ export const Animais = () => {
           </Box>
         </Box>
 
-        <Box sx={style.actions}>
+        <Box sx={styles.actions}>
           <Button
             variant="contained"
             onClick={() =>
@@ -402,64 +413,71 @@ export const Animais = () => {
                 selectedItems: setSelectedItems([]),
               })
             }
-            sx={style.filterButton}
+            sx={styles.filterButton}
           >
-            <ClearIcon sx={style.icon} /> LIMPAR
+            <ClearIcon sx={styles.icon} /> LIMPAR
           </Button>
-          <Button variant="contained" type="submit" sx={style.filterButton}>
-            <SearchIcon sx={style.icon} />
+          <Button variant="contained" type="submit" sx={styles.filterButton}>
+            <SearchIcon sx={styles.icon} />
             BUSCAR
           </Button>
         </Box>
       </Box>
 
-      <Box sx={style.actionsTable}>
+      <Box sx={styles.actionsTable}>
         <Button
-          sx={style.excludeRegister}
-          onClick={() => setOpenAlertModal(true)}
+          sx={styles.excludeRegister}
+          onClick={() => setIsOpenDelete(true)}
           disabled={!selectedItems?.length}
         >
           Excluir {selectedItems?.length || ""} registros
         </Button>
 
         <Button
-          sx={style.addRegister}
-          onClick={() => setOpenFormAnimal(true)}
+          sx={styles.addRegister}
+          onClick={() => setIsOpenFormAnimal(true)}
         >
           <span>+</span> CADASTRAR
         </Button>
       </Box>
 
-      <div className={style.table}>
-        {animais?.data?.length ? (
-          <Table
-            columns={columns}
-            data={animais?.data}
-            onPaginate={(value) => getData(value - 1)}
-            totalElements={animais?.totalElements}
-            size={animais?.size}
-            selectedItems={selectedItems}
-            setSelectedItems={setSelectedItems}
-            pages={Math.ceil(animais?.totalElements / animais?.size)}
-            handleEdit={handleEdit}
-          />
-        ) : (
-          ""
-        )}
-      </div>
+      <Box sx={styles.table}>
+        <Table
+          columns={columns}
+          data={animals}
+          onPaginate={(value) => getTableData(value - 1, filter)}
+          totalElements={totalElements}
+          size={animals?.length}
+          selectedItems={selectedItems}
+          setSelectedItems={setSelectedItems}
+          pages={Math.ceil(totalElements / 10)}
+          handleEdit={onEdit}
+        />
+      </Box>
 
       <FormAnimal
-        open={openFormAnimal}
-        handleClose={() => {
-          setOpenFormAnimal(false);
-          setUpdateAnimal();
-        }}
+        open={isOpenFormAnimal}
         defaultValues={updateAnimal}
+        onConfirm={() => {
+          setIsOpenFormAnimal(false);
+          setUpdateAnimal({});
+          getTableData();
+        }}
+        onCancel={() => {
+          setIsOpenFormAnimal(false);
+          setUpdateAnimal({});
+        }}
       />
       <AlertModal
-        open={openAlertModal}
-        onDelete={handleDelete}
-        handleClose={() => setOpenAlertModal(false)}
+        open={isOpenDelete}
+        onDelete={onDelete}
+        onConfirm={() => {
+          setIsOpenDelete(false);
+          getTableData();
+        }}
+        onCancel={() => {
+          setIsOpenDelete(false);
+        }}
       />
     </Box>
   );

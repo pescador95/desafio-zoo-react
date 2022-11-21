@@ -1,28 +1,64 @@
+import { Box } from "@mui/material";
 import React from "react";
-import "../../styles/SideBarMenu.css";
-import { SideBarMenuData } from "../SideBarMenuComponents";
 import zooLogo from "../../assets/ZooLogo.png";
-import style from "./SideBarMenu.module.css";
-export const SideBarMenu = function SideBarMenu() {
+import { SideBarMenuData } from "../SideBarMenuComponents";
+
+export const SideBarMenu = () => {
+  const styles = {
+    container: {
+      height: "auto",
+      width: "100%",
+      minHeight: "100vh",
+      backgroundColor: "#244726",
+      display: "flex",
+      flexDirection: "column",
+      paddingTop: "10px",
+      margin: "0px",
+    },
+    list: {
+      display:'flex',
+      flexDirection: 'column',
+      gap: '2rem',
+      padding: '0 1rem'
+    },
+    link: {
+      color: 'white',
+      display: 'flex',
+      alignItems:'center',
+      gap: '0.5rem',
+    },
+    img: {
+      width: '15rem',
+      padding: '0 1rem',
+      marginTop: {
+        xs: "3rem",
+        sm: "3rem",
+        md: "0",
+        lg: "0",
+        xl: "0",
+      }
+    }
+  };
+
   return (
-    <div className={style?.container}>
-      <img className="zoo-logo" src={zooLogo} alt="Logo zoológico" />
-      <ul className="sidebar-list">
+    <Box sx={styles?.container}>
+      <Box sx={styles.img} component="img" src={zooLogo} alt="Logo zoológico" />
+      <Box  sx={styles.list}>
         {SideBarMenuData.map((val, key) => {
           return (
-            <li
+            <Box
+            sx={styles.link}
               key={key}
               onClick={() => {
                 window.location.pathname = val.link;
               }}
-              className="sidebar-list-row"
             >
               <div id="div-icon-row">{val.icon}</div>
               <div id="div-icon-title">{val.titulo}</div>
-            </li>
+            </Box>
           );
         })}
-      </ul>
-    </div>
+      </Box>
+    </Box>
   );
 };

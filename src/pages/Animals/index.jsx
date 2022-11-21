@@ -1,85 +1,257 @@
-import { Alert } from "@mui/material";
-import Snackbar from "@mui/material/Snackbar";
+import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
+import {
+  Box,
+  Button,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AlertModal } from "../../components/AlertModal";
 import { FormAnimal } from "../../components/FormAnimal";
 import { Header } from "../../components/Header";
-import { SideBarMenu } from "../../components/SideBarMenu";
 import { Table } from "../../components/Table";
-import { useAxios } from "../../hooks/useAxios";
-import { useToast } from "../../hooks/useToast";
 import {
   countAnimal,
   deleteAnimals,
   getAnimals,
 } from "../../services/http/animais";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
-import styles from "./Animals.module.css";
-import "./index.css";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 export const Animais = () => {
-  const axios = useAxios();
+  const styles = {
+    container: {
+      padding: "1rem",
+    },
+    formContainer: {
+      background: "#43A047",
+      borderRadius: "1rem",
+      margin: "1rem 0",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "stretch",
+      padding: "1rem",
+      flexDirection: {
+        xs: "column",
+        sm: "column",
+        md: "column",
+        lg: "column",
+        xl: "row",
+      },
+      gap: "1rem",
+    },
+    inputs: {
+      width: {
+        xs: "100%",
+        sm: "100%",
+        md: "100%",
+        lg: "100%",
+        xl: "80%",
+      },
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: "1rem",
+      flexDirection: {
+        xs: "column",
+        sm: "column",
+        md: "column",
+        lg: "column",
+        xl: "row",
+      },
+    },
+    actions: {
+      width: {
+        xs: "100%",
+        sm: "100%",
+        md: "100%",
+        lg: "100%",
+        xl: "20%",
+      },
+      gap: "1rem",
+      display: "flex",
+      flexDirection: {
+        xs: "row",
+        sm: "row",
+        md: "row",
+        lg: "row",
+        xl: "column",
+      },
+      marginTop: "1.5rem",
+      justifyContent: "space-between",
+    },
+    inputsContainer: {
+      width: "100%",
+      display: "flex",
+      flexDirection: "column",
+      gap: "1rem",
+    },
+    inputSeparator: {
+      width: "100%",
+      display: "flex",
+      gap: "1rem",
+      flexDirection: {
+        xs: "column",
+        sm: "row",
+        md: "row",
+        lg: "row",
+        xl: "row",
+      },
+    },
+    label: {
+      color: "white",
+    },
+    input: {
+      background: "#AEFFB2",
+      border: "none",
+      borderRadius: "0.5rem",
+    },
+    inputContainer: {
+      width: "100%",
+      display: "flex",
+      flexDirection: "column",
+    },
+    filterButton: {
+      width: "100%",
+      maxWidth: "100%",
+      height: "2.5rem",
+      background: "#FB8C00",
+      transition: "0.2s",
+      "&:hover": {
+        background: "#FB8C00",
+        filter: "brightness(0.8)",
+      },
+      display: "flex",
+      gap: "0.5rem",
+    },
+    table: {
+      width: "100%",
+    },
+    icon: {
+      display: {
+        xs: "none",
+        sm: "block",
+        md: "block",
+        lg: "block",
+        xl: "block",
+      },
+    },
+    actionsTable: {
+      width: "100%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      margin: "1rem 0",
+      gap: "0.5rem",
+    },
+    addRegister: {
+      color: "#fff",
+      width: "100%",
+      maxWidth: "12rem",
+      height: "2.5rem",
+      background: "#FB8C00",
+      transition: "0.2s",
+      "&:hover": {
+        background: "#FB8C00",
+        filter: "brightness(0.8)",
+      },
+      display: "flex",
+      gap: "0.5rem",
+    },
+    excludeRegister: {
+      color: "#fff",
+      width: "100%",
+      maxWidth: "12rem",
+      height: "2.5rem",
+      background: "#ff7878",
+      transition: "0.2s",
+      "&:hover": {
+        background: "#ff7878",
+        filter: "brightness(0.8)",
+      },
+      "&:disabled": {
+        background: "#ffb1b1",
+        color: "#fff",
+        filter: "brightness(1)",
+        cursor: "not-allowed",
+      },
+      display: "flex",
+      gap: "0.5rem",
+    },
+  };
 
+  const [filter, setFilter] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
   const [updateAnimal, setUpdateAnimal] = useState({});
-  const [openFormAnimal, setOpenFormAnimal] = useState(false);
-  const [openAlertModal, setOpenAlertModal] = useState(false);
-  const [animais, setAnimais] = useState({
-    data: [],
-    totalElements: 0,
-    size: 0,
-  });
-  const { openToast } = useToast();
 
-  useEffect(() => {
-    getData();
-    getTotalElements();
-  }, []);
+  const [isOpenFormAnimal, setIsOpenFormAnimal] = useState(false);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
 
-  const getData = async (page = 0, strgFilter = "") => {
-    const data = await getAnimals(page, strgFilter);
-    setAnimais((prev) => ({ ...prev, data, size: data?.length }));
+  const { register, handleSubmit, reset } = useForm({});
+
+  const { mutate: getAnimalsMutate, data: animals } = useMutation(
+    ({ page = 0, strgFilter = "" }) => getAnimals(page, strgFilter),
+    {
+      onError: (error) => {
+        toast.error(error?.response?.data?.messages?.join(", "));
+      },
+    }
+  );
+
+  const { mutate: getTotalElementsMutate, data: totalElements } = useMutation(
+    ({ strgFilter = "" }) => countAnimal(strgFilter),
+    {
+      onError: (error) => {
+        toast.error(error?.response?.data?.messages?.join(", "));
+      },
+    }
+  );
+
+  const { mutate: deleteAnimalsMutate } = useMutation(
+    () => deleteAnimals(selectedItems),
+    {
+      onSuccess: () => {
+        toast.success("Animais excluídos com sucesso!");
+        getTableData();
+        setSelectedItems([]);
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.messages?.join(", "));
+      },
+    }
+  );
+
+  const getTableData = (page = 0, strgFilter = "") => {
+    getAnimalsMutate({ page, strgFilter });
+    getTotalElementsMutate({ strgFilter });
   };
 
-  const getTotalElements = async (stringFilter = "") => {
-    const response = await countAnimal(stringFilter);
-    setAnimais((prev) => ({ ...prev, totalElements: response }));
-  };
+  useEffect(() => getTableData(), []);
 
   const columns = useMemo(
     () =>
-      animais?.data?.length
-        ? Object.keys(animais?.data[0])?.map((key) => ({
+      animals
+        ? Object.keys(animals[0])?.map((key) => ({
             key,
             label: key,
           }))
         : [],
-    [animais]
+    [animals]
   );
 
-  const handleDelete = async () => {
-    const response = await deleteAnimals(selectedItems);
-    if (response?.status !== 500) {
-      openToast(response.message, "success");
-    } else {
-      openToast(response, "error");
-    }
-    await getData();
-    await getTotalElements();
+  const onDelete = async () => {
+    deleteAnimalsMutate();
   };
 
-  const handleEdit = (item) => {
+  const onEdit = (item) => {
     setUpdateAnimal(item);
-    setOpenFormAnimal(true);
+    setIsOpenFormAnimal(true);
   };
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({});
 
   const onSubmit = async (values) => {
     const filters = {};
@@ -102,156 +274,212 @@ export const Animais = () => {
 
     delete filters.selectedItems;
 
-    const parsedFilters = makeMultiFilterParams({
-      ...filters,
-    });
-    getData(0, parsedFilters);
-    getTotalElements(parsedFilters);
+    const parsedFilters = makeMultiFilterParams(filters);
+
+    setFilter(parsedFilters);
+    getTableData(0, parsedFilters);
   };
 
   return (
-    <div className={styles.container}>
-      <SideBarMenu />
-      <div className={styles.content}>
-        <Header title="Animais" />
-        <div className="div-form">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div class="col-md-10">
-              <div class="form-row">
-                <div class="form-group col-md-3">
-                  <label for="identificacao">Microchip ou Anilha</label>
-                  <input
-                    {...register("identificacao")}
-                    type="text"
-                    class="form-control"
-                    id="identificacao"
-                  />
-                </div>
-                <div class="form-group col-md-3">
-                  <label for="origem">Origem</label>
-                  <input
-                    {...register("origem")}
-                    type="text"
-                    class="form-control"
-                    id="origem"
-                  />
-                </div>
-                <div class="form-group col-md-3">
-                  <label for="data-admissao">Data Entrada</label>
-                  <input
-                    {...register("dataEntrada")}
-                    type="date"
-                    class="form-control"
-                    id="dataEntrada"
-                  />
-                </div>
-                <div class="form-group col-md-3">
-                  <label for="sexo">Sexo</label>
-                  <select id="sexo" class="form-control" {...register("sexo")}>
-                    <option selected value="todos">
-                      Todos
-                    </option>
-                    <option value="Macho">Macho</option>
-                    <option value="Fêmea">Fêmea</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="nome-cientifico">Nome Científico</label>
-                  <input
-                    {...register("nomeCientifico")}
-                    type="text"
-                    class="form-control"
-                    id="nomecientifico"
-                  />
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="nome-apelido">Nome Comum</label>
-                  <input
-                    {...register("nomeComum")}
-                    type="text"
-                    class="form-control"
-                    id="nomeComum"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="col-md-2 div-buttons">
-              <button
-                onClick={() =>
-                  reset({
-                    nomeComum: "",
-                    identificacao: "",
-                    dataEntrada: "",
-                    nomeCientifico: "",
-                    sexo: "",
-                    origem: "",
-                    selectedItems: setSelectedItems([]),
-                  })
-                }
-                class="btn btn-primary"
+    <Box sx={styles.container}>
+      <Header title="Animais" />
+      <Box
+        component="form"
+        sx={styles.formContainer}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Box sx={styles.inputs}>
+          <Box sx={styles.inputsContainer}>
+            <Box sx={styles.inputSeparator}>
+              <Box sx={styles.inputContainer}>
+                <Typography
+                  component="label"
+                  sx={styles.label}
+                  htmlFor="identificacao"
+                >
+                  Microchip ou Anilha
+                </Typography>
+                <TextField
+                  size="small"
+                  sx={styles.input}
+                  {...register("identificacao")}
+                  id="identificacao"
+                  type="text"
+                />
+              </Box>
+
+              <Box sx={styles.inputContainer}>
+                <Typography
+                  sx={styles.label}
+                  component="label"
+                  htmlFor="origem"
+                >
+                  Origem
+                </Typography>
+                <TextField
+                  size="small"
+                  sx={styles.input}
+                  {...register("origem")}
+                  type="text"
+                  id="origem"
+                />
+              </Box>
+            </Box>
+
+            <Box sx={styles.inputContainer}>
+              <Typography
+                component="label"
+                htmlFor="nome-cientifico"
+                sx={styles.label}
               >
-                <i class="bi bi-x"></i>LIMPAR
-              </button>
-              <button type="submit" class="btn btn-primary">
-                <i class="bi bi-search"></i>BUSCAR
-              </button>
-            </div>
-          </form>
-        </div>
-        <div className={styles.table}>
-          <div>
-            {animais?.data?.length ? (
-              <Table
-                columns={columns}
-                data={animais?.data}
-                onPaginate={(value) => getData(value - 1)}
-                totalElements={animais?.totalElements}
-                size={animais?.size}
-                selectedItems={selectedItems}
-                setSelectedItems={setSelectedItems}
-                pages={Math.ceil(animais?.totalElements / animais?.size)}
-                handleEdit={handleEdit}
+                Nome Científico
+              </Typography>
+              <TextField
+                size="small"
+                sx={styles.input}
+                {...register("nomeCientifico")}
+                type="text"
+                id="nome-cientifico"
               />
-            ) : (
-              ""
-            )}
-          </div>
+            </Box>
+          </Box>
+          <Box sx={styles.inputsContainer}>
+            <Box sx={styles.inputSeparator}>
+              <Box sx={styles.inputContainer}>
+                <Typography
+                  component="label"
+                  sx={styles.label}
+                  htmlFor="data-admissao"
+                >
+                  Data Entrada
+                </Typography>
+                <TextField
+                  size="small"
+                  sx={styles.input}
+                  {...register("dataEntrada")}
+                  type="date"
+                  id="data-admissao"
+                />
+              </Box>
 
-          <div className={styles.actions}>
-            <button
-              className={styles.exclude}
-              onClick={() => setOpenAlertModal(true)}
-              disabled={!selectedItems?.length}
-            >
-              Excluir {selectedItems?.length || ""} registros
-            </button>
+              <Box sx={styles.inputContainer}>
+                <Typography component="label" htmlFor="sexo" sx={styles.label}>
+                  Sexo
+                </Typography>
+                <Select
+                  size="small"
+                  sx={styles.input}
+                  {...register("sexo")}
+                  type="text"
+                  id="sexo"
+                >
+                  <MenuItem value="todos">Todos</MenuItem>
+                  <MenuItem value="Macho">Macho</MenuItem>
+                  <MenuItem value="Fêmea">Fêmea</MenuItem>
+                </Select>
+              </Box>
+            </Box>
 
-            <button
-              className={styles.add}
-              onClick={() => setOpenFormAnimal(true)}
-            >
-              <span>+</span> CADASTRAR
-            </button>
-          </div>
-        </div>
+            <Box sx={styles.inputContainer}>
+              <Typography
+                component="label"
+                htmlFor="nome-apelido"
+                sx={styles.label}
+              >
+                Nome Comum
+              </Typography>
+              <TextField
+                size="small"
+                sx={styles.input}
+                {...register("nomeComum")}
+                type="text"
+                id="nome-apelido"
+              />
+            </Box>
+          </Box>
+        </Box>
 
-        <FormAnimal
-          open={openFormAnimal}
-          handleClose={() => {
-            setOpenFormAnimal(false);
-            setUpdateAnimal();
-          }}
-          defaultValues={updateAnimal}
+        <Box sx={styles.actions}>
+          <Button
+            variant="contained"
+            onClick={() =>
+              reset({
+                nomeComum: "",
+                identificacao: "",
+                dataEntrada: "",
+                nomeCientifico: "",
+                sexo: "",
+                origem: "",
+                selectedItems: setSelectedItems([]),
+              })
+            }
+            sx={styles.filterButton}
+          >
+            <ClearIcon sx={styles.icon} /> LIMPAR
+          </Button>
+          <Button variant="contained" type="submit" sx={styles.filterButton}>
+            <SearchIcon sx={styles.icon} />
+            BUSCAR
+          </Button>
+        </Box>
+      </Box>
+
+      <Box sx={styles.actionsTable}>
+        <Button
+          sx={styles.excludeRegister}
+          onClick={() => setIsOpenDelete(true)}
+          disabled={!selectedItems?.length}
+        >
+          Excluir {selectedItems?.length || ""} registros
+        </Button>
+
+        <Button
+          sx={styles.addRegister}
+          onClick={() => setIsOpenFormAnimal(true)}
+        >
+          <span>+</span> CADASTRAR
+        </Button>
+      </Box>
+
+      <Box sx={styles.table}>
+        <Table
+          columns={columns}
+          data={animals}
+          onPaginate={(value) => getTableData(value - 1, filter)}
+          totalElements={totalElements}
+          size={animals?.length}
+          selectedItems={selectedItems}
+          setSelectedItems={setSelectedItems}
+          pages={Math.ceil(totalElements / 10)}
+          handleEdit={onEdit}
         />
-        <AlertModal
-          open={openAlertModal}
-          onDelete={handleDelete}
-          handleClose={() => setOpenAlertModal(false)}
-        />
-      </div>
-    </div>
+      </Box>
+
+      <FormAnimal
+        open={isOpenFormAnimal}
+        defaultValues={updateAnimal}
+        onConfirm={() => {
+          setIsOpenFormAnimal(false);
+          setUpdateAnimal({});
+          getTableData();
+        }}
+        onCancel={() => {
+          setIsOpenFormAnimal(false);
+          setUpdateAnimal({});
+        }}
+      />
+      <AlertModal
+        open={isOpenDelete}
+        onDelete={onDelete}
+        onConfirm={() => {
+          setIsOpenDelete(false);
+          getTableData();
+        }}
+        onCancel={() => {
+          setIsOpenDelete(false);
+        }}
+      />
+    </Box>
   );
 };
 

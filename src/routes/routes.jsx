@@ -7,6 +7,7 @@ import { Usuarios } from "../pages/Users";
 import { ForgotPassword } from "../pages/RecoverPassword";
 import { Arquivos } from "../pages/Archives";
 import { Profile } from "../pages/Profile";
+import { DefaultLayout } from "../components/DefaultLayout";
 
 
 export const ROUTES = {
@@ -54,7 +55,7 @@ const AuthRoute = ({ children }) => {
   if (!session?.accessToken || !session?.refreshToken) {
     return <Navigate to={ROUTES.login} replace />;
   }
-  return children;
+  return <DefaultLayout>{children}</DefaultLayout>;
 };
 
 const NoAuthRoute = ({ children }) => {

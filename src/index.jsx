@@ -1,15 +1,20 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { SessionProvider } from "./hooks/useSession";
-import { ToastProvider } from "./hooks/useToast";
 import { CustomRoutes } from "./routes/routes";
 import "./styles/global.css";
+
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <SessionProvider>
-    <ToastProvider>
+    <QueryClientProvider client={queryClient}>
       <CustomRoutes />
-    </ToastProvider>
+      <ToastContainer />
+    </QueryClientProvider>
   </SessionProvider>
 );

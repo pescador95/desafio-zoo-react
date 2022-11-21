@@ -4,6 +4,11 @@ export const LIFETIME = {
   IDOSO: "Idoso",
 };
 
+export const GENDER = {
+  MACHO: "Macho",
+  FEMEA: "Fêmea",
+};
+
 export const DATAS = [
   "dataEntrada",
   "dataEnriquecimento",

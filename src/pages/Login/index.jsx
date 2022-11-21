@@ -2,13 +2,11 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Box,
-  Button,
-  Container,
-  FormControl,
+  Button, FormControl,
   IconButton,
   Input,
   InputLabel,
-  Typography,
+  Typography
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as React from "react";
@@ -71,10 +69,28 @@ export const Login = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <form onSubmit={onSubmit}>
-        <Container maxWidth="xs">
+      <Box
+        component="form"
+        sx={{
+          width: "100vw",
+          height: "100%",
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          transform: 'translateY(-5rem)'
+        }}
+        onSubmit={onSubmit}
+      >
+        <Box sx={{ minWidth: "25rem" }}>
           <Box textAlign={"center"}>
-            <img src={logo} width="50%" />
+            <Box
+              component="img"
+              sx={{ width: "15rem" }}
+              src={logo}
+              width="50%"
+            />
           </Box>
           <Box
             primary
@@ -176,8 +192,8 @@ export const Login = () => {
               </Button>
             </Box>
           </Box>
-        </Container>
-      </form>
+        </Box>
+      </Box>
     </ThemeProvider>
   );
 };

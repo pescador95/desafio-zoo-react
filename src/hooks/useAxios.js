@@ -53,6 +53,7 @@ const createAxiosInstance = () => {
           window.location.reload(true);
         } catch (error) {}
       }
+      return Promise.reject(error);
     }
   );
 

@@ -6,18 +6,74 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { createUser, updateUser } from "../../services/http/users";
 import { ROLES } from "../../utils/constants";
-import styles from "./FormUsuario.module.css";
+import { InputMultiselect } from "../Inputs/InputSelect";
+import { Button, Typography } from "@mui/material";
+import { InputText } from "../Inputs/InputText";
+import { toast } from "react-toastify";
+import { useMutation } from "@tanstack/react-query";
 
-export const FormUsuario = ({ open, handleClose, defaultValues }) => {
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
+export const FormUsuario = ({ open, defaultValues, onConfirm, onCancel }) => {
+  const styles = {
+    modal: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      bgcolor: "background.paper",
+      border: "2px solid #000",
+      boxShadow: 24,
+      p: 4,
+      display: "flex",
+      flexDirection: "column",
+      gap: "0.5rem",
+    },
+    title: {
+      fontSize: "1.5rem",
+    },
+    line: {
+      display: "flex",
+      gap: "0.5rem",
+    },
+    inputContainer: {
+      display: "flex",
+      flexDirection: "column",
+    },
+    input: {
+      background: "#AEFFB2",
+    },
+    actions: {
+      marginTop: "1rem",
+      display: "flex",
+      gap: "0.5rem",
+    },
+    cancel: {
+      color: "#000",
+      width: "100%",
+      maxWidth: "100%",
+      height: "2.5rem",
+      background: "#ccc",
+      transition: "0.2s",
+      "&:hover": {
+        background: "#ccc",
+        filter: "brightness(0.8)",
+      },
+      display: "flex",
+      gap: "0.5rem",
+    },
+    save: {
+      color: "#fff",
+      width: "100%",
+      maxWidth: "100%",
+      height: "2.5rem",
+      background: "#FB8C00",
+      transition: "0.2s",
+      "&:hover": {
+        background: "#FB8C00",
+        filter: "brightness(0.8)",
+      },
+      display: "flex",
+      gap: "0.5rem",
+    },
   };
 
   const schema = yup.object().shape({
@@ -28,9 +84,9 @@ export const FormUsuario = ({ open, handleClose, defaultValues }) => {
   });
 
   const {
-    register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -44,113 +100,100 @@ export const FormUsuario = ({ open, handleClose, defaultValues }) => {
       : reset();
   }, [defaultValues]);
 
-  const onSubmit = async (values) => {
-    // const usuario = {
-    //   ...values,
-    // };
-    // console.log(usuario);
-    // if (!values.id) {
-    //   const response = await createUser(usuario);
-    //   console.log(response);
-    //   if (response?.status !== 500) {
-    //     openToast(response.message, "success");
-    //   } else {
-    //     openToast(response, "error");
-    //   }
-    // } else {
-    //   const response = await updateUser(usuario);
-    //   console.log(response);
-    //   if (response?.status !== 500) {
-    //     openToast(response.message, "success");
-    //   } else {
-    //     openToast(response, "error");
-    //   }
-    // }
-    // handleClose();
-  };
+  const { mutate: createUserMutate } = useMutation(
+    ["createUsuario"],
+    (usuario) => createUser(usuario),
+    {
+      onSuccess: (data) => {
+        toast.success("Usuario cadastrado com sucesso!");
+        onConfirm();
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.messages?.join(", "));
+      },
+    }
+  );
 
-  const onClose = () => {
-    reset({});
-    handleClose();
+  const { mutate: updateUserMutate } = useMutation(
+    (usuario) => updateUser(usuario),
+    {
+      onSuccess: () => {
+        toast.success("Usuario editado com sucesso!");
+        onConfirm();
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.messages?.join(", "));
+      },
+    }
+  );
+
+  const onSubmit = async (receivedValues) => {
+    const values = {
+      ...receivedValues,
+    };
+    if (receivedValues.id) return updateUserMutate(values);
+    return createUserMutate(values);
   };
 
   return (
     <Modal
       open={open}
-      onClose={onClose}
+      onClose={onCancel}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box className={style} sx={style}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <h3 className={styles?.title}>
-            {defaultValues?.id ? "Editar usuário" : "Cadastrar usuário"}
-          </h3>
-          <div className={styles?.container}>
-            <div style={{ width: "100%" }}>
-              <div className={styles?.inputContainer}>
-                <label htmlFor="email">Email</label>
-                <input {...register("email")} />
-                {errors?.email && (
-                  <span className={styles.inputError}>
-                    {errors?.email?.message}
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
-          <div className={styles?.container}>
-            <div style={{ width: "100%", display: "flex", gap: "0.8rem" }}>
-              <div className={styles?.inputContainer}>
-                <label htmlFor="nome">Nome</label>
-                <input {...register("nome")} />
-                {errors?.nome && (
-                  <span className={styles.inputError}>
-                    {errors?.nome?.message}
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
+      <Box sx={styles.modal} component="form" onSubmit={handleSubmit(onSubmit)}>
+        <Typography sx={styles.title}>
+          {defaultValues?.id ? "Editar Usuário" : "Cadastrar Usuário"}
+        </Typography>
 
-          <div className={styles?.container}>
-            <div className={styles?.inputContainer}>
-              <label htmlFor="roleUsuario">Cargo</label>
-              <select {...register("roleUsuario")}>
-                {Object.keys(ROLES).map((key) => (
-                  <option key={ROLES[key]} value={ROLES[key]}>
-                    {ROLES[key]}
-                  </option>
-                ))}
-              </select>
-              {errors?.roleUsuario && (
-                <span className={styles.inputError}>
-                  {errors?.roleUsuario?.message}
-                </span>
-              )}
-            </div>
-          </div>
-          <div className={styles?.container}>
-            <div className={styles?.inputContainer}>
-              <label htmlFor="password">Senha</label>
-              <input {...register("password")} type="password" />
-              {errors?.password && (
-                <span className={styles.inputError}>
-                  {errors?.password?.message}
-                </span>
-              )}
-            </div>
-          </div>
+        <Box sx={styles.line}>
+          <InputText
+            control={control}
+            name="email"
+            label="Email"
+            error={errors?.email}
+          />
 
-          <div className={styles.buttons}>
-            <button className={styles.cancel} onClick={onClose}>
-              Cancelar{" "}
-            </button>
-            <button className={styles.save} type="submit">
-              Salvar{" "}
-            </button>
-          </div>
-        </form>
+          <InputText
+            type="password"
+            control={control}
+            name="password"
+            label="Senha"
+            error={errors?.password}
+          />
+        </Box>
+
+        <Box sx={styles.line}>
+          <InputText
+            control={control}
+            name="nome"
+            label="Nome"
+            error={errors?.nome}
+          />
+        </Box>
+
+        <Box sx={styles.line}>
+          <InputMultiselect
+            control={control}
+            name="roles"
+            label="Perfil de Acesso"
+            error={errors?.roles}
+            options={Object.keys(ROLES)?.map((key) => ({
+              label: ROLES[key].valueOf(),
+              value: ROLES[key],
+            }))}
+          />
+        </Box>
+
+        <Box sx={styles.actions}>
+          <Button sx={styles.cancel} onClick={onCancel}>
+            Cancelar
+          </Button>
+          <Button sx={styles.save} type="submit">
+            Salvar
+          </Button>
+        </Box>
       </Box>
     </Modal>
   );

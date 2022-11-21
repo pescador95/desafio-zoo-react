@@ -69,4 +69,13 @@ export const ENDPOINTS = {
     refresh: "/auth/refresh",
   },
   recoverPassword: "/recoverPassword/",
+  uploads: {
+    add: "/uploads/",
+    getById: "/uploads/{id}",
+    list: "/uploads/",
+    delete: "/uploads/{id}",
+  },
+  downloads: {
+    get: "/downloads/{id}",
+  },
 };

@@ -211,7 +211,7 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
             label="Tempo de vida"
             error={errors?.idade}
             options={Object.keys(LIFETIME)?.map((key) => ({
-              label: key,
+              label: LIFETIME[key].valueOf(),
               value: LIFETIME[key],
             }))}
           />
@@ -222,7 +222,7 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
             label="Sexo"
             error={errors?.idade}
             options={Object.keys(GENDER)?.map((key) => ({
-              label: key,
+              label: GENDER[key].valueOf(),
               value: GENDER[key],
             }))}
           />

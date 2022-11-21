@@ -3,12 +3,11 @@ import { BrowserRouter, Link, Navigate, Route, Routes } from "react-router-dom";
 import { useSession } from "../hooks/useSession";
 import { Animais } from "../pages/Animals";
 import { Login } from "../pages/Login/";
-import { Usuarios } from "../pages/Users";
+import { Users } from "../pages/Users";
 import { ForgotPassword } from "../pages/RecoverPassword";
 import { Arquivos } from "../pages/Archives";
 import { Profile } from "../pages/Profile";
 import { DefaultLayout } from "../components/DefaultLayout";
-
 
 export const ROUTES = {
   login: "/login",
@@ -16,7 +15,7 @@ export const ROUTES = {
   arquivos: "/arquivos",
   esqueciSenha: "/esqueciSenha",
   usuarios: "/usuarios",
-  profile: "/profile"
+  profile: "/profile",
 };
 
 const noProtectedRoute = [
@@ -41,13 +40,12 @@ const protectedRoute = [
   },
   {
     path: ROUTES.usuarios,
-    element: <Usuarios />,
+    element: <Users />,
   },
   {
     path: ROUTES.profile,
-    element: <Profile />
-  }
-  
+    element: <Profile />,
+  },
 ];
 
 const AuthRoute = ({ children }) => {

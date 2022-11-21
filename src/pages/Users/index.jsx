@@ -2,23 +2,18 @@ import { Box, Button } from "@mui/material";
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AlertModal } from "../../components/AlertModal";
-import { FormUsuario } from "../../components/FormUsuario";
+import { FormUser } from "../../components/FormUser";
 import { Header } from "../../components/Header";
 import { Table } from "../../components/Table";
-import { useAxios } from "../../hooks/useAxios";
-import {
-  countUser,
-  deleteUsers,
-  getMyProfile,
-  getUsers,
-} from "../../services/http/users";
+import { countUser, deleteUsers, getUsers } from "../../services/http/users";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
-
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import { TextField, Typography } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
-export const Usuarios = () => {
+export const Users = () => {
   const style = {
     container: {
       padding: "1rem",
@@ -180,67 +175,72 @@ export const Usuarios = () => {
     },
   };
 
-  const axios = useAxios();
-
+  const [filter, setFilter] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
-  const [updateUsuario, setUpdateUsuario] = useState({});
-  const [openFormUsuario, setOpenFormUsuario] = useState(false);
-  const [openAlertModal, setOpenAlertModal] = useState(false);
-  const [usuarios, setUsuarios] = useState({
-    data: [],
-    totalElements: 0,
-    size: 0,
-  });
+  const [updateUser, setUpdateUser] = useState({});
 
-  useEffect(() => {
-    getData();
-    getTotalElements();
-  }, []);
+  const [isOpenFormUser, setIsOpenFormUser] = useState(false);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
 
-  const getData = async (page = 0, strgFilter = "") => {
-    const data = await getUsers(page, strgFilter);
-    setUsuarios((prev) => ({ ...prev, data, size: data?.length }));
+  const { register, handleSubmit, reset } = useForm({});
+
+  const { mutate: getUsersMutate, data: users } = useMutation(
+    ({ page = 0, strgFilter = "" }) => getUsers(page, strgFilter),
+    {
+      onError: (error) => {
+        toast.error(error?.response?.data?.messages?.join(", "));
+      },
+    }
+  );
+  const { mutate: getTotalElementsMutate, data: totalElements } = useMutation(
+    ({ strgFilter = "" }) => countUser(strgFilter),
+    {
+      onError: (error) => {
+        toast.error(error?.response?.data?.messages?.join(", "));
+      },
+    }
+  );
+
+  const { mutate: deleteUsersMutate } = useMutation(
+    () => deleteUsers(selectedItems),
+    {
+      onSuccess: () => {
+        toast.success("Usuários excluídos com sucesso!");
+        getTableData();
+        setSelectedItems([]);
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.messages?.join(", "));
+      },
+    }
+  );
+
+  const getTableData = (page = 0, strgFilter = "") => {
+    getUsersMutate({ page, strgFilter });
+    getTotalElementsMutate({ strgFilter });
   };
 
-  const getMyUser = async () => {
-    const data = await getMyProfile();
-    setUsuarios((prev) => ({ ...prev, data }));
-  };
-
-  const getTotalElements = async (stringFilter = "") => {
-    const response = await countUser(stringFilter);
-    setUsuarios((prev) => ({ ...prev, totalElements: response }));
-    console.log(setUsuarios((prev) => ({ ...prev, totalElements: response })));
-  };
+  useEffect(() => getTableData(), []);
 
   const columns = useMemo(
     () =>
-      usuarios?.data?.length
-        ? Object.keys(usuarios?.data[0])?.map((key) => ({
+      users
+        ? Object.keys(users[0])?.map((key) => ({
             key,
             label: key,
           }))
         : [],
-    [usuarios]
+    [users]
   );
 
-  const handleDelete = async () => {
-    await deleteUsers(selectedItems);
-    await getData();
-    await getTotalElements();
+  const onDelete = async () => {
+    deleteUsersMutate();
   };
 
-  const handleEdit = (item) => {
-    setUpdateUsuario(item);
-    setOpenFormUsuario(true);
+  const onEdit = (item) => {
+    setUpdateUser(item);
+    setIsOpenFormUser(true);
   };
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({});
 
   const onSubmit = async (values) => {
     const filters = {};
@@ -257,17 +257,10 @@ export const Usuarios = () => {
       }
     });
 
-    filters.sexo === "todos" && delete filters.sexo;
+    const parsedFilters = makeMultiFilterParams(filters);
 
-    filters.dataEntrada === "" && delete filters.dataEntrada;
-
-    delete filters.selectedItems;
-
-    const parsedFilters = makeMultiFilterParams({
-      ...filters,
-    });
-    getData(0, parsedFilters);
-    getTotalElements(parsedFilters);
+    setFilter(parsedFilters);
+    getTableData(0, parsedFilters);
   };
 
   return (
@@ -298,16 +291,16 @@ export const Usuarios = () => {
                 <Typography
                   sx={style.label}
                   component="label"
-                  htmlFor="roleusuario"
+                  htmlFor="roleUser"
                 >
-                  Função
+                  Perfil de Acesso
                 </Typography>
                 <TextField
                   size="small"
                   sx={style.input}
-                  {...register("roleusuario")}
+                  {...register("roleUser")}
                   type="text"
-                  id="roleusuario"
+                  id="roleUser"
                 />
               </Box>
             </Box>
@@ -332,12 +325,10 @@ export const Usuarios = () => {
             variant="contained"
             onClick={() =>
               reset({
-                nomeComum: "",
-                identificacao: "",
-                dataEntrada: "",
-                nomeCientifico: "",
-                sexo: "",
-                origem: "",
+                nome: "",
+                roleUser: "",
+                password: "",
+                email: "",
                 selectedItems: setSelectedItems([]),
               })
             }
@@ -355,49 +346,55 @@ export const Usuarios = () => {
       <Box sx={style.actionsTable}>
         <Button
           sx={style.excludeRegister}
-          onClick={() => setOpenAlertModal(true)}
+          onClick={() => setIsOpenDelete(true)}
           disabled={!selectedItems?.length}
         >
           Excluir {selectedItems?.length || ""} registros
         </Button>
 
-        <Button sx={style.addRegister} onClick={() => setOpenFormUsuario(true)}>
+        <Button sx={style.addRegister} onClick={() => setIsOpenFormUser(true)}>
           <span>+</span> CADASTRAR
         </Button>
       </Box>
 
-      <div className={style.table}>
-        <div>
-          {usuarios?.data?.length ? (
-            <Table
-              columns={columns}
-              data={usuarios?.data}
-              onPaginate={(value) => getData(value - 1)}
-              totalElements={usuarios?.totalElements}
-              size={usuarios?.size}
-              selectedItems={selectedItems}
-              setSelectedItems={setSelectedItems}
-              pages={Math.ceil(usuarios?.totalElements / usuarios?.size)}
-              handleEdit={handleEdit}
-            />
-          ) : (
-            ""
-          )}
-        </div>
-      </div>
+      <Box sx={style.table}>
+        <Table
+          columns={columns}
+          data={users}
+          onPaginate={(value) => getTableData(value - 1, filter)}
+          totalElements={totalElements}
+          size={users?.length}
+          selectedItems={selectedItems}
+          setSelectedItems={setSelectedItems}
+          pages={Math.ceil(totalElements / 10)}
+          handleEdit={onEdit}
+        />
+      </Box>
 
-      <FormUsuario
-        open={openFormUsuario}
-        handleClose={() => {
-          setOpenFormUsuario(false);
-          setUpdateUsuario();
+      <FormUser
+        open={isOpenFormUser}
+        defaultValues={updateUser}
+        onConfirm={() => {
+          setIsOpenFormUser(false);
+          setUpdateUser({});
+          getTableData();
         }}
-        defaultValues={updateUsuario}
+        onCancel={() => {
+          setIsOpenFormUser(false);
+          setUpdateUser({});
+        }}
       />
       <AlertModal
-        open={openAlertModal}
-        onDelete={handleDelete}
-        handleClose={() => setOpenAlertModal(false)}
+        open={isOpenDelete}
+        onDelete={onDelete}
+        onConfirm={() => {
+          deleteUsersMutate(selectedItems);
+          setIsOpenDelete(false);
+          getTableData();
+        }}
+        onCancel={() => {
+          setIsOpenDelete(false);
+        }}
       />
     </Box>
   );
@@ -415,6 +412,6 @@ export const Usuarios = () => {
 //   }
 // ]
 
-//return ({...parsed, nomeUsuario: e?.usuario?.nomeUsuario}); TODO para acessar um atributo do objeto filho
+//return ({...parsed, nomeUser: e?.usuario?.nomeUser}); TODO para acessar um atributo do objeto filho
 
 // key:string

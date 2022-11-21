@@ -12,7 +12,7 @@ import { InputText } from "../Inputs/InputText";
 import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 
-export const FormUsuario = ({ open, defaultValues, onConfirm, onCancel }) => {
+export const FormUser = ({ open, defaultValues, onConfirm, onCancel }) => {
   const styles = {
     modal: {
       position: "absolute",
@@ -101,7 +101,7 @@ export const FormUsuario = ({ open, defaultValues, onConfirm, onCancel }) => {
   }, [defaultValues]);
 
   const { mutate: createUserMutate } = useMutation(
-    ["createUsuario"],
+    ["createUser"],
     (usuario) => createUser(usuario),
     {
       onSuccess: (data) => {

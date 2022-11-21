@@ -472,6 +472,7 @@ export const Animais = () => {
         open={isOpenDelete}
         onDelete={onDelete}
         onConfirm={() => {
+          deleteAnimalsMutate(selectedItems);
           setIsOpenDelete(false);
           getTableData();
         }}

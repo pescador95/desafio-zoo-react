@@ -291,16 +291,16 @@ export const Users = () => {
                 <Typography
                   sx={style.label}
                   component="label"
-                  htmlFor="roleUser"
+                  htmlFor="roleUsuario"
                 >
                   Perfil de Acesso
                 </Typography>
                 <TextField
                   size="small"
                   sx={style.input}
-                  {...register("roleUser")}
+                  {...register("roleUsuario")}
                   type="text"
-                  id="roleUser"
+                  id="roleUsuario"
                 />
               </Box>
             </Box>

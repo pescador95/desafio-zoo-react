@@ -76,7 +76,7 @@ export const ENDPOINTS = {
     list: "/uploads/",
     delete: "/uploads/{id}",
   },
-  downloads: {
-    get: "/uploads/{keyname}",
+  download: {
+    get: process.env.REACT_APP_API_BASE_URL + "/uploads/{keyname}",
   },
 };

@@ -17,7 +17,12 @@ import { InputFile } from "../Inputs/InputFile";
 import { InputMultiselect } from "../Inputs/InputSelect";
 import { InputText } from "../Inputs/InputText";
 
-export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
+export const FormHistoricoClinico = ({
+  open,
+  defaultValues,
+  onConfirm,
+  onCancel,
+}) => {
   const styles = {
     modal: {
       position: "absolute",

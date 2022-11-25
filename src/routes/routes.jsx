@@ -8,6 +8,7 @@ import { ForgotPassword } from "../pages/RecoverPassword";
 import { Arquivos } from "../pages/Archives";
 import { Profile } from "../pages/Profile";
 import { DefaultLayout } from "../components/DefaultLayout";
+import { EnriquecimentoAmbiental } from "../pages/EnriquecimentoAmbiental";
 
 export const ROUTES = {
   login: "/login",
@@ -16,6 +17,7 @@ export const ROUTES = {
   esqueciSenha: "/esqueciSenha",
   usuarios: "/usuarios",
   profile: "/profile",
+  enriquecimentoAmbiental: "/enriquecimentoAmbiental",
 };
 
 const noProtectedRoute = [
@@ -45,6 +47,10 @@ const protectedRoute = [
   {
     path: ROUTES.profile,
     element: <Profile />,
+  },
+  {
+    path: ROUTES.enriquecimentoAmbiental,
+    element: <EnriquecimentoAmbiental />,
   },
 ];
 

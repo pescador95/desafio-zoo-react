@@ -69,8 +69,8 @@ export const reactiveListUsers = async (users) => {
   return;
 };
 
-export const getMyProfile = async (user) => {
+export const getMyProfile = async () => {
   const axios = getAxios();
-  const { data } = await axios.post(ENDPOINTS.user.getMyProfile);
+  const { data } = await axios.get(ENDPOINTS.user.getMyProfile);
   return data;
 };

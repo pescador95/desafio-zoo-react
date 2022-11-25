@@ -39,9 +39,6 @@ export const getAnimals = async (page, strgFilter) => {
 
   const parsed = data?.map((e) => {
     const parsed = e;
-    // delete parsed?.id;
-    delete parsed?.usuario;
-    delete parsed?.usuarioAcao;
     delete parsed?.isAtivo;
     delete parsed?.systemDateDeleted;
     delete parsed?.dataAcao;

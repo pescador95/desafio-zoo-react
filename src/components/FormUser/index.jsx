@@ -104,8 +104,8 @@ export const FormUser = ({ open, defaultValues, onConfirm, onCancel }) => {
     ["createUser"],
     (usuario) => createUser(usuario),
     {
-      onSuccess: (data) => {
-        toast.success("Usuario cadastrado com sucesso!");
+      onSuccess: (success) => {
+        toast.success(success?.data?.messages?.join(", "));
         onConfirm();
       },
       onError: (error) => {
@@ -117,8 +117,8 @@ export const FormUser = ({ open, defaultValues, onConfirm, onCancel }) => {
   const { mutate: updateUserMutate } = useMutation(
     (usuario) => updateUser(usuario),
     {
-      onSuccess: () => {
-        toast.success("Usuario editado com sucesso!");
+      onSuccess: (success) => {
+        toast.success(success?.data?.messages?.join(", "));
         onConfirm();
       },
       onError: (error) => {
@@ -176,12 +176,12 @@ export const FormUser = ({ open, defaultValues, onConfirm, onCancel }) => {
         <Box sx={styles.line}>
           <InputMultiselect
             control={control}
-            name="roles"
+            name="roleUsuario"
             label="Perfil de Acesso"
-            error={errors?.roles}
+            error={errors?.roleUsuario}
             options={Object.keys(ROLES)?.map((key) => ({
               label: ROLES[key].valueOf(),
-              value: ROLES[key],
+              value: key,
             }))}
           />
         </Box>

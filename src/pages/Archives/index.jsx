@@ -1,15 +1,15 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AlertModal } from "../../components/AlertModal";
-import { FormAnimal } from "../../components/FormAnimal";
+import { FormUpload } from "../../components/FormUpload";
 import { Header } from "../../components/Header";
 import { Table } from "../../components/Table";
 import { useAxios } from "../../hooks/useAxios";
 import {
-  countAnimal,
-  deleteAnimals,
-  getAnimals,
-} from "../../services/http/animais";
+  countUpload,
+  deleteUploads,
+  getUploads,
+} from "../../services/http/uploads";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
 
 import ClearIcon from "@mui/icons-material/Clear";
@@ -203,19 +203,19 @@ export const Arquivos = () => {
   }, []);
 
   const getData = async (page = 0, strgFilter = "") => {
-    const data = await getAnimals(page, strgFilter);
+    const data = await getUploads(page, strgFilter);
     setArquivos((prev) => ({ ...prev, data, size: data?.length }));
   };
 
   const getTotalElements = async (stringFilter = "") => {
-    const response = await countAnimal(stringFilter);
+    const response = await countUpload(stringFilter);
     setArquivos((prev) => ({ ...prev, totalElements: response }));
   };
 
   const columns = useMemo(
     () =>
       arquivos?.data?.length
-        ? Object.keys(arquivos?.data[0])?.map((key) => ({
+        ? Object.keys(arquivos?.data[0] || {})?.map((key) => ({
             key,
             label: key,
           }))
@@ -224,7 +224,7 @@ export const Arquivos = () => {
   );
 
   const handleDelete = async () => {
-    await deleteAnimals(selectedItems);
+    await deleteUploads(selectedItems);
     await getData();
     await getTotalElements();
   };
@@ -244,10 +244,10 @@ export const Arquivos = () => {
   const onSubmit = async (values) => {
     const filters = {};
     Object.keys(values).forEach((key) => {
-      if (key === "animal") {
+      if (key === "upload") {
         return Object.assign(filters, {
-          animal:
-            values.animal && values.animal?.split("-")?.reverse()?.join("-"),
+          upload:
+            values.upload && values.upload?.split("-")?.reverse()?.join("-"),
         });
       }
       if (values[key] || values[key] !== "") {
@@ -257,7 +257,7 @@ export const Arquivos = () => {
 
     filters.tipo === "todos" && delete filters.tipo;
 
-    filters.animal === "" && delete filters.animal;
+    filters.upload === "" && delete filters.upload;
 
     delete filters.selectedItems;
 
@@ -269,7 +269,7 @@ export const Arquivos = () => {
   };
 
   return (
-    <Box  sx={style.container}>
+    <Box sx={style.container}>
       <Header title="Arquivos" />
       <Box
         component="form"
@@ -319,7 +319,7 @@ export const Arquivos = () => {
                   type="text"
                   id="tipo"
                 >
-                  <MenuItem value="animais">Animais</MenuItem>
+                  <MenuItem value="uploads">Uploads</MenuItem>
                   <MenuItem value="enriquecimento-ambiental">
                     Enriquecimento ambiental
                   </MenuItem>
@@ -332,7 +332,7 @@ export const Arquivos = () => {
               </Box>
               <Box sx={style.inputContainer}>
                 <Typography component="label" htmlFor="tipo" sx={style.label}>
-                  Animal
+                  Upload
                 </Typography>
                 <Select
                   size="small"
@@ -341,7 +341,7 @@ export const Arquivos = () => {
                   type="text"
                   id="tipo"
                 >
-                  <MenuItem value="animais">Animais</MenuItem>
+                  <MenuItem value="uploads">Uploads</MenuItem>
                   <MenuItem value="enriquecimento-ambiental">
                     Enriquecimento ambiental
                   </MenuItem>
@@ -415,7 +415,7 @@ export const Arquivos = () => {
         </div>
       </div>
 
-      <FormAnimal
+      <FormUpload
         open={openFormArquivo}
         handleClose={() => {
           setOpenFormArquivo(false);

@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, MenuItem, Select } from "@mui/material";
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AlertModal } from "../../components/AlertModal";
@@ -12,6 +12,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import { TextField, Typography } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { InputMultiselect } from "../../components/Inputs/InputSelect";
+import { ROLES } from "../../utils/constants";
 
 export const Users = () => {
   const style = {
@@ -204,8 +206,8 @@ export const Users = () => {
   const { mutate: deleteUsersMutate } = useMutation(
     () => deleteUsers(selectedItems),
     {
-      onSuccess: () => {
-        toast.success("Usuários excluídos com sucesso!");
+      onSuccess: (success) => {
+        toast.success(success?.data?.messages?.join(", "));
         getTableData();
         setSelectedItems([]);
       },
@@ -225,7 +227,7 @@ export const Users = () => {
   const columns = useMemo(
     () =>
       users
-        ? Object.keys(users[0])?.map((key) => ({
+        ? Object.keys(users[0] || {})?.map((key) => ({
             key,
             label: key,
           }))
@@ -245,17 +247,16 @@ export const Users = () => {
   const onSubmit = async (values) => {
     const filters = {};
     Object.keys(values).forEach((key) => {
-      if (key === "dataEntrada") {
-        return Object.assign(filters, {
-          dataEntrada:
-            values.dataEntrada &&
-            values.dataEntrada?.split("-")?.reverse()?.join("-"),
-        });
-      }
       if (values[key] || values[key] !== "") {
         Object.assign(filters, { [key]: values[key] });
       }
     });
+
+    filters.roleUsuario === "todos" && delete filters.roleUsuario;
+
+    delete filters.selectedItems;
+
+    console.log(filters);
 
     const parsedFilters = makeMultiFilterParams(filters);
 
@@ -295,13 +296,20 @@ export const Users = () => {
                 >
                   Perfil de Acesso
                 </Typography>
-                <TextField
+                <Select
                   size="small"
                   sx={style.input}
                   {...register("roleUsuario")}
                   type="text"
                   id="roleUsuario"
-                />
+                >
+                  <MenuItem value="todos">Todos</MenuItem>
+                  <MenuItem value="admin">Administrador</MenuItem>
+                  <MenuItem value="dev">Desenvolvedor</MenuItem>
+                  <MenuItem value="veterinario">Veterinário</MenuItem>
+                  <MenuItem value="biologo">Biólogo</MenuItem>
+                  <MenuItem value="tratador">Tratador</MenuItem>
+                </Select>
               </Box>
             </Box>
 
@@ -326,7 +334,7 @@ export const Users = () => {
             onClick={() =>
               reset({
                 nome: "",
-                roleUser: "",
+                roleUsuario: "",
                 password: "",
                 email: "",
                 selectedItems: setSelectedItems([]),

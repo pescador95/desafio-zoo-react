@@ -6,7 +6,7 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import MedicalInformationIcon from "@mui/icons-material/MedicalInformation";
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 import InventoryIcon from "@mui/icons-material/Inventory";
-import PersonIcon from '@mui/icons-material/Person';
+import PersonIcon from "@mui/icons-material/Person";
 
 export const SideBarMenuData = [
   {
@@ -22,7 +22,7 @@ export const SideBarMenuData = [
   {
     titulo: "Enriquecimento Ambiental",
     icon: <SportsSoccerOutlinedIcon />,
-    link: "/enriquecimento_ambiental",
+    link: "/enriquecimentoAmbiental",
   },
   {
     titulo: "Nutrição",

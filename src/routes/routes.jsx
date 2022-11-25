@@ -18,6 +18,7 @@ export const ROUTES = {
   usuarios: "/usuarios",
   profile: "/profile",
   enriquecimentoAmbiental: "/enriquecimentoAmbiental",
+  //downloads: "/uploads/{keyname}",
 };
 
 const noProtectedRoute = [

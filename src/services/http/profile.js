@@ -32,9 +32,6 @@ export const getUsersProfile = async (page, strgFilter) => {
 
   const parsed = data?.map((e) => {
     const parsed = e;
-    // delete parsed?.id;
-    delete parsed?.usuario;
-    delete parsed?.usuarioAcao;
     delete parsed?.isAtivo;
     delete parsed?.systemDateDeleted;
     delete parsed?.dataAcao;
@@ -59,6 +56,16 @@ export const reactiveListUsersProfile = async (users) => {
 
   await axios.delete(ENDPOINTS.user.reactive, {
     data: users,
+  });
+
+  return;
+};
+
+export const recoverPassword = async (email) => {
+  const axios = getAxios();
+
+  await axios.post(ENDPOINTS.recoverPassword + email, {
+    data: email,
   });
 
   return;

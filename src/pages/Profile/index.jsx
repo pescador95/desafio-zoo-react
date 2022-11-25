@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Header } from "../../components/Header";
 import { useAxios } from "../../hooks/useAxios";
@@ -6,6 +6,9 @@ import { getLocalSessionData } from "../../hooks/useSession";
 import { updateUserProfile } from "../../services/http/profile";
 
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { getMyProfile } from "../../services/http/users";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 export const Profile = () => {
   const style = {
@@ -169,43 +172,49 @@ export const Profile = () => {
     },
   };
 
-  const axios = useAxios();
-  const user = getLocalSessionData(); //Email do usuário atual para a busca
+  const { mutate: getProfileMutate, data: users } = useMutation(
+    () => getMyProfile(),
+    {
+      onError: (error) => {
+        toast.error(error?.response?.data?.messages?.join(", "));
+      },
+    }
+  );
 
-  const [nome, setNome] = useState({});
-  const [email, setEmail] = useState({});
-  const [roleUsuario, setRoleUsuario] = useState({});
-  const [password, setPassword] = useState({});
+  useEffect(() => {
+    getProfileMutate();
+  }, []);
 
   const {
     register,
     handleSubmit,
-    reset,
+    setValue,
     formState: { errors },
-  } = useForm({});
+  } = useForm({ defaultValues: users });
 
-  const onSubmit = async () => {
-    const senha = document.getElementById("password").value;
-    setPassword(senha);
+  useEffect(() => {
+    setValue("id", users?.id);
+    setValue("nome", users?.nome);
+    setValue("email", users?.email);
+  }, [setValue, users?.email, users?.nome, users?.id]);
 
-    // console.log("Nome input:" + nome)
-    // console.log("Email input: " + email)
-    // console.log("Role input: " + roleUsuario)
-    console.log("Senha input: " + password);
-
-    const user = {
-      nome: nome,
-      email: email,
-      password: password,
-      roleUsuario: roleUsuario,
-    };
-
-    const response = await updateUserProfile(user);
-
-    if (response !== null) {
-      console.log("Retorno: " + response);
-      window.location.reload();
+  const { mutate: updateProfileMutate } = useMutation(
+    (usuario) => updateUserProfile(usuario),
+    {
+      onSuccess: (success) => {
+        toast.success(success?.data?.messages?.join(", "));
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.messages?.join(", "));
+      },
     }
+  );
+
+  const onSubmit = async (receivedValues) => {
+    const values = {
+      ...receivedValues,
+    };
+    return updateProfileMutate(values);
   };
 
   return (
@@ -220,14 +229,14 @@ export const Profile = () => {
           <Box sx={style.inputsContainer}>
             <Box sx={style.inputSeparator}>
               <Box sx={style.inputContainer}>
-                <Typography component="label" sx={style.label} htmlFor="name">
+                <Typography component="label" sx={style.label} htmlFor="nome">
                   Nome
                 </Typography>
                 <TextField
                   size="small"
                   sx={style.input}
                   {...register("nome")}
-                  id="name"
+                  id="nome"
                   type="text"
                 />
               </Box>
@@ -242,6 +251,22 @@ export const Profile = () => {
                   {...register("email")}
                   type="text"
                   id="email"
+                />
+              </Box>
+              <Box sx={style.inputContainer}>
+                <Typography
+                  sx={style.label}
+                  component="label"
+                  htmlFor="password"
+                >
+                  Senha
+                </Typography>
+                <TextField
+                  size="small"
+                  sx={style.input}
+                  {...register("password")}
+                  type="password"
+                  id="password"
                 />
               </Box>
             </Box>

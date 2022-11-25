@@ -11,19 +11,19 @@ import {
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AlertModal } from "../../components/AlertModal";
-import { FormAnimal } from "../../components/FormAnimal";
+import { FormEnriquecimentoAmbiental } from "../../components/FormEnriquecimentoAmbiental";
 import { Header } from "../../components/Header";
 import { Table } from "../../components/Table";
 import {
-  countAnimal,
-  deleteAnimals,
-  getAnimals,
-} from "../../services/http/animais";
+  countEnriquecimentoAmbiental,
+  deleteEnriquecimentoAmbientais,
+  getEnriquecimentoAmbientais,
+} from "../../services/http/enriquecimentoAmbiental";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
-export const Animais = () => {
+export const EnriquecimentoAmbiental = () => {
   const styles = {
     container: {
       padding: "1rem",
@@ -187,15 +187,23 @@ export const Animais = () => {
 
   const [filter, setFilter] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
-  const [updateAnimal, setUpdateAnimal] = useState({});
+  const [updateEnriquecimentoAmbiental, setUpdateEnriquecimentoAmbiental] =
+    useState({});
 
-  const [isOpenFormAnimal, setIsOpenFormAnimal] = useState(false);
+  const [
+    isOpenFormEnriquecimentoAmbiental,
+    setIsOpenFormEnriquecimentoAmbiental,
+  ] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
 
   const { register, handleSubmit, reset } = useForm({});
 
-  const { mutate: getAnimalsMutate, data: animals } = useMutation(
-    ({ page = 0, strgFilter = "" }) => getAnimals(page, strgFilter),
+  const {
+    mutate: getEnriquecimentoAmbientaisMutate,
+    data: enriquecimentoAmbientais,
+  } = useMutation(
+    ({ page = 0, strgFilter = "" }) =>
+      getEnriquecimentoAmbientais(page, strgFilter),
     {
       onError: (error) => {
         toast.error(error?.response?.data?.messages?.join(", "));
@@ -204,7 +212,7 @@ export const Animais = () => {
   );
 
   const { mutate: getTotalElementsMutate, data: totalElements } = useMutation(
-    ({ strgFilter = "" }) => countAnimal(strgFilter),
+    ({ strgFilter = "" }) => countEnriquecimentoAmbiental(strgFilter),
     {
       onError: (error) => {
         toast.error(error?.response?.data?.messages?.join(", "));
@@ -212,8 +220,8 @@ export const Animais = () => {
     }
   );
 
-  const { mutate: deleteAnimalsMutate } = useMutation(
-    () => deleteAnimals(selectedItems),
+  const { mutate: deleteEnriquecimentoAmbientaisMutate } = useMutation(
+    () => deleteEnriquecimentoAmbientais(selectedItems),
     {
       onSuccess: (success) => {
         toast.success(success?.data?.messages?.join(", "));
@@ -227,7 +235,7 @@ export const Animais = () => {
   );
 
   const getTableData = (page = 0, strgFilter = "") => {
-    getAnimalsMutate({ page, strgFilter });
+    getEnriquecimentoAmbientaisMutate({ page, strgFilter });
     getTotalElementsMutate({ strgFilter });
   };
 
@@ -235,22 +243,22 @@ export const Animais = () => {
 
   const columns = useMemo(
     () =>
-      animals
-        ? Object.keys(animals[0] || {})?.map((key) => ({
+      enriquecimentoAmbientais
+        ? Object.keys(enriquecimentoAmbientais[0] || {})?.map((key) => ({
             key,
             label: key,
           }))
         : [],
-    [animals]
+    [enriquecimentoAmbientais]
   );
 
   const onDelete = async () => {
-    deleteAnimalsMutate();
+    deleteEnriquecimentoAmbientaisMutate();
   };
 
   const onEdit = (item) => {
-    setUpdateAnimal(item);
-    setIsOpenFormAnimal(true);
+    setUpdateEnriquecimentoAmbiental(item);
+    setIsOpenFormEnriquecimentoAmbiental(true);
   };
 
   const onSubmit = async (values) => {
@@ -263,12 +271,7 @@ export const Animais = () => {
             values.dataEntrada?.split("-")?.reverse()?.join("-"),
         });
       }
-      if (
-        values[key] ||
-        values[key] !== "" ||
-        values[key] === null ||
-        values[key] === undefined
-      ) {
+      if (values[key] || values[key] !== "") {
         Object.assign(filters, { [key]: values[key] });
       }
     });
@@ -279,8 +282,6 @@ export const Animais = () => {
 
     delete filters.selectedItems;
 
-    console.log(filters);
-
     const parsedFilters = makeMultiFilterParams(filters);
 
     setFilter(parsedFilters);
@@ -289,7 +290,7 @@ export const Animais = () => {
 
   return (
     <Box sx={styles.container}>
-      <Header title="Animais" />
+      <Header title="Enriquecimento Ambiental" />
       <Box
         component="form"
         sx={styles.formContainer}
@@ -373,7 +374,6 @@ export const Animais = () => {
                 <Typography component="label" htmlFor="sexo" sx={styles.label}>
                   Sexo
                 </Typography>
-
                 <Select
                   size="small"
                   sx={styles.input}
@@ -384,7 +384,6 @@ export const Animais = () => {
                   <MenuItem value="todos">Todos</MenuItem>
                   <MenuItem value="Macho">Macho</MenuItem>
                   <MenuItem value="Fêmea">Fêmea</MenuItem>
-                  <MenuItem value="nada">bug</MenuItem>
                 </Select>
               </Box>
             </Box>
@@ -444,7 +443,7 @@ export const Animais = () => {
 
         <Button
           sx={styles.addRegister}
-          onClick={() => setIsOpenFormAnimal(true)}
+          onClick={() => setIsOpenFormEnriquecimentoAmbiental(true)}
         >
           <span>+</span> CADASTRAR
         </Button>
@@ -453,10 +452,10 @@ export const Animais = () => {
       <Box sx={styles.table}>
         <Table
           columns={columns}
-          data={animals}
+          data={enriquecimentoAmbientais}
           onPaginate={(value) => getTableData(value - 1, filter)}
           totalElements={totalElements}
-          size={animals?.length}
+          size={enriquecimentoAmbientais?.length}
           selectedItems={selectedItems}
           setSelectedItems={setSelectedItems}
           pages={Math.ceil(totalElements / 10)}
@@ -464,24 +463,24 @@ export const Animais = () => {
         />
       </Box>
 
-      <FormAnimal
-        open={isOpenFormAnimal}
-        defaultValues={updateAnimal}
+      <FormEnriquecimentoAmbiental
+        open={isOpenFormEnriquecimentoAmbiental}
+        defaultValues={updateEnriquecimentoAmbiental}
         onConfirm={() => {
-          setIsOpenFormAnimal(false);
-          setUpdateAnimal({});
+          setIsOpenFormEnriquecimentoAmbiental(false);
+          setUpdateEnriquecimentoAmbiental({});
           getTableData();
         }}
         onCancel={() => {
-          setIsOpenFormAnimal(false);
-          setUpdateAnimal({});
+          setIsOpenFormEnriquecimentoAmbiental(false);
+          setUpdateEnriquecimentoAmbiental({});
         }}
       />
       <AlertModal
         open={isOpenDelete}
         onDelete={onDelete}
         onConfirm={() => {
-          deleteAnimalsMutate(selectedItems);
+          deleteEnriquecimentoAmbientaisMutate(selectedItems);
           setIsOpenDelete(false);
           getTableData();
         }}

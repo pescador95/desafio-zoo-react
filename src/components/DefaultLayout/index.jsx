@@ -12,7 +12,7 @@ export const DefaultLayout = ({ children }) => {
       display: "flex",
     },
     sidebar: {
-      position: 'fixed',
+      position: "fixed",
       width: "15.625rem",
       display: {
         xs: "none",
@@ -83,7 +83,7 @@ export const DefaultLayout = ({ children }) => {
         md: "15.625rem",
         lg: "15.625rem",
         xl: "15.625rem",
-      }
+      },
     },
     noChildren: {
       display: {

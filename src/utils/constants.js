@@ -23,5 +23,5 @@ export const ROLES = {
   dev: "Desenvolvedor",
   veterinario: "Veterinário",
   biologo: "Biólogo",
-  cozinheiro: "Cozinheiro",
+  tratador: "Tratador",
 };

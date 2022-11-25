@@ -70,12 +70,13 @@ export const ENDPOINTS = {
   },
   recoverPassword: "/recoverPassword/",
   uploads: {
+    count: "/uploads/count",
     add: "/uploads/",
     getById: "/uploads/{id}",
     list: "/uploads/",
     delete: "/uploads/{id}",
   },
   downloads: {
-    get: "/downloads/{id}",
+    get: "/uploads/{keyname}",
   },
 };

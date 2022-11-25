@@ -6,7 +6,10 @@ import { format } from "date-fns";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { createAnimal, updateAnimal } from "../../services/http/animais";
+import {
+  createEnriquecimentoAmbiental,
+  updateEnriquecimentoAmbiental,
+} from "../../services/http/enriquecimentoAmbiental";
 import { formattedDateForInput, parsedDate } from "../../utils/parsedDate";
 
 import { useMutation } from "@tanstack/react-query";
@@ -17,7 +20,12 @@ import { InputFile } from "../Inputs/InputFile";
 import { InputMultiselect } from "../Inputs/InputSelect";
 import { InputText } from "../Inputs/InputText";
 
-export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
+export const FormEnriquecimentoAmbiental = ({
+  open,
+  defaultValues,
+  onConfirm,
+  onCancel,
+}) => {
   const styles = {
     modal: {
       position: "absolute",
@@ -111,9 +119,10 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
       : reset();
   }, [defaultValues]);
 
-  const { mutate: createAnimalMutate } = useMutation(
-    ["createAnimal"],
-    (animal) => createAnimal(animal),
+  const { mutate: createEnriquecimentoAmbientalMutate } = useMutation(
+    ["createEnriquecimentoAmbiental"],
+    (enriquecimentoAmbiental) =>
+      createEnriquecimentoAmbiental(enriquecimentoAmbiental),
     {
       onSuccess: (success) => {
         toast.success(success?.data?.messages?.join(", "));
@@ -125,8 +134,9 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
     }
   );
 
-  const { mutate: updateAnimalMutate } = useMutation(
-    (animal) => updateAnimal(animal),
+  const { mutate: updateEnriquecimentoAmbientalMutate } = useMutation(
+    (enriquecimentoAmbiental) =>
+      updateEnriquecimentoAmbiental(enriquecimentoAmbiental),
     {
       onSuccess: (success) => {
         toast.success(success?.data?.messages?.join(", "));
@@ -146,8 +156,8 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
         "dd/MM/yyyy"
       ),
     };
-    if (receivedValues.id) return updateAnimalMutate(values);
-    return createAnimalMutate(values);
+    if (receivedValues.id) return updateEnriquecimentoAmbientalMutate(values);
+    return createEnriquecimentoAmbientalMutate(values);
   };
 
   return (
@@ -160,8 +170,8 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
       <Box sx={styles.modal} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography sx={styles.title}>
           {defaultValues?.id
-            ? "Editar ficha do animal"
-            : "Cadastrar ficha do animal"}
+            ? "Editar ficha do Enriquecimento Ambiental"
+            : "Cadastrar ficha do Enriquecimento Ambiental"}
         </Typography>
 
         <Box sx={styles.line}>

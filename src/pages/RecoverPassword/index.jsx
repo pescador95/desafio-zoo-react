@@ -1,22 +1,34 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useAxios } from "../../hooks/useAxios";
 import { ENDPOINTS } from "../../services/endpoints";
+import { recoverPassword } from "../../services/http/profile";
 
-export const ForgotPassword = () => {
+export const ForgotPassword = ({ onConfirm }) => {
   const [email, setEmail] = useState("");
   const axios = useAxios();
   const navigate = useNavigate();
 
-  const handleSubmit = async (email) => {
-    const response = await axios.get(ENDPOINTS.recoverPassword + email);
-    navigate("/login");
-  };
+  const { mutate: forgotPassword } = useMutation(
+    (email) => recoverPassword(email),
+    {
+      onSuccess: (success) => {
+        toast.success(success?.data?.messages?.join(", "));
+        onConfirm();
+        navigate("/login");
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.messages?.join(", "));
+      },
+    }
+  );
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    await handleSubmit(email);
+    await forgotPassword(email);
   };
 
   const style = {
@@ -92,6 +104,7 @@ export const ForgotPassword = () => {
           </Box>
 
           <TextField
+            type={"email"}
             sx={style.input}
             onChange={(e) => setEmail(e?.target?.value)}
             value={email}

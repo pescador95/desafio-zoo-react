@@ -9,6 +9,10 @@ import { Arquivos } from "../pages/Archives";
 import { Profile } from "../pages/Profile";
 import { DefaultLayout } from "../components/DefaultLayout";
 import { EnriquecimentoAmbiental } from "../pages/EnriquecimentoAmbiental";
+import { Medicacao } from "../pages/Medicacao";
+import { Nutricao } from "../pages/Nutricao";
+import { HistoricoClinico } from "../pages/HistoricoClinico";
+import { HistoricoEtologico } from "../pages/HistoricoEtologico";
 
 export const ROUTES = {
   login: "/login",
@@ -18,6 +22,10 @@ export const ROUTES = {
   usuarios: "/usuarios",
   profile: "/profile",
   enriquecimentoAmbiental: "/enriquecimentoAmbiental",
+  historicoClinico: "/historicoClinico",
+  historicoEtologico: "/historicoEtologico",
+  medicacao: "/medicacao",
+  nutricao: "/nutricao",
 };
 
 const noProtectedRoute = [
@@ -51,6 +59,22 @@ const protectedRoute = [
   {
     path: ROUTES.enriquecimentoAmbiental,
     element: <EnriquecimentoAmbiental />,
+  },
+  {
+    path: ROUTES.historicoClinico,
+    element: <HistoricoClinico />,
+  },
+  {
+    path: ROUTES.historicoEtologico,
+    element: <HistoricoEtologico />,
+  },
+  {
+    path: ROUTES.medicacao,
+    element: <Medicacao />,
+  },
+  {
+    path: ROUTES.nutricao,
+    element: <Nutricao />,
   },
 ];
 

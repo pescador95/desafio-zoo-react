@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { createAnimal, updateAnimal } from "../../services/http/animais";
+import { createNutricao, updateNutricao } from "../../services/http/nutricao";
 import { formattedDateForInput, parsedDate } from "../../utils/parsedDate";
 
 import { useMutation } from "@tanstack/react-query";
@@ -111,9 +111,9 @@ export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
       : reset();
   }, [defaultValues]);
 
-  const { mutate: createAnimalMutate } = useMutation(
-    ["createAnimal"],
-    (animal) => createAnimal(animal),
+  const { mutate: createNutricaoMutate } = useMutation(
+    ["createNutricao"],
+    (nutricao) => createNutricao(nutricao),
     {
       onSuccess: (success) => {
         toast.success(success?.data?.messages?.join(", "));
@@ -125,8 +125,8 @@ export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
     }
   );
 
-  const { mutate: updateAnimalMutate } = useMutation(
-    (animal) => updateAnimal(animal),
+  const { mutate: updateNutricaoMutate } = useMutation(
+    (nutricao) => updateNutricao(nutricao),
     {
       onSuccess: (success) => {
         toast.success(success?.data?.messages?.join(", "));
@@ -146,8 +146,8 @@ export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
         "dd/MM/yyyy"
       ),
     };
-    if (receivedValues.id) return updateAnimalMutate(values);
-    return createAnimalMutate(values);
+    if (receivedValues.id) return updateNutricaoMutate(values);
+    return createNutricaoMutate(values);
   };
 
   return (
@@ -160,8 +160,8 @@ export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
       <Box sx={styles.modal} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography sx={styles.title}>
           {defaultValues?.id
-            ? "Editar ficha do animal"
-            : "Cadastrar ficha do animal"}
+            ? "Editar ficha de Nutrição"
+            : "Cadastrar ficha de Nutrição"}
         </Typography>
 
         <Box sx={styles.line}>

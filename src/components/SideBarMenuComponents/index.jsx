@@ -32,17 +32,17 @@ export const SideBarMenuData = [
   {
     titulo: "Histórico Etológico",
     icon: <MenuBookIcon />,
-    link: "/historico_etologico",
+    link: "/historicoEtologico",
   },
   {
     titulo: "Histórico Clínico",
     icon: <MedicalInformationIcon />,
-    link: "/historico_clinico",
+    link: "/historicoClinico",
   },
   {
     titulo: "Sinais Vitais",
     icon: <HealthAndSafetyIcon />,
-    link: "/sinais_vitais",
+    link: "/medicacao",
   },
   {
     titulo: "Arquivos",

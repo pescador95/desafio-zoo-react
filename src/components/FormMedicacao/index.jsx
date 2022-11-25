@@ -6,7 +6,10 @@ import { format } from "date-fns";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { createAnimal, updateAnimal } from "../../services/http/animais";
+import {
+  createMedicacao,
+  updateMedicacao,
+} from "../../services/http/medicacao";
 import { formattedDateForInput, parsedDate } from "../../utils/parsedDate";
 
 import { useMutation } from "@tanstack/react-query";
@@ -111,9 +114,9 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
       : reset();
   }, [defaultValues]);
 
-  const { mutate: createAnimalMutate } = useMutation(
-    ["createAnimal"],
-    (animal) => createAnimal(animal),
+  const { mutate: createMedicacaoMutate } = useMutation(
+    ["createMedicacao"],
+    (animal) => createMedicacao(animal),
     {
       onSuccess: (success) => {
         toast.success(success?.data?.messages?.join(", "));
@@ -125,8 +128,8 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
     }
   );
 
-  const { mutate: updateAnimalMutate } = useMutation(
-    (animal) => updateAnimal(animal),
+  const { mutate: updateMedicacaoMutate } = useMutation(
+    (animal) => updateMedicacao(animal),
     {
       onSuccess: (success) => {
         toast.success(success?.data?.messages?.join(", "));
@@ -146,8 +149,8 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
         "dd/MM/yyyy"
       ),
     };
-    if (receivedValues.id) return updateAnimalMutate(values);
-    return createAnimalMutate(values);
+    if (receivedValues.id) return updateMedicacaoMutate(values);
+    return createMedicacaoMutate(values);
   };
 
   return (
@@ -160,8 +163,8 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
       <Box sx={styles.modal} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography sx={styles.title}>
           {defaultValues?.id
-            ? "Editar ficha do animal"
-            : "Cadastrar ficha do animal"}
+            ? "Editar ficha dos Sinais Vitais"
+            : "Cadastrar ficha dos Sinais Vitais"}
         </Typography>
 
         <Box sx={styles.line}>

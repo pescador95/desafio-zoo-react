@@ -11,19 +11,19 @@ import {
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AlertModal } from "../../components/AlertModal";
-import { FormAnimal } from "../../components/FormAnimal";
+import { FormNutricao } from "../../components/FormNutricao";
 import { Header } from "../../components/Header";
 import { Table } from "../../components/Table";
 import {
-  countAnimal,
-  deleteAnimals,
-  getAnimals,
-} from "../../services/http/animais";
+  countNutricao,
+  deleteNutricaos,
+  getNutricaos,
+} from "../../services/http/nutricao";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
-export const Animais = () => {
+export const Nutricao = () => {
   const styles = {
     container: {
       padding: "1rem",
@@ -187,15 +187,15 @@ export const Animais = () => {
 
   const [filter, setFilter] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
-  const [updateAnimal, setUpdateAnimal] = useState({});
+  const [updateNutricao, setUpdateNutricao] = useState({});
 
-  const [isOpenFormAnimal, setIsOpenFormAnimal] = useState(false);
+  const [isOpenFormNutricao, setIsOpenFormNutricao] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
 
   const { register, handleSubmit, reset } = useForm({});
 
-  const { mutate: getAnimalsMutate, data: animals } = useMutation(
-    ({ page = 0, strgFilter = "" }) => getAnimals(page, strgFilter),
+  const { mutate: getNutricaosMutate, data: nutricaos } = useMutation(
+    ({ page = 0, strgFilter = "" }) => getNutricaos(page, strgFilter),
     {
       onError: (error) => {
         toast.error(error?.response?.data?.messages?.join(", "));
@@ -204,7 +204,7 @@ export const Animais = () => {
   );
 
   const { mutate: getTotalElementsMutate, data: totalElements } = useMutation(
-    ({ strgFilter = "" }) => countAnimal(strgFilter),
+    ({ strgFilter = "" }) => countNutricao(strgFilter),
     {
       onError: (error) => {
         toast.error(error?.response?.data?.messages?.join(", "));
@@ -212,8 +212,8 @@ export const Animais = () => {
     }
   );
 
-  const { mutate: deleteAnimalsMutate } = useMutation(
-    () => deleteAnimals(selectedItems),
+  const { mutate: deleteNutricaosMutate } = useMutation(
+    () => deleteNutricaos(selectedItems),
     {
       onSuccess: (success) => {
         toast.success(success?.data?.messages?.join(", "));
@@ -227,7 +227,7 @@ export const Animais = () => {
   );
 
   const getTableData = (page = 0, strgFilter = "") => {
-    getAnimalsMutate({ page, strgFilter });
+    getNutricaosMutate({ page, strgFilter });
     getTotalElementsMutate({ strgFilter });
   };
 
@@ -235,22 +235,22 @@ export const Animais = () => {
 
   const columns = useMemo(
     () =>
-      animals
-        ? Object.keys(animals[0] || {})?.map((key) => ({
+      nutricaos
+        ? Object.keys(nutricaos[0] || {})?.map((key) => ({
             key,
             label: key,
           }))
         : [],
-    [animals]
+    [nutricaos]
   );
 
   const onDelete = async () => {
-    deleteAnimalsMutate();
+    deleteNutricaosMutate();
   };
 
   const onEdit = (item) => {
-    setUpdateAnimal(item);
-    setIsOpenFormAnimal(true);
+    setUpdateNutricao(item);
+    setIsOpenFormNutricao(true);
   };
 
   const onSubmit = async (values) => {
@@ -289,7 +289,7 @@ export const Animais = () => {
 
   return (
     <Box sx={styles.container}>
-      <Header title="Animais" />
+      <Header title="Nutrição" />
       <Box
         component="form"
         sx={styles.formContainer}
@@ -443,7 +443,7 @@ export const Animais = () => {
 
         <Button
           sx={styles.addRegister}
-          onClick={() => setIsOpenFormAnimal(true)}
+          onClick={() => setIsOpenFormNutricao(true)}
         >
           <span>+</span> CADASTRAR
         </Button>
@@ -452,10 +452,10 @@ export const Animais = () => {
       <Box sx={styles.table}>
         <Table
           columns={columns}
-          data={animals}
+          data={nutricaos}
           onPaginate={(value) => getTableData(value - 1, filter)}
           totalElements={totalElements}
-          size={animals?.length}
+          size={nutricaos?.length}
           selectedItems={selectedItems}
           setSelectedItems={setSelectedItems}
           pages={Math.ceil(totalElements / 10)}
@@ -463,24 +463,24 @@ export const Animais = () => {
         />
       </Box>
 
-      <FormAnimal
-        open={isOpenFormAnimal}
-        defaultValues={updateAnimal}
+      <FormNutricao
+        open={isOpenFormNutricao}
+        defaultValues={updateNutricao}
         onConfirm={() => {
-          setIsOpenFormAnimal(false);
-          setUpdateAnimal({});
+          setIsOpenFormNutricao(false);
+          setUpdateNutricao({});
           getTableData();
         }}
         onCancel={() => {
-          setIsOpenFormAnimal(false);
-          setUpdateAnimal({});
+          setIsOpenFormNutricao(false);
+          setUpdateNutricao({});
         }}
       />
       <AlertModal
         open={isOpenDelete}
         onDelete={onDelete}
         onConfirm={() => {
-          deleteAnimalsMutate(selectedItems);
+          deleteNutricaosMutate(selectedItems);
           setIsOpenDelete(false);
           getTableData();
         }}

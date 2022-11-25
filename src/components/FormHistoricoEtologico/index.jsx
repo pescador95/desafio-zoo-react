@@ -6,7 +6,10 @@ import { format } from "date-fns";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { createAnimal, updateAnimal } from "../../services/http/animais";
+import {
+  createHistoricoEtologico,
+  updateHistoricoEtologico,
+} from "../../services/http/historicoEtologico";
 import { formattedDateForInput, parsedDate } from "../../utils/parsedDate";
 
 import { useMutation } from "@tanstack/react-query";
@@ -116,9 +119,9 @@ export const FormHistoricoEtologico = ({
       : reset();
   }, [defaultValues]);
 
-  const { mutate: createAnimalMutate } = useMutation(
-    ["createAnimal"],
-    (animal) => createAnimal(animal),
+  const { mutate: createHistoricoEtologicoMutate } = useMutation(
+    ["createHistoricoEtologico"],
+    (historicoEtologico) => createHistoricoEtologico(historicoEtologico),
     {
       onSuccess: (success) => {
         toast.success(success?.data?.messages?.join(", "));
@@ -130,8 +133,8 @@ export const FormHistoricoEtologico = ({
     }
   );
 
-  const { mutate: updateAnimalMutate } = useMutation(
-    (animal) => updateAnimal(animal),
+  const { mutate: updateHistoricoEtologicoMutate } = useMutation(
+    (historicoEtologico) => updateHistoricoEtologico(historicoEtologico),
     {
       onSuccess: (success) => {
         toast.success(success?.data?.messages?.join(", "));
@@ -151,8 +154,8 @@ export const FormHistoricoEtologico = ({
         "dd/MM/yyyy"
       ),
     };
-    if (receivedValues.id) return updateAnimalMutate(values);
-    return createAnimalMutate(values);
+    if (receivedValues.id) return updateHistoricoEtologicoMutate(values);
+    return createHistoricoEtologicoMutate(values);
   };
 
   return (
@@ -165,8 +168,8 @@ export const FormHistoricoEtologico = ({
       <Box sx={styles.modal} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography sx={styles.title}>
           {defaultValues?.id
-            ? "Editar ficha do animal"
-            : "Cadastrar ficha do animal"}
+            ? "Editar ficha do historico Etológico"
+            : "Cadastrar ficha do historico Etológico"}
         </Typography>
 
         <Box sx={styles.line}>

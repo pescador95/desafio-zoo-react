@@ -11,19 +11,19 @@ import {
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AlertModal } from "../../components/AlertModal";
-import { FormAnimal } from "../../components/FormAnimal";
+import { FormHistoricoEtologico } from "../../components/FormHistoricoEtologico";
 import { Header } from "../../components/Header";
 import { Table } from "../../components/Table";
 import {
-  countAnimal,
-  deleteAnimals,
-  getAnimals,
-} from "../../services/http/animais";
+  countHistoricoEtologico,
+  deleteHistoricoEtologicos,
+  getHistoricoEtologicos,
+} from "../../services/http/historicoEtologico";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
-export const Animais = () => {
+export const HistoricoEtologico = () => {
   const styles = {
     container: {
       padding: "1rem",
@@ -187,24 +187,27 @@ export const Animais = () => {
 
   const [filter, setFilter] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
-  const [updateAnimal, setUpdateAnimal] = useState({});
+  const [updateHistoricoEtologico, setUpdateHistoricoEtologico] = useState({});
 
-  const [isOpenFormAnimal, setIsOpenFormAnimal] = useState(false);
+  const [isOpenFormHistoricoEtologico, setIsOpenFormHistoricoEtologico] =
+    useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
 
   const { register, handleSubmit, reset } = useForm({});
 
-  const { mutate: getAnimalsMutate, data: animals } = useMutation(
-    ({ page = 0, strgFilter = "" }) => getAnimals(page, strgFilter),
-    {
-      onError: (error) => {
-        toast.error(error?.response?.data?.messages?.join(", "));
-      },
-    }
-  );
+  const { mutate: getHistoricoEtologicosMutate, data: historicoEtologicos } =
+    useMutation(
+      ({ page = 0, strgFilter = "" }) =>
+        getHistoricoEtologicos(page, strgFilter),
+      {
+        onError: (error) => {
+          toast.error(error?.response?.data?.messages?.join(", "));
+        },
+      }
+    );
 
   const { mutate: getTotalElementsMutate, data: totalElements } = useMutation(
-    ({ strgFilter = "" }) => countAnimal(strgFilter),
+    ({ strgFilter = "" }) => countHistoricoEtologico(strgFilter),
     {
       onError: (error) => {
         toast.error(error?.response?.data?.messages?.join(", "));
@@ -212,8 +215,8 @@ export const Animais = () => {
     }
   );
 
-  const { mutate: deleteAnimalsMutate } = useMutation(
-    () => deleteAnimals(selectedItems),
+  const { mutate: deleteHistoricoEtologicosMutate } = useMutation(
+    () => deleteHistoricoEtologicos(selectedItems),
     {
       onSuccess: (success) => {
         toast.success(success?.data?.messages?.join(", "));
@@ -227,7 +230,7 @@ export const Animais = () => {
   );
 
   const getTableData = (page = 0, strgFilter = "") => {
-    getAnimalsMutate({ page, strgFilter });
+    getHistoricoEtologicosMutate({ page, strgFilter });
     getTotalElementsMutate({ strgFilter });
   };
 
@@ -235,22 +238,22 @@ export const Animais = () => {
 
   const columns = useMemo(
     () =>
-      animals
-        ? Object.keys(animals[0] || {})?.map((key) => ({
+      historicoEtologicos
+        ? Object.keys(historicoEtologicos[0] || {})?.map((key) => ({
             key,
             label: key,
           }))
         : [],
-    [animals]
+    [historicoEtologicos]
   );
 
   const onDelete = async () => {
-    deleteAnimalsMutate();
+    deleteHistoricoEtologicosMutate();
   };
 
   const onEdit = (item) => {
-    setUpdateAnimal(item);
-    setIsOpenFormAnimal(true);
+    setUpdateHistoricoEtologico(item);
+    setIsOpenFormHistoricoEtologico(true);
   };
 
   const onSubmit = async (values) => {
@@ -289,7 +292,7 @@ export const Animais = () => {
 
   return (
     <Box sx={styles.container}>
-      <Header title="Animais" />
+      <Header title="Historico Etológico" />
       <Box
         component="form"
         sx={styles.formContainer}
@@ -443,7 +446,7 @@ export const Animais = () => {
 
         <Button
           sx={styles.addRegister}
-          onClick={() => setIsOpenFormAnimal(true)}
+          onClick={() => setIsOpenFormHistoricoEtologico(true)}
         >
           <span>+</span> CADASTRAR
         </Button>
@@ -452,10 +455,10 @@ export const Animais = () => {
       <Box sx={styles.table}>
         <Table
           columns={columns}
-          data={animals}
+          data={historicoEtologicos}
           onPaginate={(value) => getTableData(value - 1, filter)}
           totalElements={totalElements}
-          size={animals?.length}
+          size={historicoEtologicos?.length}
           selectedItems={selectedItems}
           setSelectedItems={setSelectedItems}
           pages={Math.ceil(totalElements / 10)}
@@ -463,24 +466,24 @@ export const Animais = () => {
         />
       </Box>
 
-      <FormAnimal
-        open={isOpenFormAnimal}
-        defaultValues={updateAnimal}
+      <FormHistoricoEtologico
+        open={isOpenFormHistoricoEtologico}
+        defaultValues={updateHistoricoEtologico}
         onConfirm={() => {
-          setIsOpenFormAnimal(false);
-          setUpdateAnimal({});
+          setIsOpenFormHistoricoEtologico(false);
+          setUpdateHistoricoEtologico({});
           getTableData();
         }}
         onCancel={() => {
-          setIsOpenFormAnimal(false);
-          setUpdateAnimal({});
+          setIsOpenFormHistoricoEtologico(false);
+          setUpdateHistoricoEtologico({});
         }}
       />
       <AlertModal
         open={isOpenDelete}
         onDelete={onDelete}
         onConfirm={() => {
-          deleteAnimalsMutate(selectedItems);
+          deleteHistoricoEtologicosMutate(selectedItems);
           setIsOpenDelete(false);
           getTableData();
         }}

@@ -6,11 +6,11 @@ export const makeMultiFilterParams = (obj) => {
   Object.keys(obj)?.forEach((key, index, arr) => {
     if (DATAS.includes(key)) {
       return (query = query.concat(
-        `${index != arr?.length ? "and" : ""} ${key} = '${obj[key]}' `
+        `${index !== arr?.length ? "and" : ""} ${key} = '${obj[key]}' `
       ));
     }
     query = query.concat(
-      `${index != arr?.length ? "and" : ""} ${key} like '%${obj[key]}%' `
+      `${index !== arr?.length ? "and" : ""} ${key} like '%${obj[key]}%' `
     );
   });
 

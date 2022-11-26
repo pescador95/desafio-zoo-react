@@ -288,7 +288,7 @@ export const Medicacao = () => {
 
   return (
     <Box sx={styles.container}>
-      <Header title="Sinais Vitais" />
+      <Header title="Medicação" />
       <Box
         component="form"
         sx={styles.formContainer}

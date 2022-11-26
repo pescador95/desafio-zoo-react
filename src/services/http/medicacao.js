@@ -40,16 +40,16 @@ export const getMedicacaos = async (page, strgFilter) => {
 
 export const deleteMedicacaos = async (medicacaos) => {
   const axios = getAxios();
-  await axios.delete(ENDPOINTS.medicacao.delete, {
+  const { data } = await axios.delete(ENDPOINTS.medicacao.delete, {
     data: medicacaos?.map((e) => e.id),
   });
-  return;
+  return data;
 };
 
 export const reactiveListMedicacaos = async (medicacaos) => {
   const axios = getAxios();
-  await axios.delete(ENDPOINTS.medicacao.reactive, {
+  const { data } = await axios.delete(ENDPOINTS.medicacao.reactive, {
     data: medicacaos,
   });
-  return;
+  return data;
 };

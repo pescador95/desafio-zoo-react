@@ -113,10 +113,10 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
 
   const { mutate: createUploadMutate } = useMutation(
     ["createUpload"],
-    (animal) => createUpload(animal),
+    (upload) => createUpload(upload),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         onConfirm();
       },
       onError: (error) => {
@@ -126,10 +126,11 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
   );
 
   const { mutate: updateUploadMutate } = useMutation(
-    (animal) => updateUpload(animal),
+    ["updateUpload"],
+    (upload) => updateUpload(upload),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         onConfirm();
       },
       onError: (error) => {

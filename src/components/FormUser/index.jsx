@@ -104,8 +104,8 @@ export const FormUser = ({ open, defaultValues, onConfirm, onCancel }) => {
     ["createUser"],
     (usuario) => createUser(usuario),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         onConfirm();
       },
       onError: (error) => {
@@ -115,10 +115,11 @@ export const FormUser = ({ open, defaultValues, onConfirm, onCancel }) => {
   );
 
   const { mutate: updateUserMutate } = useMutation(
+    ["updateUser"],
     (usuario) => updateUser(usuario),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         onConfirm();
       },
       onError: (error) => {

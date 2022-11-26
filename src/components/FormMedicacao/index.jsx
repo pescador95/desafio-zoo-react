@@ -118,8 +118,8 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
     ["createMedicacao"],
     (animal) => createMedicacao(animal),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         onConfirm();
       },
       onError: (error) => {
@@ -129,10 +129,11 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
   );
 
   const { mutate: updateMedicacaoMutate } = useMutation(
+    ["updateMedicacao"],
     (animal) => updateMedicacao(animal),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         onConfirm();
       },
       onError: (error) => {

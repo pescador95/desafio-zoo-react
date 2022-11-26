@@ -123,8 +123,8 @@ export const FormHistoricoClinico = ({
     ["createHistoricoClinico"],
     (historicoClinico) => createHistoricoClinico(historicoClinico),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         onConfirm();
       },
       onError: (error) => {
@@ -134,10 +134,11 @@ export const FormHistoricoClinico = ({
   );
 
   const { mutate: updateHistoricoClinicoMutate } = useMutation(
+    ["updateHistoricoClinico"],
     (historicoClinico) => updateHistoricoClinico(historicoClinico),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         onConfirm();
       },
       onError: (error) => {

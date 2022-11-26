@@ -216,10 +216,11 @@ export const HistoricoEtologico = () => {
   );
 
   const { mutate: deleteHistoricoEtologicosMutate } = useMutation(
-    () => deleteHistoricoEtologicos(selectedItems),
+    ["deleteHistoricoEtologicos"],
+    (selectedItems) => deleteHistoricoEtologicos(selectedItems),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         getTableData();
         setSelectedItems([]);
       },
@@ -259,11 +260,11 @@ export const HistoricoEtologico = () => {
   const onSubmit = async (values) => {
     const filters = {};
     Object.keys(values).forEach((key) => {
-      if (key === "dataEntrada") {
+      if (key === "dataEtologico") {
         return Object.assign(filters, {
-          dataEntrada:
-            values.dataEntrada &&
-            values.dataEntrada?.split("-")?.reverse()?.join("-"),
+          dataEtologico:
+            values.dataEtologico &&
+            values.dataEtologico?.split("-")?.reverse()?.join("-"),
         });
       }
       if (
@@ -276,9 +277,7 @@ export const HistoricoEtologico = () => {
       }
     });
 
-    filters.sexo === "todos" && delete filters.sexo;
-
-    filters.dataEntrada === "" && delete filters.dataEntrada;
+    filters.dataEtologico === "" && delete filters.dataEtologico;
 
     delete filters.selectedItems;
 
@@ -305,15 +304,15 @@ export const HistoricoEtologico = () => {
                 <Typography
                   component="label"
                   sx={styles.label}
-                  htmlFor="identificacao"
+                  htmlFor="nome-animal"
                 >
-                  Microchip ou Anilha
+                  Nome do Animal
                 </Typography>
                 <TextField
                   size="small"
                   sx={styles.input}
-                  {...register("identificacao")}
-                  id="identificacao"
+                  {...register("nomeAnimal")}
+                  id="nome-animal"
                   type="text"
                 />
               </Box>
@@ -322,90 +321,35 @@ export const HistoricoEtologico = () => {
                 <Typography
                   sx={styles.label}
                   component="label"
-                  htmlFor="origem"
+                  htmlFor="nome-etologico"
                 >
-                  Origem
+                  Nome Etologico
                 </Typography>
                 <TextField
                   size="small"
                   sx={styles.input}
-                  {...register("origem")}
+                  {...register("nomeEtologico")}
                   type="text"
-                  id="origem"
+                  id="nome-etologico"
                 />
               </Box>
-            </Box>
 
-            <Box sx={styles.inputContainer}>
-              <Typography
-                component="label"
-                htmlFor="nome-cientifico"
-                sx={styles.label}
-              >
-                Nome Científico
-              </Typography>
-              <TextField
-                size="small"
-                sx={styles.input}
-                {...register("nomeCientifico")}
-                type="text"
-                id="nome-cientifico"
-              />
-            </Box>
-          </Box>
-          <Box sx={styles.inputsContainer}>
-            <Box sx={styles.inputSeparator}>
               <Box sx={styles.inputContainer}>
                 <Typography
                   component="label"
                   sx={styles.label}
-                  htmlFor="data-admissao"
+                  htmlFor="data-etologico"
                 >
-                  Data Entrada
+                  Data Etologico
                 </Typography>
                 <TextField
                   size="small"
                   sx={styles.input}
-                  {...register("dataEntrada")}
+                  {...register("dataEtologico")}
                   type="date"
-                  id="data-admissao"
+                  id="data-etologico"
                 />
               </Box>
-
-              <Box sx={styles.inputContainer}>
-                <Typography component="label" htmlFor="sexo" sx={styles.label}>
-                  Sexo
-                </Typography>
-
-                <Select
-                  size="small"
-                  sx={styles.input}
-                  {...register("sexo")}
-                  type="text"
-                  id="sexo"
-                >
-                  <MenuItem value="todos">Todos</MenuItem>
-                  <MenuItem value="Macho">Macho</MenuItem>
-                  <MenuItem value="Fêmea">Fêmea</MenuItem>
-                </Select>
-              </Box>
-            </Box>
-
-            <Box sx={styles.inputContainer}>
-              <Typography
-                component="label"
-                htmlFor="nome-apelido"
-                sx={styles.label}
-              >
-                Nome Comum
-              </Typography>
-              <TextField
-                size="small"
-                sx={styles.input}
-                {...register("nomeComum")}
-                type="text"
-                id="nome-apelido"
-              />
             </Box>
           </Box>
         </Box>
@@ -415,12 +359,9 @@ export const HistoricoEtologico = () => {
             variant="contained"
             onClick={() =>
               reset({
-                nomeComum: "",
-                identificacao: "",
-                dataEntrada: "",
-                nomeCientifico: "",
-                sexo: "",
-                origem: "",
+                nomeAnimal: "",
+                nomeEtologico: "",
+                dataEtologico: "",
                 selectedItems: setSelectedItems([]),
               })
             }

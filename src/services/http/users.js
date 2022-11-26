@@ -53,20 +53,20 @@ export const getUsers = async (page, strgFilter) => {
 
 export const deleteUsers = async (users) => {
   const axios = getAxios();
-  await axios.delete(ENDPOINTS.user.delete, {
+  const { data } = await axios.delete(ENDPOINTS.user.delete, {
     data: users?.map((e) => e.id),
   });
   console.log(users);
-  return;
+  return data;
 };
 
 export const reactiveListUsers = async (users) => {
   const axios = getAxios();
 
-  await axios.delete(ENDPOINTS.user.reactive, {
+  const { data } = await axios.delete(ENDPOINTS.user.reactive, {
     data: users,
   });
-  return;
+  return data;
 };
 
 export const getMyProfile = async () => {

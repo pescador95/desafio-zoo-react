@@ -7,17 +7,17 @@ import { useAxios } from "../../hooks/useAxios";
 import { ENDPOINTS } from "../../services/endpoints";
 import { recoverPassword } from "../../services/http/profile";
 
-export const ForgotPassword = ({ onConfirm }) => {
+export const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const axios = useAxios();
   const navigate = useNavigate();
 
   const { mutate: forgotPassword } = useMutation(
+    ["recoverPassword"],
     (email) => recoverPassword(email),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
-        onConfirm();
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         navigate("/login");
       },
       onError: (error) => {

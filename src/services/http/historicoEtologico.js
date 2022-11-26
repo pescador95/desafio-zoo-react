@@ -53,16 +53,16 @@ export const getHistoricoEtologicos = async (page, strgFilter) => {
 
 export const deleteHistoricoEtologicos = async (historicoEtologicos) => {
   const axios = getAxios();
-  await axios.delete(ENDPOINTS.historicoEtologico.delete, {
+  const { data } = await axios.delete(ENDPOINTS.historicoEtologico.delete, {
     data: historicoEtologicos?.map((e) => e.id),
   });
-  return;
+  return data;
 };
 
 export const reactiveListHistoricoEtologicos = async (historicoEtologicos) => {
   const axios = getAxios();
-  await axios.delete(ENDPOINTS.historicoEtologico.reactive, {
+  const { data } = await axios.delete(ENDPOINTS.historicoEtologico.reactive, {
     data: historicoEtologicos,
   });
-  return;
+  return data;
 };

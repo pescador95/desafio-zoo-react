@@ -213,10 +213,11 @@ export const Nutricao = () => {
   );
 
   const { mutate: deleteNutricaosMutate } = useMutation(
-    () => deleteNutricaos(selectedItems),
+    ["deleteNutricaos"],
+    (selectedItems) => deleteNutricaos(selectedItems),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         getTableData();
         setSelectedItems([]);
       },
@@ -256,11 +257,17 @@ export const Nutricao = () => {
   const onSubmit = async (values) => {
     const filters = {};
     Object.keys(values).forEach((key) => {
-      if (key === "dataEntrada") {
+      if (key === "dataInicio") {
         return Object.assign(filters, {
-          dataEntrada:
-            values.dataEntrada &&
-            values.dataEntrada?.split("-")?.reverse()?.join("-"),
+          dataInicio:
+            values.dataInicio &&
+            values.dataInicio?.split("-")?.reverse()?.join("-"),
+        });
+      }
+      if (key === "dataFim") {
+        return Object.assign(filters, {
+          dataFim:
+            values.dataFim && values.dataFim?.split("-")?.reverse()?.join("-"),
         });
       }
       if (
@@ -273,9 +280,9 @@ export const Nutricao = () => {
       }
     });
 
-    filters.sexo === "todos" && delete filters.sexo;
+    filters.dataInicio === "" && delete filters.dataInicio;
 
-    filters.dataEntrada === "" && delete filters.dataEntrada;
+    filters.dataFim === "" && delete filters.dataFim;
 
     delete filters.selectedItems;
 
@@ -302,107 +309,51 @@ export const Nutricao = () => {
                 <Typography
                   component="label"
                   sx={styles.label}
-                  htmlFor="identificacao"
+                  htmlFor="nomeAnimal"
                 >
-                  Microchip ou Anilha
+                  Nome do Animal
                 </Typography>
                 <TextField
                   size="small"
                   sx={styles.input}
-                  {...register("identificacao")}
-                  id="identificacao"
+                  {...register("nomeAnimal")}
                   type="text"
+                  id="nomeAnimal"
                 />
               </Box>
-
-              <Box sx={styles.inputContainer}>
-                <Typography
-                  sx={styles.label}
-                  component="label"
-                  htmlFor="origem"
-                >
-                  Origem
-                </Typography>
-                <TextField
-                  size="small"
-                  sx={styles.input}
-                  {...register("origem")}
-                  type="text"
-                  id="origem"
-                />
-              </Box>
-            </Box>
-
-            <Box sx={styles.inputContainer}>
-              <Typography
-                component="label"
-                htmlFor="nome-cientifico"
-                sx={styles.label}
-              >
-                Nome Científico
-              </Typography>
-              <TextField
-                size="small"
-                sx={styles.input}
-                {...register("nomeCientifico")}
-                type="text"
-                id="nome-cientifico"
-              />
-            </Box>
-          </Box>
-          <Box sx={styles.inputsContainer}>
-            <Box sx={styles.inputSeparator}>
               <Box sx={styles.inputContainer}>
                 <Typography
                   component="label"
                   sx={styles.label}
-                  htmlFor="data-admissao"
+                  htmlFor="dataInicio"
                 >
-                  Data Entrada
+                  Data de Início
                 </Typography>
+
                 <TextField
                   size="small"
                   sx={styles.input}
-                  {...register("dataEntrada")}
+                  {...register("dataInicio")}
                   type="date"
-                  id="data-admissao"
+                  id="dataInicio"
                 />
               </Box>
-
               <Box sx={styles.inputContainer}>
-                <Typography component="label" htmlFor="sexo" sx={styles.label}>
-                  Sexo
+                <Typography
+                  component="label"
+                  sx={styles.label}
+                  htmlFor="dataFim"
+                >
+                  Data Final
                 </Typography>
-
-                <Select
+                <TextField
                   size="small"
                   sx={styles.input}
-                  {...register("sexo")}
-                  type="text"
-                  id="sexo"
-                >
-                  <MenuItem value="todos">Todos</MenuItem>
-                  <MenuItem value="Macho">Macho</MenuItem>
-                  <MenuItem value="Fêmea">Fêmea</MenuItem>
-                </Select>
+                  {...register("dataFim")}
+                  type="date"
+                  id="dataFim"
+                />
               </Box>
-            </Box>
-
-            <Box sx={styles.inputContainer}>
-              <Typography
-                component="label"
-                htmlFor="nome-apelido"
-                sx={styles.label}
-              >
-                Nome Comum
-              </Typography>
-              <TextField
-                size="small"
-                sx={styles.input}
-                {...register("nomeComum")}
-                type="text"
-                id="nome-apelido"
-              />
             </Box>
           </Box>
         </Box>
@@ -412,12 +363,9 @@ export const Nutricao = () => {
             variant="contained"
             onClick={() =>
               reset({
-                nomeComum: "",
-                identificacao: "",
-                dataEntrada: "",
-                nomeCientifico: "",
-                sexo: "",
-                origem: "",
+                nomeAnimal: "",
+                dataInicio: "",
+                dataFim: "",
                 selectedItems: setSelectedItems([]),
               })
             }

@@ -90,15 +90,10 @@ export const FormHistoricoEtologico = ({
   };
 
   const schema = yup.object().shape({
-    nomeApelido: yup.string().required("* O campo é obrigatório"),
-    identificacao: yup.string().required("* O campo é obrigatório"),
-    dataEntrada: yup.string().required("* O campo é obrigatório"),
-    nomeComum: yup.string().required("* O campo é obrigatório"),
-    origem: yup.string().required("* O campo é obrigatório"),
-    nomeCientifico: yup.string().required("* O campo é obrigatório"),
-    sexo: yup.string().required("* O campo é obrigatório"),
-    idade: yup.string().required("* O campo é obrigatório"),
-    orgao: yup.string().required("* O campo é obrigatório"),
+    nomeAnimal: yup.string().required("* O campo é obrigatório"),
+    nomeEtologico: yup.string().required("* O campo é obrigatório"),
+    descricaoEtologico: yup.string().required("* O campo é obrigatório"),
+    dataEtologico: yup.string().required("* O campo é obrigatório"),
   });
 
   const {
@@ -114,7 +109,7 @@ export const FormHistoricoEtologico = ({
     defaultValues?.id
       ? reset({
           ...defaultValues,
-          dataEntrada: formattedDateForInput(defaultValues.dataEntrada),
+          dataEtologico: formattedDateForInput(defaultValues.dataEtologico),
         })
       : reset();
   }, [defaultValues]);
@@ -123,8 +118,8 @@ export const FormHistoricoEtologico = ({
     ["createHistoricoEtologico"],
     (historicoEtologico) => createHistoricoEtologico(historicoEtologico),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         onConfirm();
       },
       onError: (error) => {
@@ -134,10 +129,11 @@ export const FormHistoricoEtologico = ({
   );
 
   const { mutate: updateHistoricoEtologicoMutate } = useMutation(
+    ["updateHistoricoEtologico"],
     (historicoEtologico) => updateHistoricoEtologico(historicoEtologico),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         onConfirm();
       },
       onError: (error) => {
@@ -149,8 +145,8 @@ export const FormHistoricoEtologico = ({
   const onSubmit = async (receivedValues) => {
     const values = {
       ...receivedValues,
-      dataEntrada: format(
-        new Date(parsedDate(receivedValues.dataEntrada)),
+      dataEtologico: format(
+        new Date(parsedDate(receivedValues.dataEtologico)),
         "dd/MM/yyyy"
       ),
     };
@@ -175,89 +171,36 @@ export const FormHistoricoEtologico = ({
         <Box sx={styles.line}>
           <InputText
             control={control}
-            name="nomeApelido"
-            label="Nome apelido"
-            error={errors?.nomeApelido}
+            name="nomeAnimal"
+            label="Nome do Animal"
+            error={errors?.nomeAnimal}
           />
-
+        </Box>
+        <Box sx={styles.line}>
           <InputText
             control={control}
-            name="nomeComum"
-            label="Nome comum"
-            error={errors?.nomeComum}
-          />
-
-          <InputText
-            control={control}
-            name="nomeCientifico"
-            label="Nome cientifico"
-            error={errors?.nomeCientifico}
+            name="nomeEtologico"
+            label="Nome Etologico"
+            error={errors?.nomeEtologico}
           />
         </Box>
 
         <Box sx={styles.line}>
           <InputText
             control={control}
-            name="identificacao"
-            label="Microship/Anilha"
-            error={errors?.identificacao}
-          />
-        </Box>
-
-        <Box sx={styles.line}>
-          <InputText
-            control={control}
-            name="dataEntrada"
-            label="Data de entrada"
-            error={errors?.dataEntrada}
+            name="dataEtologico"
+            label="Data de Etológico"
+            error={errors?.dataEtologico}
             type="date"
           />
-
-          <InputMultiselect
-            control={control}
-            name="idade"
-            label="Tempo de vida"
-            error={errors?.idade}
-            options={Object.keys(LIFETIME)?.map((key) => ({
-              label: LIFETIME[key].valueOf(),
-              value: LIFETIME[key],
-            }))}
-          />
-
-          <InputMultiselect
-            control={control}
-            name="sexo"
-            label="Sexo"
-            error={errors?.idade}
-            options={Object.keys(GENDER)?.map((key) => ({
-              label: GENDER[key].valueOf(),
-              value: GENDER[key],
-            }))}
-          />
         </Box>
 
         <Box sx={styles.line}>
           <InputText
             control={control}
-            name="origem"
-            label="Origem"
-            error={errors?.origem}
-          />
-
-          <InputText
-            control={control}
-            name="orgao"
-            label="Orgão"
-            error={errors?.orgao}
-          />
-        </Box>
-
-        <Box sx={styles.line}>
-          <InputFile
-            control={control}
-            name="file"
-            label="Arquivos"
-            error={errors?.file}
+            name="descricaoEtologico"
+            label="Descrição Etológico"
+            error={errors?.descricaoEtologico}
           />
         </Box>
 

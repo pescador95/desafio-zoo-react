@@ -50,8 +50,8 @@ export const getUploads = async (page, strgFilter) => {
 
 export const deleteUploads = async (uploads) => {
   const axios = getAxios();
-  await axios.delete(ENDPOINTS.uploads.delete, {
+  const { data } = await axios.delete(ENDPOINTS.uploads.delete, {
     data: uploads?.map((e) => e.id),
   });
-  return;
+  return data;
 };

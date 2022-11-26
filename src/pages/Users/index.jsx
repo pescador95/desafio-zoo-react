@@ -204,10 +204,11 @@ export const Users = () => {
   );
 
   const { mutate: deleteUsersMutate } = useMutation(
-    () => deleteUsers(selectedItems),
+    ["deleteUsers"],
+    (selectedItems) => deleteUsers(selectedItems),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         getTableData();
         setSelectedItems([]);
       },

@@ -1,17 +1,3 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
-import { AlertModal } from "../../components/AlertModal";
-import { FormUpload } from "../../components/FormUpload";
-import { Header } from "../../components/Header";
-import { Table } from "../../components/Table";
-import { useAxios } from "../../hooks/useAxios";
-import {
-  countUpload,
-  deleteUploads,
-  getUploads,
-} from "../../services/http/uploads";
-import { makeMultiFilterParams } from "../../utils/multiFilters";
-
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import {
@@ -22,11 +8,23 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import React, { useEffect, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { AlertModal } from "../../components/AlertModal";
+import { FormUpload } from "../../components/FormUpload";
+import { Header } from "../../components/Header";
+import { Table } from "../../components/Table";
+import {
+  countUpload,
+  deleteUploads,
+  getUploads,
+} from "../../services/http/uploads";
+import { makeMultiFilterParams } from "../../utils/multiFilters";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
-export const Arquivos = () => {
-  const style = {
+export const Upload = () => {
+  const styles = {
     container: {
       padding: "1rem",
     },
@@ -187,25 +185,16 @@ export const Arquivos = () => {
     },
   };
 
-  const { register, handleSubmit, reset } = useForm({});
   const [filter, setFilter] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
-  const [updateArquivo, setUpdateArquivo] = useState({});
-  const [openFormArquivo, setOpenFormArquivo] = useState(false);
-  const [openAlertModal, setOpenAlertModal] = useState(false);
-  const [arquivos, setArquivos] = useState({
-    data: [],
-    totalElements: 0,
-    size: 0,
-  });
+  const [updateUpload, setUpdateUpload] = useState({});
 
-  useEffect(() => getTableData(), []);
+  const [isOpenFormUpload, setIsOpenFormUpload] = useState(false);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
 
-  const onDelete = async () => {
-    deleteUploadsMutate(selectedItems);
-  };
+  const { register, handleSubmit, reset } = useForm({});
 
-  const { mutate: getUploadMutate, data: uploads } = useMutation(
+  const { mutate: getUploadsMutate, data: Uploads } = useMutation(
     ({ page = 0, strgFilter = "" }) => getUploads(page, strgFilter),
     {
       onError: (error) => {
@@ -239,142 +228,185 @@ export const Arquivos = () => {
   );
 
   const getTableData = (page = 0, strgFilter = "") => {
-    getUploadMutate({ page, strgFilter });
+    getUploadsMutate({ page, strgFilter });
     getTotalElementsMutate({ strgFilter });
   };
 
+  useEffect(() => getTableData(), []);
+
   const columns = useMemo(
     () =>
-      arquivos?.data?.length
-        ? Object.keys(arquivos?.data[0] || {})?.map((key) => ({
+      Uploads
+        ? Object.keys(Uploads[0] || {})?.map((key) => ({
             key,
             label: key,
           }))
         : [],
-    [arquivos]
+    [Uploads]
   );
 
-  const handleEdit = (item) => {
-    setUpdateArquivo(item);
-    setOpenFormArquivo(true);
+  const onDelete = async () => {
+    deleteUploadsMutate();
+  };
+
+  const onEdit = (item) => {
+    setUpdateUpload(item);
+    setIsOpenFormUpload(true);
   };
 
   const onSubmit = async (values) => {
     const filters = {};
     Object.keys(values).forEach((key) => {
-      if (key === "upload") {
+      if (key === "dataEntrada") {
         return Object.assign(filters, {
-          upload:
-            values.upload && values.upload?.split("-")?.reverse()?.join("-"),
+          dataEntrada:
+            values.dataEntrada &&
+            values.dataEntrada?.split("-")?.reverse()?.join("-"),
         });
       }
-      if (values[key] || values[key] !== "") {
+      if (
+        values[key] ||
+        values[key] !== "" ||
+        values[key] === null ||
+        values[key] === undefined
+      ) {
         Object.assign(filters, { [key]: values[key] });
       }
     });
 
-    filters.tipo === "todos" && delete filters.tipo;
+    filters.sexo === "todos" && delete filters.sexo;
 
-    filters.upload === "" && delete filters.upload;
+    filters.dataEntrada === "" && delete filters.dataEntrada;
 
     delete filters.selectedItems;
 
-    const parsedFilters = makeMultiFilterParams({
-      ...filters,
-    });
+    const parsedFilters = makeMultiFilterParams(filters);
+
     setFilter(parsedFilters);
     getTableData(0, parsedFilters);
   };
 
   return (
-    <Box sx={style.container}>
-      <Header title="Arquivos" />
+    <Box sx={styles.container}>
+      <Header title="Animais" />
       <Box
         component="form"
-        sx={style.formContainer}
+        sx={styles.formContainer}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Box sx={style.inputs}>
-          <Box sx={style.inputsContainer}>
-            <Box sx={style.inputSeparator}>
-              <Box sx={style.inputContainer}>
+        <Box sx={styles.inputs}>
+          <Box sx={styles.inputsContainer}>
+            <Box sx={styles.inputSeparator}>
+              <Box sx={styles.inputContainer}>
                 <Typography
                   component="label"
-                  sx={style.label}
-                  htmlFor="nomeArquivo"
+                  sx={styles.label}
+                  htmlFor="identificacao"
                 >
-                  Nome do arquivo
+                  Microchip ou Anilha
                 </Typography>
                 <TextField
                   size="small"
-                  sx={style.input}
-                  {...register("nomeArquivo")}
-                  id="nomeArquivo"
+                  sx={styles.input}
+                  {...register("identificacao")}
+                  id="identificacao"
                   type="text"
                 />
               </Box>
 
-              <Box sx={style.inputContainer}>
-                <Typography sx={style.label} component="label" htmlFor="upload">
-                  Data Upload
+              <Box sx={styles.inputContainer}>
+                <Typography
+                  sx={styles.label}
+                  component="label"
+                  htmlFor="origem"
+                >
+                  Origem
                 </Typography>
                 <TextField
                   size="small"
-                  sx={style.input}
-                  {...register("upload")}
-                  type="date"
-                  id="upload"
+                  sx={styles.input}
+                  {...register("origem")}
+                  type="text"
+                  id="origem"
                 />
               </Box>
-              <Box sx={style.inputContainer}>
-                <Typography component="label" htmlFor="tipo" sx={style.label}>
-                  Tipo
+            </Box>
+
+            <Box sx={styles.inputContainer}>
+              <Typography
+                component="label"
+                htmlFor="nome-cientifico"
+                sx={styles.label}
+              >
+                Nome Científico
+              </Typography>
+              <TextField
+                size="small"
+                sx={styles.input}
+                {...register("nomeCientifico")}
+                type="text"
+                id="nome-cientifico"
+              />
+            </Box>
+          </Box>
+          <Box sx={styles.inputsContainer}>
+            <Box sx={styles.inputSeparator}>
+              <Box sx={styles.inputContainer}>
+                <Typography
+                  component="label"
+                  sx={styles.label}
+                  htmlFor="data-admissao"
+                >
+                  Data Entrada
                 </Typography>
+                <TextField
+                  size="small"
+                  sx={styles.input}
+                  {...register("dataEntrada")}
+                  type="date"
+                  id="data-admissao"
+                />
+              </Box>
+
+              <Box sx={styles.inputContainer}>
+                <Typography component="label" htmlFor="sexo" sx={styles.label}>
+                  Sexo
+                </Typography>
+
                 <Select
                   size="small"
-                  sx={style.input}
-                  {...register("tipo")}
+                  sx={styles.input}
+                  {...register("sexo")}
                   type="text"
-                  id="tipo"
+                  id="sexo"
                 >
-                  <MenuItem value="uploads">Uploads</MenuItem>
-                  <MenuItem value="enriquecimento-ambiental">
-                    Enriquecimento ambiental
-                  </MenuItem>
-                  <MenuItem value="historico-etologico">
-                    Histórico etológico
-                  </MenuItem>
-                  <MenuItem value="sinais-vitais">Sinais vitais</MenuItem>
-                  <MenuItem value="outros">Outros</MenuItem>
+                  <MenuItem value="todos">Todos</MenuItem>
+                  <MenuItem value="Macho">Macho</MenuItem>
+                  <MenuItem value="Fêmea">Fêmea</MenuItem>
                 </Select>
               </Box>
-              <Box sx={style.inputContainer}>
-                <Typography component="label" htmlFor="tipo" sx={style.label}>
-                  Upload
-                </Typography>
-                <Select
-                  size="small"
-                  sx={style.input}
-                  {...register("tipo")}
-                  type="text"
-                  id="tipo"
-                >
-                  <MenuItem value="uploads">Uploads</MenuItem>
-                  <MenuItem value="enriquecimento-ambiental">
-                    Enriquecimento ambiental
-                  </MenuItem>
-                  <MenuItem value="historico-etologico">
-                    Histórico etológico
-                  </MenuItem>
-                  <MenuItem value="sinais-vitais">Sinais vitais</MenuItem>
-                  <MenuItem value="outros">Outros</MenuItem>
-                </Select>
-              </Box>
+            </Box>
+
+            <Box sx={styles.inputContainer}>
+              <Typography
+                component="label"
+                htmlFor="nome-apelido"
+                sx={styles.label}
+              >
+                Nome Comum
+              </Typography>
+              <TextField
+                size="small"
+                sx={styles.input}
+                {...register("nomeComum")}
+                type="text"
+                id="nome-apelido"
+              />
             </Box>
           </Box>
         </Box>
 
-        <Box sx={style.actions}>
+        <Box sx={styles.actions}>
           <Button
             variant="contained"
             onClick={() =>
@@ -388,63 +420,72 @@ export const Arquivos = () => {
                 selectedItems: setSelectedItems([]),
               })
             }
-            sx={style.filterButton}
+            sx={styles.filterButton}
           >
-            <ClearIcon sx={style.icon} /> LIMPAR
+            <ClearIcon sx={styles.icon} /> LIMPAR
           </Button>
-          <Button variant="contained" type="submit" sx={style.filterButton}>
-            <SearchIcon sx={style.icon} />
+          <Button variant="contained" type="submit" sx={styles.filterButton}>
+            <SearchIcon sx={styles.icon} />
             BUSCAR
           </Button>
         </Box>
       </Box>
 
-      <Box sx={style.actionsTable}>
+      <Box sx={styles.actionsTable}>
         <Button
-          sx={style.excludeRegister}
-          onClick={() => setOpenAlertModal(true)}
+          sx={styles.excludeRegister}
+          onClick={() => setIsOpenDelete(true)}
           disabled={!selectedItems?.length}
         >
           Excluir {selectedItems?.length || ""} registros
         </Button>
 
-        <Button sx={style.addRegister} onClick={() => openFormArquivo(true)}>
+        <Button
+          sx={styles.addRegister}
+          onClick={() => setIsOpenFormUpload(true)}
+        >
           <span>+</span> CADASTRAR
         </Button>
       </Box>
 
-      <div className={style.table}>
-        <div>
-          {arquivos?.data?.length ? (
-            <Table
-              columns={columns}
-              data={arquivos?.data}
-              onPaginate={(value) => getTableData(value - 1, filter)}
-              totalElements={arquivos?.totalElements}
-              size={arquivos?.size}
-              selectedItems={selectedItems}
-              setSelectedItems={setSelectedItems}
-              pages={Math.ceil(arquivos?.totalElements / arquivos?.size)}
-              handleEdit={handleEdit}
-            />
-          ) : (
-            ""
-          )}
-        </div>
-      </div>
+      <Box sx={styles.table}>
+        <Table
+          columns={columns}
+          data={Uploads}
+          onPaginate={(value) => getTableData(value - 1, filter)}
+          totalElements={totalElements}
+          size={Uploads?.length}
+          selectedItems={selectedItems}
+          setSelectedItems={setSelectedItems}
+          pages={Math.ceil(totalElements / 10)}
+          handleEdit={onEdit}
+        />
+      </Box>
 
       <FormUpload
-        open={openFormArquivo}
-        handleClose={() => {
-          setOpenFormArquivo(false);
-          setUpdateArquivo();
+        open={isOpenFormUpload}
+        defaultValues={updateUpload}
+        onConfirm={() => {
+          setIsOpenFormUpload(false);
+          setUpdateUpload({});
+          getTableData();
         }}
-        defaultValues={updateArquivo}
+        onCancel={() => {
+          setIsOpenFormUpload(false);
+          setUpdateUpload({});
+        }}
       />
       <AlertModal
-        open={openAlertModal}
+        open={isOpenDelete}
         onDelete={onDelete}
-        handleClose={() => setOpenAlertModal(false)}
+        onConfirm={() => {
+          deleteUploadsMutate(selectedItems);
+          setIsOpenDelete(false);
+          getTableData();
+        }}
+        onCancel={() => {
+          setIsOpenDelete(false);
+        }}
       />
     </Box>
   );

@@ -259,11 +259,11 @@ export const HistoricoClinico = () => {
   const onSubmit = async (values) => {
     const filters = {};
     Object.keys(values).forEach((key) => {
-      if (key === "dataEntrada") {
+      if (key === "dataHistoricoClinico") {
         return Object.assign(filters, {
-          dataEntrada:
-            values.dataEntrada &&
-            values.dataEntrada?.split("-")?.reverse()?.join("-"),
+          dataHistoricoClinico:
+            values.dataHistoricoClinico &&
+            values.dataHistoricoClinico?.split("-")?.reverse()?.join("-"),
         });
       }
       if (
@@ -276,9 +276,7 @@ export const HistoricoClinico = () => {
       }
     });
 
-    filters.sexo === "todos" && delete filters.sexo;
-
-    filters.dataEntrada === "" && delete filters.dataEntrada;
+    filters.dataHistoricoClinico === "" && delete filters.dataHistoricoClinico;
 
     delete filters.selectedItems;
 
@@ -303,107 +301,35 @@ export const HistoricoClinico = () => {
                 <Typography
                   component="label"
                   sx={styles.label}
-                  htmlFor="identificacao"
+                  htmlFor="nome-animal"
                 >
-                  Microchip ou Anilha
+                  Nome do Animal
                 </Typography>
                 <TextField
                   size="small"
                   sx={styles.input}
-                  {...register("identificacao")}
-                  id="identificacao"
+                  {...register("nomeAnimal")}
+                  id="nome-animal"
                   type="text"
                 />
               </Box>
 
               <Box sx={styles.inputContainer}>
                 <Typography
-                  sx={styles.label}
                   component="label"
-                  htmlFor="origem"
+                  sx={styles.label}
+                  htmlFor="data-historico"
                 >
-                  Origem
+                  Data da Amostra
                 </Typography>
                 <TextField
                   size="small"
                   sx={styles.input}
-                  {...register("origem")}
-                  type="text"
-                  id="origem"
-                />
-              </Box>
-            </Box>
-
-            <Box sx={styles.inputContainer}>
-              <Typography
-                component="label"
-                htmlFor="nome-cientifico"
-                sx={styles.label}
-              >
-                Nome Científico
-              </Typography>
-              <TextField
-                size="small"
-                sx={styles.input}
-                {...register("nomeCientifico")}
-                type="text"
-                id="nome-cientifico"
-              />
-            </Box>
-          </Box>
-          <Box sx={styles.inputsContainer}>
-            <Box sx={styles.inputSeparator}>
-              <Box sx={styles.inputContainer}>
-                <Typography
-                  component="label"
-                  sx={styles.label}
-                  htmlFor="data-admissao"
-                >
-                  Data Entrada
-                </Typography>
-                <TextField
-                  size="small"
-                  sx={styles.input}
-                  {...register("dataEntrada")}
+                  {...register("dataHistoricoClinico")}
                   type="date"
-                  id="data-admissao"
+                  id="data-historico"
                 />
               </Box>
-
-              <Box sx={styles.inputContainer}>
-                <Typography component="label" htmlFor="sexo" sx={styles.label}>
-                  Sexo
-                </Typography>
-
-                <Select
-                  size="small"
-                  sx={styles.input}
-                  {...register("sexo")}
-                  type="text"
-                  id="sexo"
-                >
-                  <MenuItem value="todos">Todos</MenuItem>
-                  <MenuItem value="Macho">Macho</MenuItem>
-                  <MenuItem value="Fêmea">Fêmea</MenuItem>
-                </Select>
-              </Box>
-            </Box>
-
-            <Box sx={styles.inputContainer}>
-              <Typography
-                component="label"
-                htmlFor="nome-apelido"
-                sx={styles.label}
-              >
-                Nome Comum
-              </Typography>
-              <TextField
-                size="small"
-                sx={styles.input}
-                {...register("nomeComum")}
-                type="text"
-                id="nome-apelido"
-              />
             </Box>
           </Box>
         </Box>
@@ -413,12 +339,8 @@ export const HistoricoClinico = () => {
             variant="contained"
             onClick={() =>
               reset({
-                nomeComum: "",
-                identificacao: "",
-                dataEntrada: "",
-                nomeCientifico: "",
-                sexo: "",
-                origem: "",
+                nomeAnimal: "",
+                dataHistoricoClinico: "",
                 selectedItems: setSelectedItems([]),
               })
             }

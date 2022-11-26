@@ -147,7 +147,6 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
         "dd/MM/yyyy"
       ),
     };
-    console.log(values);
     if (receivedValues.id) return updateAnimalMutate(values);
     return createAnimalMutate(values);
   };

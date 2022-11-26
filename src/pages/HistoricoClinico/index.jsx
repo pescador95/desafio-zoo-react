@@ -214,7 +214,7 @@ export const HistoricoClinico = () => {
     }
   );
 
- const { mutate: deleteHistoricoClinicosMutate } = useMutation(
+  const { mutate: deleteHistoricoClinicosMutate } = useMutation(
     ["deleteHistoricoClinicos"],
     (selectedItems) => deleteHistoricoClinicos(selectedItems),
     {
@@ -281,8 +281,6 @@ export const HistoricoClinico = () => {
     filters.dataEntrada === "" && delete filters.dataEntrada;
 
     delete filters.selectedItems;
-
-    console.log(filters);
 
     const parsedFilters = makeMultiFilterParams(filters);
 

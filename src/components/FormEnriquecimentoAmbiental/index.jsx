@@ -145,7 +145,6 @@ export const FormEnriquecimentoAmbiental = ({
   );
 
   const onSubmit = async (receivedValues) => {
-    console.log("Função onSubmit");
     const values = {
       ...receivedValues,
       dataEnriquecimento: format(

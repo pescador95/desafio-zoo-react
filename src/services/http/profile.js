@@ -12,7 +12,7 @@ export const updateUserProfile = async (user) => {
   const axios = getAxios();
 
   try {
-    const data = await axios.put(ENDPOINTS.user.update, user);
+    const { data } = await axios.put(ENDPOINTS.user.update, user);
 
     return data;
   } catch (error) {

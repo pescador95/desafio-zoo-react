@@ -199,6 +199,7 @@ export const Profile = () => {
   }, [setValue, users?.email, users?.nome, users?.id]);
 
   const { mutate: updateProfileMutate } = useMutation(
+    ["updateUserProfile"],
     (usuario) => updateUserProfile(usuario),
     {
       onSuccess: (data) => {

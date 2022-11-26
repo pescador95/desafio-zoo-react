@@ -214,7 +214,7 @@ export const HistoricoClinico = () => {
     }
   );
 
-  const { mutate: deleteHistoricoClinicosMutate } = useMutation(
+ const { mutate: deleteHistoricoClinicosMutate } = useMutation(
     ["deleteHistoricoClinicos"],
     (selectedItems) => deleteHistoricoClinicos(selectedItems),
     {

@@ -12,9 +12,7 @@ import { formattedDateForInput, parsedDate } from "../../utils/parsedDate";
 import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { toast } from "react-toastify";
-import { GENDER, LIFETIME } from "../../utils/constants";
 import { InputFile } from "../Inputs/InputFile";
-import { InputMultiselect } from "../Inputs/InputSelect";
 import { InputText } from "../Inputs/InputText";
 
 export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
@@ -82,14 +80,8 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
   };
 
   const schema = yup.object().shape({
-    nomeApelido: yup.string().required("* O campo é obrigatório"),
-    identificacao: yup.string().required("* O campo é obrigatório"),
-    dataEntrada: yup.string().required("* O campo é obrigatório"),
-    nomeComum: yup.string().required("* O campo é obrigatório"),
-    origem: yup.string().required("* O campo é obrigatório"),
-    nomeCientifico: yup.string().required("* O campo é obrigatório"),
-    sexo: yup.string().required("* O campo é obrigatório"),
-    idade: yup.string().required("* O campo é obrigatório"),
+    nomeAnimal: yup.string().required("* O campo é obrigatório"),
+    fileRefence: yup.string().required("* O campo é obrigatório"),
     orgao: yup.string().required("* O campo é obrigatório"),
   });
 
@@ -160,88 +152,15 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
     >
       <Box sx={styles.modal} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography sx={styles.title}>
-          {defaultValues?.id
-            ? "Editar ficha do animal"
-            : "Cadastrar ficha do animal"}
+          {defaultValues?.id ? "Editar upload" : "Cadastrar upload"}
         </Typography>
 
         <Box sx={styles.line}>
           <InputText
             control={control}
-            name="nomeApelido"
-            label="Nome apelido"
-            error={errors?.nomeApelido}
-          />
-
-          <InputText
-            control={control}
-            name="nomeComum"
-            label="Nome comum"
-            error={errors?.nomeComum}
-          />
-
-          <InputText
-            control={control}
-            name="nomeCientifico"
-            label="Nome cientifico"
-            error={errors?.nomeCientifico}
-          />
-        </Box>
-
-        <Box sx={styles.line}>
-          <InputText
-            control={control}
-            name="identificacao"
-            label="Microship/Anilha"
-            error={errors?.identificacao}
-          />
-        </Box>
-
-        <Box sx={styles.line}>
-          <InputText
-            control={control}
-            name="dataEntrada"
-            label="Data de entrada"
-            error={errors?.dataEntrada}
-            type="date"
-          />
-
-          <InputMultiselect
-            control={control}
-            name="idade"
-            label="Tempo de vida"
-            error={errors?.idade}
-            options={Object.keys(LIFETIME)?.map((key) => ({
-              label: LIFETIME[key].valueOf(),
-              value: LIFETIME[key],
-            }))}
-          />
-
-          <InputMultiselect
-            control={control}
-            name="sexo"
-            label="Sexo"
-            error={errors?.idade}
-            options={Object.keys(GENDER)?.map((key) => ({
-              label: GENDER[key].valueOf(),
-              value: GENDER[key],
-            }))}
-          />
-        </Box>
-
-        <Box sx={styles.line}>
-          <InputText
-            control={control}
-            name="origem"
-            label="Origem"
-            error={errors?.origem}
-          />
-
-          <InputText
-            control={control}
-            name="orgao"
-            label="Orgão"
-            error={errors?.orgao}
+            name="nomeAnimal"
+            label="Nome do animal"
+            error={errors?.nomeAnimal}
           />
         </Box>
 

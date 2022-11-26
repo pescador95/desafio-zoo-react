@@ -10,14 +10,13 @@ import {
   createMedicacao,
   updateMedicacao,
 } from "../../services/http/medicacao";
+
 import { formattedDateForInput, parsedDate } from "../../utils/parsedDate";
 
 import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { toast } from "react-toastify";
-import { GENDER, LIFETIME } from "../../utils/constants";
 import { InputFile } from "../Inputs/InputFile";
-import { InputMultiselect } from "../Inputs/InputSelect";
 import { InputText } from "../Inputs/InputText";
 
 export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
@@ -85,15 +84,12 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
   };
 
   const schema = yup.object().shape({
-    nomeApelido: yup.string().required("* O campo é obrigatório"),
-    identificacao: yup.string().required("* O campo é obrigatório"),
-    dataEntrada: yup.string().required("* O campo é obrigatório"),
-    nomeComum: yup.string().required("* O campo é obrigatório"),
-    origem: yup.string().required("* O campo é obrigatório"),
-    nomeCientifico: yup.string().required("* O campo é obrigatório"),
-    sexo: yup.string().required("* O campo é obrigatório"),
-    idade: yup.string().required("* O campo é obrigatório"),
-    orgao: yup.string().required("* O campo é obrigatório"),
+    nomeAnimal: yup.string().required("* O campo é obrigatório"),
+    historicoClinico: yup.string().required("* O campo é obrigatório"),
+    nomeMedicacao: yup.string().required("* O campo é obrigatório"),
+    viaAdministracao: yup.string().required("* O campo é obrigatório"),
+    posologia: yup.string().required("* O campo é obrigatório"),
+    frequencia: yup.string().required("* O campo é obrigatório"),
   });
 
   const {
@@ -109,14 +105,16 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
     defaultValues?.id
       ? reset({
           ...defaultValues,
-          dataEntrada: formattedDateForInput(defaultValues.dataEntrada),
+          historicoClinico: formattedDateForInput(
+            defaultValues.historicoClinico
+          ),
         })
       : reset();
   }, [defaultValues]);
 
   const { mutate: createMedicacaoMutate } = useMutation(
     ["createMedicacao"],
-    (animal) => createMedicacao(animal),
+    (medicacao) => createMedicacao(medicacao),
     {
       onSuccess: (data) => {
         toast.success(data?.messages?.join(", "));
@@ -130,7 +128,7 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
 
   const { mutate: updateMedicacaoMutate } = useMutation(
     ["updateMedicacao"],
-    (animal) => updateMedicacao(animal),
+    (medicacao) => updateMedicacao(medicacao),
     {
       onSuccess: (data) => {
         toast.success(data?.messages?.join(", "));
@@ -145,8 +143,8 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
   const onSubmit = async (receivedValues) => {
     const values = {
       ...receivedValues,
-      dataEntrada: format(
-        new Date(parsedDate(receivedValues.dataEntrada)),
+      historicoClinico: format(
+        new Date(parsedDate(receivedValues.historicoClinico)),
         "dd/MM/yyyy"
       ),
     };
@@ -164,87 +162,48 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
       <Box sx={styles.modal} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography sx={styles.title}>
           {defaultValues?.id
-            ? "Editar ficha dos Sinais Vitais"
-            : "Cadastrar ficha dos Sinais Vitais"}
+            ? "Editar ficha de medicação"
+            : "Cadastrar ficha de medicação"}
         </Typography>
 
         <Box sx={styles.line}>
           <InputText
             control={control}
-            name="nomeApelido"
-            label="Nome apelido"
-            error={errors?.nomeApelido}
-          />
-
-          <InputText
-            control={control}
-            name="nomeComum"
-            label="Nome comum"
-            error={errors?.nomeComum}
-          />
-
-          <InputText
-            control={control}
-            name="nomeCientifico"
-            label="Nome cientifico"
-            error={errors?.nomeCientifico}
+            name="historicoClinico"
+            label="Historico Clinico"
+            error={errors?.historicoClinico}
           />
         </Box>
 
         <Box sx={styles.line}>
           <InputText
             control={control}
-            name="identificacao"
-            label="Microship/Anilha"
-            error={errors?.identificacao}
+            name="nomeMedicacao"
+            label="Nome da Medicacão"
+            error={errors?.nomeMedicacao}
           />
         </Box>
 
         <Box sx={styles.line}>
           <InputText
             control={control}
-            name="dataEntrada"
-            label="Data de entrada"
-            error={errors?.dataEntrada}
-            type="date"
-          />
-
-          <InputMultiselect
-            control={control}
-            name="idade"
-            label="Tempo de vida"
-            error={errors?.idade}
-            options={Object.keys(LIFETIME)?.map((key) => ({
-              label: LIFETIME[key].valueOf(),
-              value: LIFETIME[key],
-            }))}
-          />
-
-          <InputMultiselect
-            control={control}
-            name="sexo"
-            label="Sexo"
-            error={errors?.idade}
-            options={Object.keys(GENDER)?.map((key) => ({
-              label: GENDER[key].valueOf(),
-              value: GENDER[key],
-            }))}
-          />
-        </Box>
-
-        <Box sx={styles.line}>
-          <InputText
-            control={control}
-            name="origem"
-            label="Origem"
-            error={errors?.origem}
+            name="posologia"
+            label="Posologia"
+            error={errors?.posologia}
           />
 
           <InputText
             control={control}
-            name="orgao"
-            label="Orgão"
-            error={errors?.orgao}
+            name="viaAdministracao"
+            label="Via de Administracao"
+            error={errors?.viaAdministracao}
+          />
+
+          <InputText
+            control={control}
+            name="frequencia"
+            label="Frequência"
+            error={errors?.frequencia}
           />
         </Box>
 

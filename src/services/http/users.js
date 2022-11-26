@@ -56,7 +56,7 @@ export const deleteUsers = async (users) => {
   const { data } = await axios.delete(ENDPOINTS.user.delete, {
     data: users?.map((e) => e.id),
   });
-  console.log(users);
+
   return data;
 };
 

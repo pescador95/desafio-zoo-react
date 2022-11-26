@@ -286,8 +286,6 @@ export const Nutricao = () => {
 
     delete filters.selectedItems;
 
-    console.log(filters);
-
     const parsedFilters = makeMultiFilterParams(filters);
 
     setFilter(parsedFilters);

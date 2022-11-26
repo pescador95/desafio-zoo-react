@@ -90,15 +90,17 @@ export const FormHistoricoClinico = ({
   };
 
   const schema = yup.object().shape({
-    nomeApelido: yup.string().required("* O campo é obrigatório"),
-    identificacao: yup.string().required("* O campo é obrigatório"),
-    dataEntrada: yup.string().required("* O campo é obrigatório"),
-    nomeComum: yup.string().required("* O campo é obrigatório"),
-    origem: yup.string().required("* O campo é obrigatório"),
-    nomeCientifico: yup.string().required("* O campo é obrigatório"),
-    sexo: yup.string().required("* O campo é obrigatório"),
-    idade: yup.string().required("* O campo é obrigatório"),
-    orgao: yup.string().required("* O campo é obrigatório"),
+    nomeAnimal: yup.string().required("* O campo é obrigatório"),
+    dataHistoricoClinico: yup.string().required("* O campo é obrigatório"),
+    etco2: yup.string(),
+    frequenciaCardiaca: yup.string(),
+    frequenciaRespiratoria: yup.string(),
+    temperaturaAnimal: yup.string(),
+    pd: yup.string(),
+    pm: yup.string(),
+    ps: yup.string(),
+    spo2: yup.string(),
+    observacao: yup.string(),
   });
 
   const {
@@ -114,7 +116,7 @@ export const FormHistoricoClinico = ({
     defaultValues?.id
       ? reset({
           ...defaultValues,
-          dataEntrada: formattedDateForInput(defaultValues.dataEntrada),
+          dataHistoricoClinico: formattedDateForInput(defaultValues.dataHistoricoClinico),
         })
       : reset();
   }, [defaultValues]);
@@ -150,8 +152,8 @@ export const FormHistoricoClinico = ({
   const onSubmit = async (receivedValues) => {
     const values = {
       ...receivedValues,
-      dataEntrada: format(
-        new Date(parsedDate(receivedValues.dataEntrada)),
+      dataHistoricoClinico: format(
+        new Date(parsedDate(receivedValues.dataHistoricoClinico)),
         "dd/MM/yyyy"
       ),
     };
@@ -176,89 +178,85 @@ export const FormHistoricoClinico = ({
         <Box sx={styles.line}>
           <InputText
             control={control}
-            name="nomeApelido"
-            label="Nome apelido"
-            error={errors?.nomeApelido}
+            name="nomeAnimal"
+            label="Nome do Animal"
+            error={errors?.nomeAnimal}
           />
 
           <InputText
             control={control}
-            name="nomeComum"
-            label="Nome comum"
-            error={errors?.nomeComum}
-          />
-
-          <InputText
-            control={control}
-            name="nomeCientifico"
-            label="Nome cientifico"
-            error={errors?.nomeCientifico}
-          />
-        </Box>
-
-        <Box sx={styles.line}>
-          <InputText
-            control={control}
-            name="identificacao"
-            label="Microship/Anilha"
-            error={errors?.identificacao}
-          />
-        </Box>
-
-        <Box sx={styles.line}>
-          <InputText
-            control={control}
-            name="dataEntrada"
-            label="Data de entrada"
-            error={errors?.dataEntrada}
+            name="dataHistoricoClinico"
+            label="Data da Coleta"
+            error={errors?.dataHistoricoClinico}
             type="date"
           />
+        </Box>
 
-          <InputMultiselect
+        <Box sx={styles.line}>
+          <InputText
             control={control}
-            name="idade"
-            label="Tempo de vida"
-            error={errors?.idade}
-            options={Object.keys(LIFETIME)?.map((key) => ({
-              label: LIFETIME[key].valueOf(),
-              value: LIFETIME[key],
-            }))}
+            name="frequenciaCardiaca"
+            label="Frequência Cardíaca"
+            error={errors?.frequenciaCardiaca}
+          />
+          <InputText
+            control={control}
+            name="frequenciaRespiratoria"
+            label="Frequência Respiratória"
+            error={errors?.frequenciaRespiratoria}
           />
 
-          <InputMultiselect
+          <InputText
             control={control}
-            name="sexo"
-            label="Sexo"
-            error={errors?.idade}
-            options={Object.keys(GENDER)?.map((key) => ({
-              label: GENDER[key].valueOf(),
-              value: GENDER[key],
-            }))}
+            name="temperaturaAnimal"
+            label="Temperatura do Animal"
+            error={errors?.temperaturaAnimal}
           />
         </Box>
 
         <Box sx={styles.line}>
           <InputText
             control={control}
-            name="origem"
-            label="Origem"
-            error={errors?.origem}
+            name="etco2"
+            label="EtcO2"
+            error={errors?.etco2}
           />
 
           <InputText
             control={control}
-            name="orgao"
-            label="Orgão"
-            error={errors?.orgao}
+            name="pd"
+            label="Pd"
+            error={errors?.pd}
+          />
+
+          <InputText
+            control={control}
+            name="pm"
+            label="Pm"
+            error={errors?.pm}
+          />
+
+          <InputText
+            control={control}
+            name="ps"
+            label="Ps"
+            error={errors?.ps}
+          />
+
+          <InputText
+            control={control}
+            name="spo2"
+            label="SpO2"
+            error={errors?.spo2}
           />
         </Box>
 
         <Box sx={styles.line}>
-          <InputFile
+          <InputText
             control={control}
-            name="file"
-            label="Arquivos"
-            error={errors?.file}
+            name="observacao"
+            label="Observação"
+            error={errors?.observacao}
           />
         </Box>
 

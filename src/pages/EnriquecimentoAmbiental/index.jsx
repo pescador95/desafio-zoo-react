@@ -302,58 +302,19 @@ export const EnriquecimentoAmbiental = () => {
               <Box sx={styles.inputContainer}>
                 <Typography
                   component="label"
+                  htmlFor="nome-apelido"
                   sx={styles.label}
-                  htmlFor="identificacao"
                 >
-                  Microchip ou Anilha
+                  Nome Comum
                 </Typography>
                 <TextField
                   size="small"
                   sx={styles.input}
-                  {...register("identificacao")}
-                  id="identificacao"
+                  {...register("nomeAnimal")}
                   type="text"
+                  id="nome-apelido"
                 />
-              </Box>
 
-              <Box sx={styles.inputContainer}>
-                <Typography
-                  sx={styles.label}
-                  component="label"
-                  htmlFor="origem"
-                >
-                  Origem
-                </Typography>
-                <TextField
-                  size="small"
-                  sx={styles.input}
-                  {...register("origem")}
-                  type="text"
-                  id="origem"
-                />
-              </Box>
-            </Box>
-
-            <Box sx={styles.inputContainer}>
-              <Typography
-                component="label"
-                htmlFor="nome-cientifico"
-                sx={styles.label}
-              >
-                Nome Científico
-              </Typography>
-              <TextField
-                size="small"
-                sx={styles.input}
-                {...register("nomeCientifico")}
-                type="text"
-                id="nome-cientifico"
-              />
-            </Box>
-          </Box>
-          <Box sx={styles.inputsContainer}>
-            <Box sx={styles.inputSeparator}>
-              <Box sx={styles.inputContainer}>
                 <Typography
                   component="label"
                   sx={styles.label}
@@ -364,45 +325,31 @@ export const EnriquecimentoAmbiental = () => {
                 <TextField
                   size="small"
                   sx={styles.input}
-                  {...register("dataEntrada")}
+                  {...register("dataEnriquecimento")}
                   type="date"
                   id="data-admissao"
                 />
               </Box>
 
               <Box sx={styles.inputContainer}>
-                <Typography component="label" htmlFor="sexo" sx={styles.label}>
-                  Sexo
+                <Typography
+                    component="label"
+                    htmlFor="nome-apelido"
+                    sx={styles.label}
+                >
+                    Nome Enriquecimento
                 </Typography>
-                <Select
+                <TextField
                   size="small"
                   sx={styles.input}
-                  {...register("sexo")}
+                  {...register("nomeEnriquecimento")}
                   type="text"
-                  id="sexo"
-                >
-                  <MenuItem value="todos">Todos</MenuItem>
-                  <MenuItem value="Macho">Macho</MenuItem>
-                  <MenuItem value="Fêmea">Fêmea</MenuItem>
-                </Select>
+                  id="nome-apelido"
+                />
               </Box>
             </Box>
 
             <Box sx={styles.inputContainer}>
-              <Typography
-                component="label"
-                htmlFor="nome-apelido"
-                sx={styles.label}
-              >
-                Nome Comum
-              </Typography>
-              <TextField
-                size="small"
-                sx={styles.input}
-                {...register("nomeComum")}
-                type="text"
-                id="nome-apelido"
-              />
             </Box>
           </Box>
         </Box>

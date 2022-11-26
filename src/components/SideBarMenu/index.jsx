@@ -1,9 +1,10 @@
 import { Box } from "@mui/material";
-import React from "react";
+import { React, useState } from "react";
 import zooLogo from "../../assets/ZooLogo.png";
 import { SideBarMenuData } from "../SideBarMenuComponents";
 
 export const SideBarMenu = () => {
+
   const styles = {
     container: {
       height: "auto",
@@ -19,13 +20,17 @@ export const SideBarMenu = () => {
       display:'flex',
       flexDirection: 'column',
       gap: '2rem',
-      padding: '0 1rem'
+      padding: '0 1rem',
     },
     link: {
       color: 'white',
       display: 'flex',
       alignItems:'center',
       gap: '0.5rem',
+      cursor: "pointer",
+      "&:hover": {
+        filter: "brightness(0.8)",
+      },
     },
     img: {
       width: '15rem',

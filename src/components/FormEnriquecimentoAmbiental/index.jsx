@@ -90,15 +90,10 @@ export const FormEnriquecimentoAmbiental = ({
   };
 
   const schema = yup.object().shape({
-    nomeApelido: yup.string().required("* O campo é obrigatório"),
-    identificacao: yup.string().required("* O campo é obrigatório"),
-    dataEntrada: yup.string().required("* O campo é obrigatório"),
-    nomeComum: yup.string().required("* O campo é obrigatório"),
-    origem: yup.string().required("* O campo é obrigatório"),
-    nomeCientifico: yup.string().required("* O campo é obrigatório"),
-    sexo: yup.string().required("* O campo é obrigatório"),
-    idade: yup.string().required("* O campo é obrigatório"),
-    orgao: yup.string().required("* O campo é obrigatório"),
+    dataEnriquecimento: yup.string().required("* O campo é obrigatório"),
+    descricaoEnriquecimento: yup.string().required("* O campo é obrigatório"),
+    nomeAnimal: yup.string().required("* O campo é obrigatório"),
+    nomeEnriquecimento: yup.string().required("* O campo é obrigatório"),
   });
 
   const {
@@ -114,13 +109,13 @@ export const FormEnriquecimentoAmbiental = ({
     defaultValues?.id
       ? reset({
           ...defaultValues,
-          dataEntrada: formattedDateForInput(defaultValues.dataEntrada),
+          dataEnriquecimento: formattedDateForInput(defaultValues.dataEnriquecimento),
         })
       : reset();
   }, [defaultValues]);
 
   const { mutate: createEnriquecimentoAmbientalMutate } = useMutation(
-    ["createEnriquecimentoAmbiental"],
+    ["createEnriquecimentoAmbiental"], 
     (enriquecimentoAmbiental) =>
       createEnriquecimentoAmbiental(enriquecimentoAmbiental),
     {
@@ -128,6 +123,7 @@ export const FormEnriquecimentoAmbiental = ({
         toast.success(success?.data?.messages?.join(", "));
         onConfirm();
       },
+      
       onError: (error) => {
         toast.error(error?.response?.data?.messages?.join(", "));
       },
@@ -149,10 +145,11 @@ export const FormEnriquecimentoAmbiental = ({
   );
 
   const onSubmit = async (receivedValues) => {
+    console.log("Função onSubmit")
     const values = {
       ...receivedValues,
-      dataEntrada: format(
-        new Date(parsedDate(receivedValues.dataEntrada)),
+      dataEnriquecimento: format(
+        new Date(parsedDate(receivedValues.dataEnriquecimento)),
         "dd/MM/yyyy"
       ),
     };
@@ -174,92 +171,40 @@ export const FormEnriquecimentoAmbiental = ({
             : "Cadastrar ficha do Enriquecimento Ambiental"}
         </Typography>
 
+
         <Box sx={styles.line}>
           <InputText
             control={control}
-            name="nomeApelido"
-            label="Nome apelido"
-            error={errors?.nomeApelido}
-          />
-
-          <InputText
-            control={control}
-            name="nomeComum"
-            label="Nome comum"
-            error={errors?.nomeComum}
-          />
-
-          <InputText
-            control={control}
-            name="nomeCientifico"
-            label="Nome cientifico"
-            error={errors?.nomeCientifico}
+            name="nomeAnimal"
+            label="Nome do Animal"
+            error={errors?.nomeAnimal}
           />
         </Box>
 
         <Box sx={styles.line}>
           <InputText
             control={control}
-            name="identificacao"
-            label="Microship/Anilha"
-            error={errors?.identificacao}
+            name="nomeEnriquecimento"
+            label="Atividade"
+            error={errors?.nomeEnriquecimento}
           />
         </Box>
 
         <Box sx={styles.line}>
           <InputText
             control={control}
-            name="dataEntrada"
-            label="Data de entrada"
-            error={errors?.dataEntrada}
+            name="dataEnriquecimento"
+            label="Data da Atividade"
+            error={errors?.dataEnriquecimento}
             type="date"
           />
-
-          <InputMultiselect
-            control={control}
-            name="idade"
-            label="Tempo de vida"
-            error={errors?.idade}
-            options={Object.keys(LIFETIME)?.map((key) => ({
-              label: LIFETIME[key].valueOf(),
-              value: LIFETIME[key],
-            }))}
-          />
-
-          <InputMultiselect
-            control={control}
-            name="sexo"
-            label="Sexo"
-            error={errors?.idade}
-            options={Object.keys(GENDER)?.map((key) => ({
-              label: GENDER[key].valueOf(),
-              value: GENDER[key],
-            }))}
-          />
         </Box>
-
         <Box sx={styles.line}>
           <InputText
             control={control}
-            name="origem"
-            label="Origem"
-            error={errors?.origem}
-          />
-
-          <InputText
-            control={control}
-            name="orgao"
-            label="Orgão"
-            error={errors?.orgao}
-          />
-        </Box>
-
-        <Box sx={styles.line}>
-          <InputFile
-            control={control}
-            name="file"
-            label="Arquivos"
-            error={errors?.file}
+            name="descricaoEnriquecimento"
+            label="Descrição"
+            error={errors?.descricaoEnriquecimento}
           />
         </Box>
 

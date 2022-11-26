@@ -82,15 +82,10 @@ export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
   };
 
   const schema = yup.object().shape({
-    nomeApelido: yup.string().required("* O campo é obrigatório"),
-    identificacao: yup.string().required("* O campo é obrigatório"),
-    dataEntrada: yup.string().required("* O campo é obrigatório"),
-    nomeComum: yup.string().required("* O campo é obrigatório"),
-    origem: yup.string().required("* O campo é obrigatório"),
-    nomeCientifico: yup.string().required("* O campo é obrigatório"),
-    sexo: yup.string().required("* O campo é obrigatório"),
-    idade: yup.string().required("* O campo é obrigatório"),
-    orgao: yup.string().required("* O campo é obrigatório"),
+    nomeAnimal: yup.string().required("* O campo é obrigatório"),
+    dataInicio: yup.string().required("* O campo é obrigatório"),
+    dataFim: yup.string().required("* O campo é obrigatório"),
+    descricaoNutricao: yup.string().required("* O campo é obrigatório"),
   });
 
   const {
@@ -106,7 +101,8 @@ export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
     defaultValues?.id
       ? reset({
           ...defaultValues,
-          dataEntrada: formattedDateForInput(defaultValues.dataEntrada),
+          dataInicio: formattedDateForInput(defaultValues.dataInicio),
+          dataFim: formattedDateForInput(defaultValues.dataFim),
         })
       : reset();
   }, [defaultValues]);
@@ -141,8 +137,12 @@ export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
   const onSubmit = async (receivedValues) => {
     const values = {
       ...receivedValues,
-      dataEntrada: format(
-        new Date(parsedDate(receivedValues.dataEntrada)),
+      dataInicio: format(
+        new Date(parsedDate(receivedValues.dataInicio)),
+        "dd/MM/yyyy"
+      ),
+      dataFim: format(
+        new Date(parsedDate(receivedValues.dataFim)),
         "dd/MM/yyyy"
       ),
     };
@@ -167,89 +167,36 @@ export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
         <Box sx={styles.line}>
           <InputText
             control={control}
-            name="nomeApelido"
-            label="Nome apelido"
-            error={errors?.nomeApelido}
-          />
-
-          <InputText
-            control={control}
-            name="nomeComum"
-            label="Nome comum"
-            error={errors?.nomeComum}
-          />
-
-          <InputText
-            control={control}
-            name="nomeCientifico"
-            label="Nome cientifico"
-            error={errors?.nomeCientifico}
+            name="nomeAnimal"
+            label="Nome do Animal"
+            error={errors?.nomeAnimal}
           />
         </Box>
 
         <Box sx={styles.line}>
           <InputText
             control={control}
-            name="identificacao"
-            label="Microship/Anilha"
-            error={errors?.identificacao}
-          />
-        </Box>
-
-        <Box sx={styles.line}>
-          <InputText
-            control={control}
-            name="dataEntrada"
-            label="Data de entrada"
-            error={errors?.dataEntrada}
+            name="dataInicio"
+            label="Data de Início"
+            error={errors?.dataInicio}
             type="date"
           />
 
-          <InputMultiselect
+          <InputText
             control={control}
-            name="idade"
-            label="Tempo de vida"
-            error={errors?.idade}
-            options={Object.keys(LIFETIME)?.map((key) => ({
-              label: LIFETIME[key].valueOf(),
-              value: LIFETIME[key],
-            }))}
-          />
-
-          <InputMultiselect
-            control={control}
-            name="sexo"
-            label="Sexo"
-            error={errors?.idade}
-            options={Object.keys(GENDER)?.map((key) => ({
-              label: GENDER[key].valueOf(),
-              value: GENDER[key],
-            }))}
+            name="dataFim"
+            label="Data Final"
+            error={errors?.dataFim}
+            type="date"
           />
         </Box>
 
         <Box sx={styles.line}>
           <InputText
             control={control}
-            name="origem"
-            label="Origem"
-            error={errors?.origem}
-          />
-
-          <InputText
-            control={control}
-            name="orgao"
-            label="Orgão"
-            error={errors?.orgao}
-          />
-        </Box>
-
-        <Box sx={styles.line}>
-          <InputFile
-            control={control}
-            name="file"
-            label="Arquivos"
-            error={errors?.file}
+            name="descricaoNutricao"
+            label="Descrição"
+            error={errors?.descricaoNutricao}
           />
         </Box>
 

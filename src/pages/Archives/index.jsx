@@ -22,6 +22,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 export const Arquivos = () => {
   const style = {
@@ -185,8 +187,8 @@ export const Arquivos = () => {
     },
   };
 
-  const axios = useAxios();
-
+  const { register, handleSubmit, reset } = useForm({});
+  const [filter, setFilter] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
   const [updateArquivo, setUpdateArquivo] = useState({});
   const [openFormArquivo, setOpenFormArquivo] = useState(false);
@@ -197,19 +199,48 @@ export const Arquivos = () => {
     size: 0,
   });
 
-  useEffect(() => {
-    getData();
-    getTotalElements();
-  }, []);
+  useEffect(() => getTableData(), []);
 
-  const getData = async (page = 0, strgFilter = "") => {
-    const data = await getUploads(page, strgFilter);
-    setArquivos((prev) => ({ ...prev, data, size: data?.length }));
+  const onDelete = async () => {
+    deleteUploadsMutate(selectedItems);
   };
 
-  const getTotalElements = async (stringFilter = "") => {
-    const response = await countUpload(stringFilter);
-    setArquivos((prev) => ({ ...prev, totalElements: response }));
+  const { mutate: getUploadMutate, data: uploads } = useMutation(
+    ({ page = 0, strgFilter = "" }) => getUploads(page, strgFilter),
+    {
+      onError: (error) => {
+        toast.error(error?.response?.data?.messages?.join(", "));
+      },
+    }
+  );
+
+  const { mutate: getTotalElementsMutate, data: totalElements } = useMutation(
+    ({ strgFilter = "" }) => countUpload(strgFilter),
+    {
+      onError: (error) => {
+        toast.error(error?.response?.data?.messages?.join(", "));
+      },
+    }
+  );
+
+  const { mutate: deleteUploadsMutate } = useMutation(
+    ["deleteUploads"],
+    (selectedItems) => deleteUploads(selectedItems),
+    {
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
+        getTableData();
+        setSelectedItems([]);
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.messages?.join(", "));
+      },
+    }
+  );
+
+  const getTableData = (page = 0, strgFilter = "") => {
+    getUploadMutate({ page, strgFilter });
+    getTotalElementsMutate({ strgFilter });
   };
 
   const columns = useMemo(
@@ -223,23 +254,10 @@ export const Arquivos = () => {
     [arquivos]
   );
 
-  const handleDelete = async () => {
-    await deleteUploads(selectedItems);
-    await getData();
-    await getTotalElements();
-  };
-
   const handleEdit = (item) => {
     setUpdateArquivo(item);
     setOpenFormArquivo(true);
   };
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({});
 
   const onSubmit = async (values) => {
     const filters = {};
@@ -264,8 +282,8 @@ export const Arquivos = () => {
     const parsedFilters = makeMultiFilterParams({
       ...filters,
     });
-    getData(0, parsedFilters);
-    getTotalElements(parsedFilters);
+    setFilter(parsedFilters);
+    getTableData(0, parsedFilters);
   };
 
   return (
@@ -401,7 +419,7 @@ export const Arquivos = () => {
             <Table
               columns={columns}
               data={arquivos?.data}
-              onPaginate={(value) => getData(value - 1)}
+              onPaginate={(value) => getTableData(value - 1, filter)}
               totalElements={arquivos?.totalElements}
               size={arquivos?.size}
               selectedItems={selectedItems}
@@ -425,7 +443,7 @@ export const Arquivos = () => {
       />
       <AlertModal
         open={openAlertModal}
-        onDelete={handleDelete}
+        onDelete={onDelete}
         handleClose={() => setOpenAlertModal(false)}
       />
     </Box>

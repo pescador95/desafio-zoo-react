@@ -111,8 +111,8 @@ export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
     ["createNutricao"],
     (nutricao) => createNutricao(nutricao),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         onConfirm();
       },
       onError: (error) => {
@@ -122,10 +122,11 @@ export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
   );
 
   const { mutate: updateNutricaoMutate } = useMutation(
+    ["updateNutricao"],
     (nutricao) => updateNutricao(nutricao),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         onConfirm();
       },
       onError: (error) => {

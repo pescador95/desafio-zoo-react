@@ -216,10 +216,11 @@ export const HistoricoEtologico = () => {
   );
 
   const { mutate: deleteHistoricoEtologicosMutate } = useMutation(
-    () => deleteHistoricoEtologicos(selectedItems),
+    ["deleteHistoricoEtologicos"],
+    (selectedItems) => deleteHistoricoEtologicos(selectedItems),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         getTableData();
         setSelectedItems([]);
       },
@@ -275,7 +276,6 @@ export const HistoricoEtologico = () => {
         Object.assign(filters, { [key]: values[key] });
       }
     });
-
 
     filters.dataEtologico === "" && delete filters.dataEtologico;
 

@@ -213,10 +213,11 @@ export const Medicacao = () => {
   );
 
   const { mutate: deleteMedicacaosMutate } = useMutation(
-    () => deleteMedicacaos(selectedItems),
+    ["deleteMedicacaos"],
+    (selectedItems) => deleteMedicacaos(selectedItems),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         getTableData();
         setSelectedItems([]);
       },

@@ -15,9 +15,6 @@ import { formattedDateForInput, parsedDate } from "../../utils/parsedDate";
 import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { toast } from "react-toastify";
-import { GENDER, LIFETIME } from "../../utils/constants";
-import { InputFile } from "../Inputs/InputFile";
-import { InputMultiselect } from "../Inputs/InputSelect";
 import { InputText } from "../Inputs/InputText";
 
 export const FormEnriquecimentoAmbiental = ({
@@ -109,21 +106,23 @@ export const FormEnriquecimentoAmbiental = ({
     defaultValues?.id
       ? reset({
           ...defaultValues,
-          dataEnriquecimento: formattedDateForInput(defaultValues.dataEnriquecimento),
+          dataEnriquecimento: formattedDateForInput(
+            defaultValues.dataEnriquecimento
+          ),
         })
       : reset();
   }, [defaultValues]);
 
   const { mutate: createEnriquecimentoAmbientalMutate } = useMutation(
-    ["createEnriquecimentoAmbiental"], 
+    ["createEnriquecimentoAmbiental"],
     (enriquecimentoAmbiental) =>
       createEnriquecimentoAmbiental(enriquecimentoAmbiental),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         onConfirm();
       },
-      
+
       onError: (error) => {
         toast.error(error?.response?.data?.messages?.join(", "));
       },
@@ -131,11 +130,12 @@ export const FormEnriquecimentoAmbiental = ({
   );
 
   const { mutate: updateEnriquecimentoAmbientalMutate } = useMutation(
+    ["updateEnriquecimentoAmbiental"],
     (enriquecimentoAmbiental) =>
       updateEnriquecimentoAmbiental(enriquecimentoAmbiental),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         onConfirm();
       },
       onError: (error) => {
@@ -145,7 +145,7 @@ export const FormEnriquecimentoAmbiental = ({
   );
 
   const onSubmit = async (receivedValues) => {
-    console.log("Função onSubmit")
+    console.log("Função onSubmit");
     const values = {
       ...receivedValues,
       dataEnriquecimento: format(
@@ -170,7 +170,6 @@ export const FormEnriquecimentoAmbiental = ({
             ? "Editar ficha do Enriquecimento Ambiental"
             : "Cadastrar ficha do Enriquecimento Ambiental"}
         </Typography>
-
 
         <Box sx={styles.line}>
           <InputText

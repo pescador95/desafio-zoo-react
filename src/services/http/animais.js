@@ -50,16 +50,16 @@ export const getAnimals = async (page, strgFilter) => {
 
 export const deleteAnimals = async (animals) => {
   const axios = getAxios();
-  await axios.delete(ENDPOINTS.animal.delete, {
+  const { data } = await axios.delete(ENDPOINTS.animal.delete, {
     data: animals?.map((e) => e.id),
   });
-  return;
+  return data;
 };
 
 export const reactiveListAnimals = async (animals) => {
   const axios = getAxios();
-  await axios.delete(ENDPOINTS.animal.reactive, {
+  const { data } = await axios.delete(ENDPOINTS.animal.reactive, {
     data: animals,
   });
-  return;
+  return data;
 };

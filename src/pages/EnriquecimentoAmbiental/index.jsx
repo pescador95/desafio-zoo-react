@@ -221,10 +221,11 @@ export const EnriquecimentoAmbiental = () => {
   );
 
   const { mutate: deleteEnriquecimentoAmbientaisMutate } = useMutation(
-    () => deleteEnriquecimentoAmbientais(selectedItems),
+    ["deleteEnriquecimentoAmbientais"],
+    (selectedItems) => deleteEnriquecimentoAmbientais(selectedItems),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         getTableData();
         setSelectedItems([]);
       },
@@ -333,11 +334,11 @@ export const EnriquecimentoAmbiental = () => {
 
               <Box sx={styles.inputContainer}>
                 <Typography
-                    component="label"
-                    htmlFor="nome-apelido"
-                    sx={styles.label}
+                  component="label"
+                  htmlFor="nome-apelido"
+                  sx={styles.label}
                 >
-                    Nome Enriquecimento
+                  Nome Enriquecimento
                 </Typography>
                 <TextField
                   size="small"
@@ -349,8 +350,7 @@ export const EnriquecimentoAmbiental = () => {
               </Box>
             </Box>
 
-            <Box sx={styles.inputContainer}>
-            </Box>
+            <Box sx={styles.inputContainer}></Box>
           </Box>
         </Box>
 

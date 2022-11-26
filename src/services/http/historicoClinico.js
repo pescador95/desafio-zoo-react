@@ -53,16 +53,16 @@ export const getHistoricoClinicos = async (page, strgFilter) => {
 
 export const deleteHistoricoClinicos = async (historicoClinicos) => {
   const axios = getAxios();
-  await axios.delete(ENDPOINTS.historicoClinico.delete, {
+  const { data } = await axios.delete(ENDPOINTS.historicoClinico.delete, {
     data: historicoClinicos?.map((e) => e.id),
   });
-  return;
+  return data;
 };
 
 export const reactiveListHistoricoClinicos = async (historicoClinicos) => {
   const axios = getAxios();
-  await axios.delete(ENDPOINTS.historicoClinico.reactive, {
+  const { data } = await axios.delete(ENDPOINTS.historicoClinico.reactive, {
     data: historicoClinicos,
   });
-  return;
+  return data;
 };

@@ -118,8 +118,8 @@ export const FormHistoricoEtologico = ({
     ["createHistoricoEtologico"],
     (historicoEtologico) => createHistoricoEtologico(historicoEtologico),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         onConfirm();
       },
       onError: (error) => {
@@ -129,10 +129,11 @@ export const FormHistoricoEtologico = ({
   );
 
   const { mutate: updateHistoricoEtologicoMutate } = useMutation(
+    ["updateHistoricoEtologico"],
     (historicoEtologico) => updateHistoricoEtologico(historicoEtologico),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         onConfirm();
       },
       onError: (error) => {
@@ -176,7 +177,7 @@ export const FormHistoricoEtologico = ({
           />
         </Box>
         <Box sx={styles.line}>
-        <InputText
+          <InputText
             control={control}
             name="nomeEtologico"
             label="Nome Etologico"

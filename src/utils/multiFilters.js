@@ -1,4 +1,4 @@
-import { DATAS, ROLES, ROLESLIST } from "./constants";
+import { DATAS } from "./constants";
 
 export const makeMultiFilterParams = (obj) => {
   let query = "";

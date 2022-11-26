@@ -213,10 +213,11 @@ export const Nutricao = () => {
   );
 
   const { mutate: deleteNutricaosMutate } = useMutation(
-    () => deleteNutricaos(selectedItems),
+    ["deleteNutricaos"],
+    (selectedItems) => deleteNutricaos(selectedItems),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         getTableData();
         setSelectedItems([]);
       },
@@ -266,8 +267,7 @@ export const Nutricao = () => {
       if (key === "dataFim") {
         return Object.assign(filters, {
           dataFim:
-            values.dataFim &&
-            values.dataFim?.split("-")?.reverse()?.join("-"),
+            values.dataFim && values.dataFim?.split("-")?.reverse()?.join("-"),
         });
       }
       if (
@@ -283,7 +283,6 @@ export const Nutricao = () => {
     filters.dataInicio === "" && delete filters.dataInicio;
 
     filters.dataFim === "" && delete filters.dataFim;
-
 
     delete filters.selectedItems;
 
@@ -354,7 +353,6 @@ export const Nutricao = () => {
                   type="date"
                   id="dataFim"
                 />
-                
               </Box>
             </Box>
           </Box>

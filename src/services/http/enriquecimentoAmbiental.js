@@ -62,18 +62,24 @@ export const deleteEnriquecimentoAmbientais = async (
   enriquecimentoAmbientais
 ) => {
   const axios = getAxios();
-  await axios.delete(ENDPOINTS.enriquecimentoAmbiental.delete, {
-    data: enriquecimentoAmbientais?.map((e) => e.id),
-  });
-  return;
+  const { data } = await axios.delete(
+    ENDPOINTS.enriquecimentoAmbiental.delete,
+    {
+      data: enriquecimentoAmbientais?.map((e) => e.id),
+    }
+  );
+  return data;
 };
 
 export const reactiveListEnriquecimentoAmbientais = async (
   enriquecimentoAmbientais
 ) => {
   const axios = getAxios();
-  await axios.delete(ENDPOINTS.enriquecimentoAmbiental.reactive, {
-    data: enriquecimentoAmbientais,
-  });
-  return;
+  const { data } = await axios.delete(
+    ENDPOINTS.enriquecimentoAmbiental.reactive,
+    {
+      data: enriquecimentoAmbientais,
+    }
+  );
+  return data;
 };

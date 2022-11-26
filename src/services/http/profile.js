@@ -47,26 +47,25 @@ export const deleteUsersProfile = async (users) => {
   await axios.delete(ENDPOINTS.user.delete, {
     data: users?.map((e) => e.id),
   });
-  console.log(users);
   return;
 };
 
 export const reactiveListUsersProfile = async (users) => {
   const axios = getAxios();
 
-  await axios.delete(ENDPOINTS.user.reactive, {
+  const { data } = await axios.delete(ENDPOINTS.user.reactive, {
     data: users,
   });
 
-  return;
+  return data;
 };
 
 export const recoverPassword = async (email) => {
   const axios = getAxios();
 
-  await axios.post(ENDPOINTS.recoverPassword + email, {
+  const { data } = await axios.post(ENDPOINTS.recoverPassword + email, {
     data: email,
   });
 
-  return;
+  return data;
 };

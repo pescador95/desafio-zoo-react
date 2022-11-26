@@ -201,8 +201,8 @@ export const Profile = () => {
   const { mutate: updateProfileMutate } = useMutation(
     (usuario) => updateUserProfile(usuario),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
       },
       onError: (error) => {
         toast.error(error?.response?.data?.messages?.join(", "));

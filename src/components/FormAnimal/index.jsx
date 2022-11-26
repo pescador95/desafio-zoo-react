@@ -115,8 +115,8 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
     ["createAnimal"],
     (animal) => createAnimal(animal),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         onConfirm();
       },
       onError: (error) => {
@@ -126,10 +126,11 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
   );
 
   const { mutate: updateAnimalMutate } = useMutation(
+    ["updateAnimal"],
     (animal) => updateAnimal(animal),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         onConfirm();
       },
       onError: (error) => {
@@ -146,7 +147,7 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
         "dd/MM/yyyy"
       ),
     };
-    console.log(values)
+    console.log(values);
     if (receivedValues.id) return updateAnimalMutate(values);
     return createAnimalMutate(values);
   };

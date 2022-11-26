@@ -213,10 +213,11 @@ export const Animais = () => {
   );
 
   const { mutate: deleteAnimalsMutate } = useMutation(
-    () => deleteAnimals(selectedItems),
+    ["deleteAnimals"],
+    (selectedItems) => deleteAnimals(selectedItems),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         getTableData();
         setSelectedItems([]);
       },

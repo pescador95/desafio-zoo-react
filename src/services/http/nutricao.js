@@ -50,16 +50,16 @@ export const getNutricaos = async (page, strgFilter) => {
 
 export const deleteNutricaos = async (nutricaos) => {
   const axios = getAxios();
-  await axios.delete(ENDPOINTS.nutricao.delete, {
+  const { data } = await axios.delete(ENDPOINTS.nutricao.delete, {
     data: nutricaos?.map((e) => e.id),
   });
-  return;
+  return data;
 };
 
 export const reactiveListNutricaos = async (nutricaos) => {
   const axios = getAxios();
-  await axios.delete(ENDPOINTS.nutricao.reactive, {
+  const { data } = await axios.delete(ENDPOINTS.nutricao.reactive, {
     data: nutricaos,
   });
-  return;
+  return data;
 };

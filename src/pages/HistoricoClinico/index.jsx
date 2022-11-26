@@ -215,10 +215,11 @@ export const HistoricoClinico = () => {
   );
 
   const { mutate: deleteHistoricoClinicosMutate } = useMutation(
-    () => deleteHistoricoClinicos(selectedItems),
+    ["deleteHistoricoClinicos"],
+    (selectedItems) => deleteHistoricoClinicos(selectedItems),
     {
-      onSuccess: (success) => {
-        toast.success(success?.data?.messages?.join(", "));
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
         getTableData();
         setSelectedItems([]);
       },

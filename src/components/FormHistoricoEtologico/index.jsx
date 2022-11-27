@@ -19,6 +19,7 @@ import { GENDER, LIFETIME } from "../../utils/constants";
 import { InputFile } from "../Inputs/InputFile";
 import { InputMultiselect } from "../Inputs/InputSelect";
 import { InputText } from "../Inputs/InputText";
+import { InputSelectAnimal } from "../Inputs/InputSelectR";
 
 export const FormHistoricoEtologico = ({
   open,
@@ -169,13 +170,9 @@ export const FormHistoricoEtologico = ({
         </Typography>
 
         <Box sx={styles.line}>
-          <InputText
-            control={control}
-            name="nomeAnimal"
-            label="Nome do Animal"
-            error={errors?.nomeAnimal}
-          />
+          <InputSelectAnimal />
         </Box>
+
         <Box sx={styles.line}>
           <InputText
             control={control}

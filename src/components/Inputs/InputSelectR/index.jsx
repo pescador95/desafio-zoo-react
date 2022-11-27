@@ -5,7 +5,7 @@ import { getAnimals } from "../../../services/http/animais";
 import { toast } from "react-toastify";
 import { Box, Typography } from "@mui/material";
 
-export const InputSelectR = () => {
+export const InputSelectAnimal = () => {
   const styles = {
     inputContainer: {
       display: "flex",
@@ -22,12 +22,18 @@ export const InputSelectR = () => {
   };
 
   const colourStyles = {
-    control: (styles) => ({ ...styles, backgroundColor: "#AEFFB2" }),
+    control: (styles) => ({
+      ...styles,
+      backgroundColor: "#AEFFB2",
+      minHeight: 56,
+      margin: 0,
+      bordeRadius: 4,
+      borderColor: "#BCBCBC",
+    }),
     option: (styles, { data, isDisabled, isFocused, isSelected }) => {
       return {
         ...styles,
         color: "#000",
-        cursor: isDisabled ? "not-allowed" : "default",
       };
     },
   };
@@ -58,16 +64,20 @@ export const InputSelectR = () => {
 
   const formatOptionLabel = ({
     value,
+    nomeComum,
     nomeApelido,
     identificacao,
     orgao,
-    nomeComum,
   }) => (
     <div style={{ display: "column" }}>
-      <div>{nomeComum}</div>
-      <div>{nomeApelido}</div>
-      <div>{identificacao}</div>
-      <div>{orgao}</div>
+      <div>
+        {value} - {nomeComum}
+      </div>
+      <div style={{ marginLeft: "10px", color: "#5c5c5c" }}>
+        <div>{nomeApelido}</div>
+        <div>{identificacao}</div>
+        <div>{orgao}</div>
+      </div>
     </div>
   );
 
@@ -78,14 +88,15 @@ export const InputSelectR = () => {
       </Typography>
 
       <Select
-        size="small"
+        autoFocus
+        isSearchable
         styles={colourStyles}
         type="text"
         id="animal"
-        defaultValue={options[0]}
-        formatOptionLabel={formatOptionLabel}
+        placeholder=""
         options={options}
-      ></Select>
+        formatOptionLabel={formatOptionLabel}
+      />
     </Box>
   );
 };

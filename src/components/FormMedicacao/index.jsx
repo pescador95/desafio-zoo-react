@@ -18,6 +18,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import { InputFile } from "../Inputs/InputFile";
 import { InputText } from "../Inputs/InputText";
+import { InputSelectAnimal } from "../Inputs/InputSelectR";
 
 export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
   const styles = {
@@ -173,6 +174,9 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
             label="Historico Clinico"
             error={errors?.historicoClinico}
           />
+        </Box>
+        <Box sx={styles.line}>
+          <InputSelectAnimal />
         </Box>
 
         <Box sx={styles.line}>

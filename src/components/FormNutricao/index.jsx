@@ -12,11 +12,8 @@ import { formattedDateForInput, parsedDate } from "../../utils/parsedDate";
 import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { toast } from "react-toastify";
-import { GENDER, LIFETIME } from "../../utils/constants";
-import { InputFile } from "../Inputs/InputFile";
-import { InputMultiselect } from "../Inputs/InputSelect";
 import { InputText } from "../Inputs/InputText";
-import { InputSelectR } from "../Inputs/InputSelectR";
+import { InputSelectAnimal } from "../Inputs/InputSelectR";
 
 export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
   const styles = {
@@ -167,12 +164,7 @@ export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
         </Typography>
 
         <Box sx={styles.line}>
-          <InputSelectR
-            control={control}
-            name="descricaoNutricao"
-            label="Descrição"
-            error={errors?.descricaoNutricao}
-          />
+          <InputSelectAnimal />
         </Box>
 
         <Box sx={styles.line}>

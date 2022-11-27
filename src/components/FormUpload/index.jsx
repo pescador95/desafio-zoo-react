@@ -14,6 +14,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import { InputFile } from "../Inputs/InputFile";
 import { InputText } from "../Inputs/InputText";
+import { InputSelectAnimal } from "../Inputs/InputSelectR";
 
 export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
   const styles = {
@@ -154,12 +155,7 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
         </Typography>
 
         <Box sx={styles.line}>
-          <InputText
-            control={control}
-            name="nomeAnimal"
-            label="Nome do animal"
-            error={errors?.nomeAnimal}
-          />
+          <InputSelectAnimal />
         </Box>
 
         <Box sx={styles.line}>

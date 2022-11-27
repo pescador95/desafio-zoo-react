@@ -1,4 +1,4 @@
-import { getAxios } from "../../hooks/useAxios";
+import { getAxios } from "../../hooks/useAxiosFormData";
 import { ENDPOINTS } from "../endpoints";
 
 export const createUpload = async (upload) => {

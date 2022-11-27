@@ -15,9 +15,6 @@ import { formattedDateForInput, parsedDate } from "../../utils/parsedDate";
 import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { toast } from "react-toastify";
-import { GENDER, LIFETIME } from "../../utils/constants";
-import { InputFile } from "../Inputs/InputFile";
-import { InputMultiselect } from "../Inputs/InputSelect";
 import { InputText } from "../Inputs/InputText";
 
 export const FormHistoricoClinico = ({
@@ -116,7 +113,9 @@ export const FormHistoricoClinico = ({
     defaultValues?.id
       ? reset({
           ...defaultValues,
-          dataHistoricoClinico: formattedDateForInput(defaultValues.dataHistoricoClinico),
+          dataHistoricoClinico: formattedDateForInput(
+            defaultValues.dataHistoricoClinico
+          ),
         })
       : reset();
   }, [defaultValues]);

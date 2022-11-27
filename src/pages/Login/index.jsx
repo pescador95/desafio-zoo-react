@@ -2,11 +2,12 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Box,
-  Button, FormControl,
+  Button,
+  FormControl,
   IconButton,
   Input,
   InputLabel,
-  Typography
+  Typography,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as React from "react";
@@ -79,7 +80,6 @@ export const Login = () => {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          transform: 'translateY(-5rem)'
         }}
         onSubmit={onSubmit}
       >

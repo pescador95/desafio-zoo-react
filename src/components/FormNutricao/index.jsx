@@ -16,6 +16,7 @@ import { GENDER, LIFETIME } from "../../utils/constants";
 import { InputFile } from "../Inputs/InputFile";
 import { InputMultiselect } from "../Inputs/InputSelect";
 import { InputText } from "../Inputs/InputText";
+import { InputSelectR } from "../Inputs/InputSelectR";
 
 export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
   const styles = {
@@ -166,11 +167,11 @@ export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
         </Typography>
 
         <Box sx={styles.line}>
-          <InputText
+          <InputSelectR
             control={control}
-            name="nomeAnimal"
-            label="Nome do Animal"
-            error={errors?.nomeAnimal}
+            name="descricaoNutricao"
+            label="Descrição"
+            error={errors?.descricaoNutricao}
           />
         </Box>
 

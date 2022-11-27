@@ -70,11 +70,11 @@ export const ENDPOINTS = {
   },
   recoverPassword: "/recoverPassword/",
   uploads: {
-    count: "/uploads/count",
-    add: "/uploads/",
-    getById: "/uploads/{id}",
-    list: "/uploads/",
-    delete: "/uploads/{id}",
+    count: "/s3/count",
+    add: "/s3/",
+    getById: "/s3/{id}",
+    list: "/s3/",
+    delete: "/s3/{id}",
   },
   download: {
     get: process.env.REACT_APP_API_BASE_URL + "/uploads/{keyname}",

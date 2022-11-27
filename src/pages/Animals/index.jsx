@@ -313,7 +313,6 @@ export const Animais = () => {
                   type="text"
                 />
               </Box>
-
               <Box sx={styles.inputContainer}>
                 <Typography
                   sx={styles.label}

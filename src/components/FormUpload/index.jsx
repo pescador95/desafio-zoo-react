@@ -81,8 +81,6 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
 
   const schema = yup.object().shape({
     nomeAnimal: yup.string().required("* O campo é obrigatório"),
-    fileRefence: yup.string().required("* O campo é obrigatório"),
-    orgao: yup.string().required("* O campo é obrigatório"),
   });
 
   const {

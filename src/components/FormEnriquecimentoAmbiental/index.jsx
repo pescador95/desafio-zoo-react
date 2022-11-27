@@ -16,6 +16,7 @@ import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { toast } from "react-toastify";
 import { InputText } from "../Inputs/InputText";
+import { InputSelectAnimal } from "../Inputs/InputSelectR";
 
 export const FormEnriquecimentoAmbiental = ({
   open,
@@ -171,12 +172,7 @@ export const FormEnriquecimentoAmbiental = ({
         </Typography>
 
         <Box sx={styles.line}>
-          <InputText
-            control={control}
-            name="nomeAnimal"
-            label="Nome do Animal"
-            error={errors?.nomeAnimal}
-          />
+          <InputSelectAnimal />
         </Box>
 
         <Box sx={styles.line}>

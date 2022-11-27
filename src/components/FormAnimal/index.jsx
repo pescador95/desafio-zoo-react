@@ -240,7 +240,7 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
           <InputText
             control={control}
             name="orgao"
-            label="Orgão"
+            label="Organização"
             error={errors?.orgao}
           />
         </Box>

@@ -274,7 +274,7 @@ export const Upload = () => {
       }
     });
 
-    filters.sexo === "todos" && delete filters.sexo;
+    filters.fileReference === "todos" && delete filters.fileReference;
 
     filters.dataEntrada === "" && delete filters.dataEntrada;
 
@@ -288,7 +288,7 @@ export const Upload = () => {
 
   return (
     <Box sx={styles.container}>
-      <Header title="Animais" />
+      <Header title="Arquivos" />
       <Box
         component="form"
         sx={styles.formContainer}
@@ -313,95 +313,52 @@ export const Upload = () => {
                   type="text"
                 />
               </Box>
-
               <Box sx={styles.inputContainer}>
                 <Typography
-                  sx={styles.label}
                   component="label"
-                  htmlFor="origem"
+                  htmlFor="nome-animal"
+                  sx={styles.label}
                 >
-                  Origem
+                  Nome do Animal
                 </Typography>
                 <TextField
                   size="small"
                   sx={styles.input}
-                  {...register("origem")}
+                  {...register("nomeAnimal")}
                   type="text"
-                  id="origem"
+                  id="nome-animal"
                 />
               </Box>
-            </Box>
-
-            <Box sx={styles.inputContainer}>
-              <Typography
-                component="label"
-                htmlFor="nome-cientifico"
-                sx={styles.label}
-              >
-                Nome Científico
-              </Typography>
-              <TextField
-                size="small"
-                sx={styles.input}
-                {...register("nomeCientifico")}
-                type="text"
-                id="nome-cientifico"
-              />
-            </Box>
-          </Box>
-          <Box sx={styles.inputsContainer}>
-            <Box sx={styles.inputSeparator}>
               <Box sx={styles.inputContainer}>
                 <Typography
                   component="label"
+                  htmlFor="fileReference"
                   sx={styles.label}
-                  htmlFor="data-admissao"
                 >
-                  Data Entrada
+                  Tipo do Arquivo
                 </Typography>
-                <TextField
-                  size="small"
-                  sx={styles.input}
-                  {...register("dataEntrada")}
-                  type="date"
-                  id="data-admissao"
-                />
-              </Box>
-
-              <Box sx={styles.inputContainer}>
-                <Typography component="label" htmlFor="sexo" sx={styles.label}>
-                  Sexo
-                </Typography>
-
                 <Select
                   size="small"
                   sx={styles.input}
-                  {...register("sexo")}
+                  {...register("fileReference")}
                   type="text"
-                  id="sexo"
+                  id="fileReference"
                 >
                   <MenuItem value="todos">Todos</MenuItem>
-                  <MenuItem value="Macho">Macho</MenuItem>
-                  <MenuItem value="Fêmea">Fêmea</MenuItem>
+                  <MenuItem value="animal">Animal</MenuItem>
+                  <MenuItem value="enriquecimentoAmbiental">
+                    Enriquecimento Ambiental
+                  </MenuItem>
+                  <MenuItem value="historicoClinico">
+                    Histórico Clinico
+                  </MenuItem>
+                  <MenuItem value="historicoEtologico">
+                    Histórico Etológico
+                  </MenuItem>
+                  <MenuItem value="medicacao">Medicacão</MenuItem>
+                  <MenuItem value="nutricao">Nutricão</MenuItem>
                 </Select>
               </Box>
-            </Box>
-
-            <Box sx={styles.inputContainer}>
-              <Typography
-                component="label"
-                htmlFor="nome-apelido"
-                sx={styles.label}
-              >
-                Nome Comum
-              </Typography>
-              <TextField
-                size="small"
-                sx={styles.input}
-                {...register("nomeComum")}
-                type="text"
-                id="nome-apelido"
-              />
             </Box>
           </Box>
         </Box>
@@ -411,12 +368,10 @@ export const Upload = () => {
             variant="contained"
             onClick={() =>
               reset({
-                nomeComum: "",
                 identificacao: "",
                 dataEntrada: "",
-                nomeCientifico: "",
-                sexo: "",
-                origem: "",
+                nomeAnimal: "",
+                fileReference: "",
                 selectedItems: setSelectedItems([]),
               })
             }

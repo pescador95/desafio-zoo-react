@@ -8,6 +8,7 @@ export const ENDPOINTS = {
     list: "/animal/",
     delete: "/animal/",
     reactive: "/animal/reactive",
+    seletor: "/animal/seletor",
   },
   user: {
     count: "/usuario/count",
@@ -54,6 +55,7 @@ export const ENDPOINTS = {
     list: "/historicoClinico/",
     delete: "/historicoClinico/",
     reactive: "/historicoClinico/reactive",
+    seletor: "/historicoClinico/seletor",
   },
   enriquecimentoAmbiental: {
     count: "/enriquecimentoAmbiental/count",

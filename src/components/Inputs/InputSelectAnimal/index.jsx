@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Select from "react-select";
 import { useMutation } from "@tanstack/react-query";
-import { getAnimals } from "../../../services/http/animais";
+import { getAnimals, getAnimalsSeletor } from "../../../services/http/animais";
 import { toast } from "react-toastify";
 import { Box, Typography } from "@mui/material";
 
@@ -39,7 +39,7 @@ export const InputSelectAnimal = () => {
   };
 
   const { mutate: getAnimalsMutate, data: animals } = useMutation(
-    ({ page = 0, strgFilter = "" }) => getAnimals(page, strgFilter),
+    ({ sort = "asc", strgOrder = "id" }) => getAnimalsSeletor(sort, strgOrder),
     {
       onError: (error) => {
         toast.error(error?.response?.data?.messages?.join(", "));
@@ -70,20 +70,22 @@ export const InputSelectAnimal = () => {
     orgao,
   }) => (
     <div style={{ display: "column" }}>
-      <div>
-        {value} - {nomeComum}
+      <div style={{ display: "space-between" }}>
+        {value} {nomeComum}, Apelido: {nomeApelido}
       </div>
       <div style={{ marginLeft: "10px", color: "#5c5c5c" }}>
-        <div>{nomeApelido}</div>
-        <div>{identificacao}</div>
-        <div>{orgao}</div>
+        <div>
+          Identificação: {identificacao} - {orgao}
+        </div>
+        <div></div>
+        <div></div>
       </div>
     </div>
   );
 
   return (
     <Box sx={styles.inputContainer}>
-      <Typography component="label" htmlFor="teste" sx={styles.label}>
+      <Typography component="label" htmlFor="animal" sx={styles.label}>
         Animal
       </Typography>
 
@@ -93,7 +95,7 @@ export const InputSelectAnimal = () => {
         styles={colourStyles}
         type="text"
         id="animal"
-        placeholder=""
+        placeholder="Selecione um Animal..."
         options={options}
         formatOptionLabel={formatOptionLabel}
       />

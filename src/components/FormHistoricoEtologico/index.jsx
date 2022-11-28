@@ -19,7 +19,7 @@ import { GENDER, LIFETIME } from "../../utils/constants";
 import { InputFile } from "../Inputs/InputFile";
 import { InputMultiselect } from "../Inputs/InputSelect";
 import { InputText } from "../Inputs/InputText";
-import { InputSelectAnimal } from "../Inputs/InputSelectR";
+import { InputSelectAnimal } from "../Inputs/InputSelectAnimal";
 
 export const FormHistoricoEtologico = ({
   open,

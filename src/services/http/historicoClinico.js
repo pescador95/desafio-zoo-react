@@ -51,6 +51,26 @@ export const getHistoricoClinicos = async (page, strgFilter) => {
   return parsed;
 };
 
+export const getHistoricoClinicosSeletor = async (sort, strgOrder) => {
+  const axios = getAxios();
+  const { data } = await axios.get(ENDPOINTS.historicoClinico.seletor, {
+    params: {
+      sort,
+      strgOrder,
+    },
+  });
+
+  const parsed = data?.map((e) => {
+    const parsed = e;
+    delete parsed?.isAtivo;
+    delete parsed?.systemDateDeleted;
+    delete parsed?.dataAcao;
+
+    return parsed;
+  });
+  return parsed;
+};
+
 export const deleteHistoricoClinicos = async (historicoClinicos) => {
   const axios = getAxios();
   const { data } = await axios.delete(ENDPOINTS.historicoClinico.delete, {

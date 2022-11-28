@@ -13,7 +13,7 @@ import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { toast } from "react-toastify";
 import { InputText } from "../Inputs/InputText";
-import { InputSelectAnimal } from "../Inputs/InputSelectR";
+import { InputSelectAnimal } from "../Inputs/InputSelectAnimal";
 
 export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
   const styles = {

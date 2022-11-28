@@ -18,7 +18,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import { InputFile } from "../Inputs/InputFile";
 import { InputText } from "../Inputs/InputText";
-import { InputSelectAnimal } from "../Inputs/InputSelectR";
+import { InputSelectHistoricoClinico } from "../Inputs/InputSelectHC";
 
 export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
   const styles = {
@@ -176,7 +176,7 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
           />
         </Box>
         <Box sx={styles.line}>
-          <InputSelectAnimal />
+          <InputSelectHistoricoClinico />
         </Box>
 
         <Box sx={styles.line}>

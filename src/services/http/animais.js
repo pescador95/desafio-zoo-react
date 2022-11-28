@@ -48,6 +48,26 @@ export const getAnimals = async (page, strgFilter) => {
   return parsed;
 };
 
+export const getAnimalsSeletor = async (sort, strgOrder) => {
+  const axios = getAxios();
+  const { data } = await axios.get(ENDPOINTS.animal.seletor, {
+    params: {
+      sort,
+      strgOrder,
+    },
+  });
+
+  const parsed = data?.map((e) => {
+    const parsed = e;
+    delete parsed?.isAtivo;
+    delete parsed?.systemDateDeleted;
+    delete parsed?.dataAcao;
+
+    return parsed;
+  });
+  return parsed;
+};
+
 export const deleteAnimals = async (animals) => {
   const axios = getAxios();
   const { data } = await axios.delete(ENDPOINTS.animal.delete, {

@@ -36,6 +36,17 @@ export const getMedicacaos = async (page, strgFilter) => {
       strgFilter,
     },
   });
+
+  const parsed = data?.map((e) => {
+    const parsed = e;
+    delete parsed?.historicoClinico;
+    delete parsed?.isAtivo;
+    delete parsed?.systemDateDeleted;
+    delete parsed?.dataAcao;
+
+    return parsed;
+  });
+  return parsed;
 };
 
 export const deleteMedicacaos = async (medicacaos) => {

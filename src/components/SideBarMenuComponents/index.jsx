@@ -39,4 +39,14 @@ export const SideBarMenuData = [
     icon: <MedicalInformationIcon />,
     link: "/historicoClinico",
   },
+  {
+    titulo: "Sinais Vitais",
+    icon: <HealthAndSafetyIcon />,
+    link: "/medicacao",
+  },
+  {
+    titulo: "Arquivos",
+    icon: <InventoryIcon />,
+    link: "/arquivos",
+  },
 ];

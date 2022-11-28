@@ -194,7 +194,7 @@ export const Medicacao = () => {
 
   const { register, handleSubmit, reset } = useForm({});
 
-  const { mutate: getMedicacaosMutate, data: aedicacaos } = useMutation(
+  const { mutate: getMedicacaosMutate, data: medicacaos } = useMutation(
     ({ page = 0, strgFilter = "" }) => getMedicacaos(page, strgFilter),
     {
       onError: (error) => {
@@ -236,13 +236,13 @@ export const Medicacao = () => {
 
   const columns = useMemo(
     () =>
-      aedicacaos
-        ? Object.keys(aedicacaos[0] || {})?.map((key) => ({
+      medicacaos
+        ? Object.keys(medicacaos[0] || {})?.map((key) => ({
             key,
             label: key,
           }))
         : [],
-    [aedicacaos]
+    [medicacaos]
   );
 
   const onDelete = async () => {
@@ -451,10 +451,10 @@ export const Medicacao = () => {
       <Box sx={styles.table}>
         <Table
           columns={columns}
-          data={aedicacaos}
+          data={medicacaos}
           onPaginate={(value) => getTableData(value - 1, filter)}
           totalElements={totalElements}
-          size={aedicacaos?.length}
+          size={medicacaos?.length}
           selectedItems={selectedItems}
           setSelectedItems={setSelectedItems}
           pages={Math.ceil(totalElements / 10)}

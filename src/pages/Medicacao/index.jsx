@@ -1,15 +1,11 @@
+import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
-import {
-  Box,
-  Button,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { AlertModal } from "../../components/AlertModal";
 import { FormMedicacao } from "../../components/FormMedicacao";
 import { Header } from "../../components/Header";
@@ -20,8 +16,6 @@ import {
   getMedicacaos,
 } from "../../services/http/medicacao";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 
 export const Medicacao = () => {
   const styles = {
@@ -168,7 +162,7 @@ export const Medicacao = () => {
       width: "100%",
       maxWidth: "12rem",
       height: "2.5rem",
-      background: "#ff7878",
+      background: "#f54242",
       transition: "0.2s",
       "&:hover": {
         background: "#ff7878",
@@ -257,13 +251,6 @@ export const Medicacao = () => {
   const onSubmit = async (values) => {
     const filters = {};
     Object.keys(values).forEach((key) => {
-      if (key === "dataEntrada") {
-        return Object.assign(filters, {
-          dataEntrada:
-            values.dataEntrada &&
-            values.dataEntrada?.split("-")?.reverse()?.join("-"),
-        });
-      }
       if (
         values[key] ||
         values[key] !== "" ||
@@ -273,10 +260,6 @@ export const Medicacao = () => {
         Object.assign(filters, { [key]: values[key] });
       }
     });
-
-    filters.sexo === "todos" && delete filters.sexo;
-
-    filters.dataEntrada === "" && delete filters.dataEntrada;
 
     delete filters.selectedItems;
 
@@ -301,33 +284,16 @@ export const Medicacao = () => {
                 <Typography
                   component="label"
                   sx={styles.label}
-                  htmlFor="identificacao"
+                  htmlFor="nomeMedicacao"
                 >
-                  Microchip ou Anilha
+                  Nome da Medicação
                 </Typography>
                 <TextField
                   size="small"
                   sx={styles.input}
-                  {...register("identificacao")}
-                  id="identificacao"
+                  {...register("nomeMedicacao")}
+                  id="nomeMedicacao"
                   type="text"
-                />
-              </Box>
-
-              <Box sx={styles.inputContainer}>
-                <Typography
-                  sx={styles.label}
-                  component="label"
-                  htmlFor="origem"
-                >
-                  Origem
-                </Typography>
-                <TextField
-                  size="small"
-                  sx={styles.input}
-                  {...register("origem")}
-                  type="text"
-                  id="origem"
                 />
               </Box>
             </Box>
@@ -335,72 +301,51 @@ export const Medicacao = () => {
             <Box sx={styles.inputContainer}>
               <Typography
                 component="label"
-                htmlFor="nome-cientifico"
+                htmlFor="posologia"
                 sx={styles.label}
               >
-                Nome Científico
+                Posologia
               </Typography>
               <TextField
                 size="small"
                 sx={styles.input}
-                {...register("nomeCientifico")}
+                {...register("posologia")}
                 type="text"
-                id="nome-cientifico"
+                id="posologia"
               />
             </Box>
           </Box>
           <Box sx={styles.inputsContainer}>
-            <Box sx={styles.inputSeparator}>
-              <Box sx={styles.inputContainer}>
-                <Typography
-                  component="label"
-                  sx={styles.label}
-                  htmlFor="data-admissao"
-                >
-                  Data Entrada
-                </Typography>
-                <TextField
-                  size="small"
-                  sx={styles.input}
-                  {...register("dataEntrada")}
-                  type="date"
-                  id="data-admissao"
-                />
-              </Box>
-
-              <Box sx={styles.inputContainer}>
-                <Typography component="label" htmlFor="sexo" sx={styles.label}>
-                  Sexo
-                </Typography>
-
-                <Select
-                  size="small"
-                  sx={styles.input}
-                  {...register("sexo")}
-                  type="text"
-                  id="sexo"
-                >
-                  <MenuItem value="todos">Todos</MenuItem>
-                  <MenuItem value="Macho">Macho</MenuItem>
-                  <MenuItem value="Fêmea">Fêmea</MenuItem>
-                </Select>
-              </Box>
-            </Box>
-
             <Box sx={styles.inputContainer}>
               <Typography
-                component="label"
-                htmlFor="nome-apelido"
                 sx={styles.label}
+                component="label"
+                htmlFor="frequencia"
               >
-                Nome Comum
+                Frequência
               </Typography>
               <TextField
                 size="small"
                 sx={styles.input}
-                {...register("nomeComum")}
+                {...register("frequencia")}
                 type="text"
-                id="nome-apelido"
+                id="frequencia"
+              />
+            </Box>
+            <Box sx={styles.inputContainer}>
+              <Typography
+                component="label"
+                htmlFor="via-administracao"
+                sx={styles.label}
+              >
+                Via Administração
+              </Typography>
+              <TextField
+                size="small"
+                sx={styles.input}
+                {...register("viaAdministracao")}
+                type="text"
+                id="via-administracao"
               />
             </Box>
           </Box>
@@ -411,10 +356,9 @@ export const Medicacao = () => {
             variant="contained"
             onClick={() =>
               reset({
-                nomeComum: "",
-                identificacao: "",
+                viaAdministracao: "",
                 dataEntrada: "",
-                nomeCientifico: "",
+                posologia: "",
                 sexo: "",
                 origem: "",
                 selectedItems: setSelectedItems([]),
@@ -444,7 +388,8 @@ export const Medicacao = () => {
           sx={styles.addRegister}
           onClick={() => setIsOpenFormMedicacao(true)}
         >
-          <span>+</span> CADASTRAR
+          <AddIcon sx={styles.icon} />
+          CADASTRAR
         </Button>
       </Box>
 
@@ -495,7 +440,7 @@ export const Medicacao = () => {
 // const column = [
 //   {
 //     key: 'nomeComum',
-//     label: 'Nome Comum'
+//     label: 'Nome do Animal'
 //   },
 //   {
 //     key: 'id',

@@ -1,8 +1,11 @@
+import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { AlertModal } from "../../components/AlertModal";
 import { FormHistoricoClinico } from "../../components/FormHistoricoClinico";
 import { Header } from "../../components/Header";
@@ -13,8 +16,6 @@ import {
   getHistoricoClinicos,
 } from "../../services/http/historicoClinico";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 
 export const HistoricoClinico = () => {
   const styles = {
@@ -161,7 +162,7 @@ export const HistoricoClinico = () => {
       width: "100%",
       maxWidth: "12rem",
       height: "2.5rem",
-      background: "#ff7878",
+      background: "#f54242",
       transition: "0.2s",
       "&:hover": {
         background: "#ff7878",
@@ -313,7 +314,7 @@ export const HistoricoClinico = () => {
                   sx={styles.label}
                   htmlFor="data-historico"
                 >
-                  Data da Amostra
+                  Data
                 </Typography>
                 <TextField
                   size="small"
@@ -361,7 +362,8 @@ export const HistoricoClinico = () => {
           sx={styles.addRegister}
           onClick={() => setIsOpenFormHistoricoClinico(true)}
         >
-          <span>+</span> CADASTRAR
+          <AddIcon sx={styles.icon} />
+          CADASTRAR
         </Button>
       </Box>
 
@@ -412,7 +414,7 @@ export const HistoricoClinico = () => {
 // const column = [
 //   {
 //     key: 'nomeComum',
-//     label: 'Nome Comum'
+//     label: 'Nome do Animal'
 //   },
 //   {
 //     key: 'id',

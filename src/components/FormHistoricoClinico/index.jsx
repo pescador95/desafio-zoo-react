@@ -171,8 +171,8 @@ export const FormHistoricoClinico = ({
       <Box sx={styles.modal} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography sx={styles.title}>
           {defaultValues?.id
-            ? "Editar ficha do historico Clínico"
-            : "Cadastrar ficha do historico Clínico"}
+            ? "Editar ficha do histórico clínico"
+            : "Cadastrar ficha do histórico clínico"}
         </Typography>
 
         <Box sx={styles.line}>

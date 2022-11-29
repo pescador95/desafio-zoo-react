@@ -145,7 +145,7 @@ export const FormUser = ({ open, defaultValues, onConfirm, onCancel }) => {
     >
       <Box sx={styles.modal} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography sx={styles.title}>
-          {defaultValues?.id ? "Editar Usuário" : "Cadastrar Usuário"}
+          {defaultValues?.id ? "Editar usuário" : "Cadastrar usuário"}
         </Typography>
 
         <Box sx={styles.line}>

@@ -1,15 +1,11 @@
+import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
-import {
-  Box,
-  Button,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { AlertModal } from "../../components/AlertModal";
 import { FormHistoricoEtologico } from "../../components/FormHistoricoEtologico";
 import { Header } from "../../components/Header";
@@ -20,8 +16,6 @@ import {
   getHistoricoEtologicos,
 } from "../../services/http/historicoEtologico";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 
 export const HistoricoEtologico = () => {
   const styles = {
@@ -168,7 +162,7 @@ export const HistoricoEtologico = () => {
       width: "100%",
       maxWidth: "12rem",
       height: "2.5rem",
-      background: "#ff7878",
+      background: "#f54242",
       transition: "0.2s",
       "&:hover": {
         background: "#ff7878",
@@ -387,7 +381,8 @@ export const HistoricoEtologico = () => {
           sx={styles.addRegister}
           onClick={() => setIsOpenFormHistoricoEtologico(true)}
         >
-          <span>+</span> CADASTRAR
+          <AddIcon sx={styles.icon} />
+          CADASTRAR
         </Button>
       </Box>
 
@@ -438,7 +433,7 @@ export const HistoricoEtologico = () => {
 // const column = [
 //   {
 //     key: 'nomeComum',
-//     label: 'Nome Comum'
+//     label: 'Nome do Animal'
 //   },
 //   {
 //     key: 'id',

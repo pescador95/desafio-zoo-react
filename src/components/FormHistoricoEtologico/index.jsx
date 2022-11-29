@@ -15,11 +15,8 @@ import { formattedDateForInput, parsedDate } from "../../utils/parsedDate";
 import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { toast } from "react-toastify";
-import { GENDER, LIFETIME } from "../../utils/constants";
-import { InputFile } from "../Inputs/InputFile";
-import { InputMultiselect } from "../Inputs/InputSelect";
-import { InputText } from "../Inputs/InputText";
 import { InputSelectAnimal } from "../Inputs/InputSelectAnimal";
+import { InputText } from "../Inputs/InputText";
 
 export const FormHistoricoEtologico = ({
   open,
@@ -165,8 +162,8 @@ export const FormHistoricoEtologico = ({
       <Box sx={styles.modal} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography sx={styles.title}>
           {defaultValues?.id
-            ? "Editar ficha do historico Etológico"
-            : "Cadastrar ficha do historico Etológico"}
+            ? "Editar ficha do histórico etológico"
+            : "Cadastrar ficha do histórico etológico"}
         </Typography>
 
         <Box sx={styles.line}>

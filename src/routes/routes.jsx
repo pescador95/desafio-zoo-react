@@ -121,17 +121,13 @@ export const CustomRoutes = () => {
           />
         ))}
 
-        {protectedRoute?.map((route, index) =>
-          route.rolesAllowed.includes(user?.roleUsuario) ? (
-            <Route
-              {...route}
-              key={index}
-              element={<AuthRoute>{route?.element}</AuthRoute>}
-            />
-          ) : (
-            <></>
-          )
-        )}
+        {protectedRoute?.map((route, index) => (
+          <Route
+            {...route}
+            key={index}
+            element={<AuthRoute>{route?.element}</AuthRoute>}
+          />
+        ))}
 
         <Route path="*" element={<Navigate to={ROUTES.login} />} />
       </Routes>

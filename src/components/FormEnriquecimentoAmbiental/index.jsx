@@ -167,8 +167,8 @@ export const FormEnriquecimentoAmbiental = ({
       <Box sx={styles.modal} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography sx={styles.title}>
           {defaultValues?.id
-            ? "Editar ficha do Enriquecimento Ambiental"
-            : "Cadastrar ficha do Enriquecimento Ambiental"}
+            ? "Editar ficha de enriquecimento ambiental"
+            : "Cadastrar ficha de enriquecimento ambiental"}
         </Typography>
 
         <Box sx={styles.line}>

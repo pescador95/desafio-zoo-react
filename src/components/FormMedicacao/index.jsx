@@ -191,7 +191,7 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
           <InputText
             control={control}
             name="viaAdministracao"
-            label="Via de Administracao"
+            label="Via de Administração"
             error={errors?.viaAdministracao}
           />
 

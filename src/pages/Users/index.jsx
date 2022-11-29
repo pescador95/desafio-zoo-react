@@ -1,22 +1,27 @@
-import { Box, Button, MenuItem, Select } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
+import {
+  Box,
+  Button,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { AlertModal } from "../../components/AlertModal";
 import { FormUser } from "../../components/FormUser";
 import { Header } from "../../components/Header";
 import { Table } from "../../components/Table";
 import { countUser, deleteUsers, getUsers } from "../../services/http/users";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
-import ClearIcon from "@mui/icons-material/Clear";
-import SearchIcon from "@mui/icons-material/Search";
-import { TextField, Typography } from "@mui/material";
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-toastify";
-import { InputMultiselect } from "../../components/Inputs/InputSelect";
-import { ROLES } from "../../utils/constants";
 
 export const Users = () => {
-  const style = {
+  const styles = {
     container: {
       padding: "1rem",
     },
@@ -160,7 +165,7 @@ export const Users = () => {
       width: "100%",
       maxWidth: "12rem",
       height: "2.5rem",
-      background: "#ff7878",
+      background: "#f54242",
       transition: "0.2s",
       "&:hover": {
         background: "#ff7878",
@@ -264,32 +269,32 @@ export const Users = () => {
   };
 
   return (
-    <Box sx={style.container}>
+    <Box sx={styles.container}>
       <Header title="Usuários" />
       <Box
         component="form"
-        sx={style.formContainer}
+        sx={styles.formContainer}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Box sx={style.inputs}>
-          <Box sx={style.inputsContainer}>
-            <Box sx={style.inputSeparator}>
-              <Box sx={style.inputContainer}>
-                <Typography component="label" sx={style.label} htmlFor="name">
+        <Box sx={styles.inputs}>
+          <Box sx={styles.inputsContainer}>
+            <Box sx={styles.inputSeparator}>
+              <Box sx={styles.inputContainer}>
+                <Typography component="label" sx={styles.label} htmlFor="name">
                   Nome
                 </Typography>
                 <TextField
                   size="small"
-                  sx={style.input}
+                  sx={styles.input}
                   {...register("nome")}
                   id="nome"
                   type="text"
                 />
               </Box>
 
-              <Box sx={style.inputContainer}>
+              <Box sx={styles.inputContainer}>
                 <Typography
-                  sx={style.label}
+                  sx={styles.label}
                   component="label"
                   htmlFor="roleUsuario"
                 >
@@ -297,7 +302,7 @@ export const Users = () => {
                 </Typography>
                 <Select
                   size="small"
-                  sx={style.input}
+                  sx={styles.input}
                   {...register("roleUsuario")}
                   type="text"
                   id="roleUsuario"
@@ -312,13 +317,13 @@ export const Users = () => {
               </Box>
             </Box>
 
-            <Box sx={style.inputContainer}>
-              <Typography component="label" htmlFor="email" sx={style.label}>
+            <Box sx={styles.inputContainer}>
+              <Typography component="label" htmlFor="email" sx={styles.label}>
                 Email
               </Typography>
               <TextField
                 size="small"
-                sx={style.input}
+                sx={styles.input}
                 {...register("email")}
                 type="text"
                 id="nome-cientifico"
@@ -327,7 +332,7 @@ export const Users = () => {
           </Box>
         </Box>
 
-        <Box sx={style.actions}>
+        <Box sx={styles.actions}>
           <Button
             variant="contained"
             onClick={() =>
@@ -339,32 +344,33 @@ export const Users = () => {
                 selectedItems: setSelectedItems([]),
               })
             }
-            sx={style.filterButton}
+            sx={styles.filterButton}
           >
-            <ClearIcon sx={style.icon} /> LIMPAR
+            <ClearIcon sx={styles.icon} /> LIMPAR
           </Button>
-          <Button variant="contained" type="submit" sx={style.filterButton}>
-            <SearchIcon sx={style.icon} />
+          <Button variant="contained" type="submit" sx={styles.filterButton}>
+            <SearchIcon sx={styles.icon} />
             BUSCAR
           </Button>
         </Box>
       </Box>
 
-      <Box sx={style.actionsTable}>
+      <Box sx={styles.actionsTable}>
         <Button
-          sx={style.excludeRegister}
+          sx={styles.excludeRegister}
           onClick={() => setIsOpenDelete(true)}
           disabled={!selectedItems?.length}
         >
           Excluir {selectedItems?.length || ""} registros
         </Button>
 
-        <Button sx={style.addRegister} onClick={() => setIsOpenFormUser(true)}>
-          <span>+</span> CADASTRAR
+        <Button sx={styles.addRegister} onClick={() => setIsOpenFormUser(true)}>
+          <AddIcon sx={styles.icon} />
+          CADASTRAR
         </Button>
       </Box>
 
-      <Box sx={style.table}>
+      <Box sx={styles.table}>
         <Table
           columns={columns}
           data={users}
@@ -411,7 +417,7 @@ export const Users = () => {
 // const column = [
 //   {
 //     key: 'nomeComum',
-//     label: 'Nome Comum'
+//     label: 'Nome do Animal'
 //   },
 //   {
 //     key: 'id',

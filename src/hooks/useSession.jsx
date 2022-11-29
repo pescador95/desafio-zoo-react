@@ -38,3 +38,5 @@ export const getLocalSessionData = () => {
   const user = getSessionStorage("user", {});
   return user;
 };
+
+export const user = getLocalSessionData();

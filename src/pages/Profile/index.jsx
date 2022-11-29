@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Header } from "../../components/Header";
-import { useAxios } from "../../hooks/useAxios";
-import { getLocalSessionData } from "../../hooks/useSession";
 import { updateUserProfile } from "../../services/http/profile";
 
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { getMyProfile } from "../../services/http/users";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { getMyProfile } from "../../services/http/users";
 
 export const Profile = () => {
   const style = {
@@ -155,7 +153,7 @@ export const Profile = () => {
       width: "100%",
       maxWidth: "12rem",
       height: "2.5rem",
-      background: "#ff7878",
+      background: "#f54242",
       transition: "0.2s",
       "&:hover": {
         background: "#ff7878",

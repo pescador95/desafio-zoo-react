@@ -13,7 +13,6 @@ import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { toast } from "react-toastify";
 import { InputFile } from "../Inputs/InputFile";
-import { InputText } from "../Inputs/InputText";
 import { InputSelectAnimal } from "../Inputs/InputSelectAnimal";
 
 export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {

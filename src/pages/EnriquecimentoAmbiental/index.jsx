@@ -1,15 +1,11 @@
+import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
-import {
-  Box,
-  Button,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { AlertModal } from "../../components/AlertModal";
 import { FormEnriquecimentoAmbiental } from "../../components/FormEnriquecimentoAmbiental";
 import { Header } from "../../components/Header";
@@ -20,8 +16,6 @@ import {
   getEnriquecimentoAmbientais,
 } from "../../services/http/enriquecimentoAmbiental";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 
 export const EnriquecimentoAmbiental = () => {
   const styles = {
@@ -168,7 +162,7 @@ export const EnriquecimentoAmbiental = () => {
       width: "100%",
       maxWidth: "12rem",
       height: "2.5rem",
-      background: "#ff7878",
+      background: "#f54242",
       transition: "0.2s",
       "&:hover": {
         background: "#ff7878",
@@ -306,7 +300,7 @@ export const EnriquecimentoAmbiental = () => {
                   htmlFor="nome-apelido"
                   sx={styles.label}
                 >
-                  Nome Comum
+                  Nome do Animal
                 </Typography>
                 <TextField
                   size="small"
@@ -392,7 +386,8 @@ export const EnriquecimentoAmbiental = () => {
           sx={styles.addRegister}
           onClick={() => setIsOpenFormEnriquecimentoAmbiental(true)}
         >
-          <span>+</span> CADASTRAR
+          <AddIcon sx={styles.icon} />
+          CADASTRAR
         </Button>
       </Box>
 
@@ -443,7 +438,7 @@ export const EnriquecimentoAmbiental = () => {
 // const column = [
 //   {
 //     key: 'nomeComum',
-//     label: 'Nome Comum'
+//     label: 'Nome do Animal'
 //   },
 //   {
 //     key: 'id',

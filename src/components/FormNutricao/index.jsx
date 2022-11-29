@@ -159,8 +159,8 @@ export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
       <Box sx={styles.modal} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography sx={styles.title}>
           {defaultValues?.id
-            ? "Editar ficha de Nutrição"
-            : "Cadastrar ficha de Nutrição"}
+            ? "Editar ficha de nutrição"
+            : "Cadastrar ficha de nutrição"}
         </Typography>
 
         <Box sx={styles.line}>

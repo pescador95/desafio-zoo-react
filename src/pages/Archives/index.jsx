@@ -8,8 +8,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { AlertModal } from "../../components/AlertModal";
 import { FormUpload } from "../../components/FormUpload";
 import { Header } from "../../components/Header";
@@ -20,8 +22,6 @@ import {
   getUploads,
 } from "../../services/http/uploads";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 
 export const Upload = () => {
   const styles = {
@@ -168,7 +168,7 @@ export const Upload = () => {
       width: "100%",
       maxWidth: "12rem",
       height: "2.5rem",
-      background: "#ff7878",
+      background: "#f54242",
       transition: "0.2s",
       "&:hover": {
         background: "#ff7878",
@@ -392,14 +392,7 @@ export const Upload = () => {
           onClick={() => setIsOpenDelete(true)}
           disabled={!selectedItems?.length}
         >
-          Excluir {selectedItems?.length || ""} registros
-        </Button>
-
-        <Button
-          sx={styles.addRegister}
-          onClick={() => setIsOpenFormUpload(true)}
-        >
-          <span>+</span> CADASTRAR
+          Excluir {selectedItems?.length || ""} arquivos
         </Button>
       </Box>
 
@@ -450,7 +443,7 @@ export const Upload = () => {
 // const column = [
 //   {
 //     key: 'nomeComum',
-//     label: 'Nome Comum'
+//     label: 'Nome do Animal'
 //   },
 //   {
 //     key: 'id',

@@ -48,7 +48,7 @@ export const SideBarMenuData = [
     rolesAllowed: ["admin", "dev", "biologo", "veterinario", "tratador"],
   },
   {
-    titulo: "Sinais Vitais",
+    titulo: "Medicação",
     icon: <HealthAndSafetyIcon />,
     link: "/medicacao",
     rolesAllowed: ["admin", "dev", "biologo", "veterinario", "tratador"],

@@ -168,14 +168,6 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
         </Typography>
 
         <Box sx={styles.line}>
-          <InputText
-            control={control}
-            name="historicoClinico"
-            label="Historico Clinico"
-            error={errors?.historicoClinico}
-          />
-        </Box>
-        <Box sx={styles.line}>
           <InputSelectHistoricoClinico />
         </Box>
 

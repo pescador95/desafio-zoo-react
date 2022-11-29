@@ -46,6 +46,7 @@ const createAxiosInstance = () => {
           const refreshedData = await axiosRefresh.post(
             ENDPOINTS.auth.refresh,
             {
+              roleUsuario: user?.roleUsuario,
               refreshToken: user?.refreshToken,
             }
           );

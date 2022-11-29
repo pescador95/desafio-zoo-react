@@ -1,10 +1,11 @@
 import { Box } from "@mui/material";
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import zooLogo from "../../assets/ZooLogo.png";
 import { SideBarMenuData } from "../SideBarMenuComponents";
+import { user } from "../../hooks/useSession";
+import { getSessionStorage } from "../../utils/sessionStorage";
 
 export const SideBarMenu = () => {
-
   const styles = {
     container: {
       height: "auto",
@@ -17,51 +18,53 @@ export const SideBarMenu = () => {
       margin: "0px",
     },
     list: {
-      display:'flex',
-      flexDirection: 'column',
-      gap: '2rem',
-      padding: '0 1rem',
+      display: "flex",
+      flexDirection: "column",
+      gap: "2rem",
+      padding: "0 1rem",
     },
     link: {
-      color: 'white',
-      display: 'flex',
-      alignItems:'center',
-      gap: '0.5rem',
+      color: "white",
+      display: "flex",
+      alignItems: "center",
+      gap: "0.5rem",
       cursor: "pointer",
       "&:hover": {
         filter: "brightness(0.8)",
       },
     },
     img: {
-      width: '15rem',
-      padding: '0 1rem',
+      width: "15rem",
+      padding: "0 1rem",
       marginTop: {
         xs: "3rem",
         sm: "3rem",
         md: "0",
         lg: "0",
         xl: "0",
-      }
-    }
+      },
+    },
   };
 
   return (
     <Box sx={styles?.container}>
       <Box sx={styles.img} component="img" src={zooLogo} alt="Logo zoológico" />
-      <Box  sx={styles.list}>
+      <Box sx={styles.list}>
         {SideBarMenuData.map((val, key) => {
-          return (
-            <Box
-            sx={styles.link}
-              key={key}
-              onClick={() => {
-                window.location.pathname = val.link;
-              }}
-            >
-              <div id="div-icon-row">{val.icon}</div>
-              <div id="div-icon-title">{val.titulo}</div>
-            </Box>
-          );
+          if (val.rolesAllowed.includes(user?.roleUsuario)) {
+            return (
+              <Box
+                sx={styles.link}
+                key={key}
+                onClick={() => {
+                  window.location.pathname = val.link;
+                }}
+              >
+                <div id="div-icon-row">{val.icon}</div>
+                <div id="div-icon-title">{val.titulo}</div>
+              </Box>
+            );
+          }
         })}
       </Box>
     </Box>

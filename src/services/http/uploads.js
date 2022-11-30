@@ -1,9 +1,18 @@
-import { getAxios } from "../../hooks/useAxios";
+import { getAxios } from "../../hooks/useAxiosFormData";
 import { ENDPOINTS } from "../endpoints";
 
-export const createUpload = async (upload) => {
+export const createUpload = async (file, idAnimal, fileRefence) => {
   const axios = getAxios();
-  return axios.post(ENDPOINTS.uploads.add, upload);
+  console.log("file =" + file);
+  console.log("id =" + idAnimal);
+  console.log("fileReference =" + fileRefence);
+  const { data } = await axios.post(ENDPOINTS.uploads.add, file, {
+    params: {
+      fileRefence,
+      idAnimal,
+    },
+  });
+  return data;
 };
 
 export const countUpload = async (strgFilter) => {

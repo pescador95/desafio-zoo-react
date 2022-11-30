@@ -64,11 +64,9 @@ export const InputSelectHistoricoClinico = (
   const { handleSubmit, control } = useForm({});
 
   const onSubmit = async (data) => {
-    console.log(data + " data");
     const values = {
       ...data,
     };
-    console.log(values + " values");
     return values;
   };
 
@@ -114,21 +112,27 @@ export const InputSelectHistoricoClinico = (
           Histórico Clínico
         </Typography>
         <Controller
-          name="animal"
+          name="historicoclinico"
           control={control}
-          render={({ field: onChange, defaultValues, animal, ...props }) => (
+          render={({
+            field: onChange,
+            defaultValues,
+            historicoclinico,
+            ...props
+          }) => (
             <Select
               autoFocus
               isSearchable
               styles={colourStyles}
               type="text"
+              inputId="historicoclinico"
               id="historicoclinico"
               placeholder="Selecione um Histórico Clínico..."
               options={options}
               onChange={(e) => setHistoricoClinico(e)}
               formatOptionLabel={formatOptionLabel}
               name="historicoclinico"
-              value={defaultValues}
+              value={historicoclinico}
               {...field}
               {...props}
             />

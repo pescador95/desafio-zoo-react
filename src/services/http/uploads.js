@@ -3,14 +3,26 @@ import { ENDPOINTS } from "../endpoints";
 
 export const createUpload = async (file, idAnimal, fileRefence) => {
   const axios = getAxios();
+  const formData = new FormData();
+
+  formData.append("file", file);
+
   console.log("file =" + file);
   console.log("id =" + idAnimal);
-  console.log("fileReference =" + fileRefence);
+  console.log("fileRefence =" + fileRefence);
+
+  const headers = {
+    headers: {
+      "content-type": "multipart/form-data",
+    },
+  };
+
   const { data } = await axios.post(ENDPOINTS.uploads.add, file, {
     params: {
       fileRefence,
       idAnimal,
     },
+    headers: { headers },
   });
   return data;
 };

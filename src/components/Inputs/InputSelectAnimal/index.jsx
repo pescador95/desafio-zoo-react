@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { Box, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 
-export const InputSelectAnimal = (defaultValues, field, onChange, ...props) => {
+export const InputSelectAnimal = (field, onChange, ...rest) => {
   const styles = {
     inputContainer: {
       display: "flex",
@@ -97,34 +97,33 @@ export const InputSelectAnimal = (defaultValues, field, onChange, ...props) => {
   );
 
   return (
-    <form type="submit" onSubmit={handleSubmit(onSubmit)}>
-      <Box sx={styles.inputContainer}>
-        <Typography component="label" htmlFor="animal" sx={styles.label}>
-          Animal
-        </Typography>
+    <Box sx={styles.inputContainer}>
+      <Typography component="label" htmlFor="animal" sx={styles.label}>
+        Animal
+      </Typography>
 
-        <Controller
-          name="animal"
-          control={control}
-          render={({ field: onChange, defaultValues, animal, ...props }) => (
-            <Select
-              autoFocus
-              isSearchable
-              styles={colourStyles}
-              inputId="animal"
-              id="animal"
-              name="animal"
-              placeholder="Selecione um Animal..."
-              options={options}
-              onChange={(e) => setAnimal(e)}
-              formatOptionLabel={formatOptionLabel}
-              value={animal}
-              {...field}
-              {...props}
-            />
-          )}
-        />
-      </Box>
-    </form>
+      <Controller
+        name="animal"
+        control={control}
+        render={({ field }) => (
+          <Select
+            autoFocus
+            isSearchable
+            styles={colourStyles}
+            inputId="animal"
+            id="animal"
+            name="animal"
+            placeholder="Selecione um Animal..."
+            options={options}
+            onChange={(e) => setAnimal(e)}
+            formatOptionLabel={formatOptionLabel}
+            value={animal}
+            onSubmit={handleSubmit}
+            {...field}
+            {...rest}
+          />
+        )}
+      />
+    </Box>
   );
 };

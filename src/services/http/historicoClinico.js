@@ -3,7 +3,11 @@ import { ENDPOINTS } from "../endpoints";
 
 export const createHistoricoClinico = async (historicoClinico) => {
   const axios = getAxios();
-  return axios.post(ENDPOINTS.historicoClinico.add, historicoClinico);
+  const { data } = await axios.post(
+    ENDPOINTS.historicoClinico.add,
+    historicoClinico
+  );
+  return data;
 };
 
 export const countHistoricoClinico = async (strgFilter) => {

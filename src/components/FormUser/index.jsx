@@ -77,10 +77,10 @@ export const FormUser = ({ open, defaultValues, onConfirm, onCancel }) => {
   };
 
   const schema = yup.object().shape({
-    email: yup.string().required("* O campo é obrigatório"),
-    nome: yup.string().required("* O campo é obrigatório"),
-    password: yup.string().required("* O campo é obrigatório"),
-    roleUsuario: yup.string().required("* O campo é obrigatório"),
+    // email: yup.string().required("* O campo é obrigatório"),
+    // nome: yup.string().required("* O campo é obrigatório"),
+    // password: yup.string().required("* O campo é obrigatório"),
+    // roleUsuario: yup.string().required("* O campo é obrigatório"),
   });
 
   const {

@@ -87,12 +87,12 @@ export const FormEnriquecimentoAmbiental = ({
     },
   };
 
-  // const schema = yup.object().shape({
-  //   dataEnriquecimento: yup.string().required("* O campo é obrigatório"),
-  //   descricaoEnriquecimento: yup.string().required("* O campo é obrigatório"),
-  //   nomeAnimal: yup.string().required("* O campo é obrigatório"),
-  //   nomeEnriquecimento: yup.string().required("* O campo é obrigatório"),
-  // });
+  const schema = yup.object().shape({
+    // dataEnriquecimento: yup.string().required("* O campo é obrigatório"),
+    // descricaoEnriquecimento: yup.string().required("* O campo é obrigatório"),
+    // nomeAnimal: yup.string().required("* O campo é obrigatório"),
+    // nomeEnriquecimento: yup.string().required("* O campo é obrigatório"),
+  });
 
   const {
     handleSubmit,
@@ -100,7 +100,7 @@ export const FormEnriquecimentoAmbiental = ({
     control,
     formState: { errors },
   } = useForm({
-    //  resolver: yupResolver(schema),
+    resolver: yupResolver(schema),
   });
 
   useEffect(() => {
@@ -120,11 +120,12 @@ export const FormEnriquecimentoAmbiental = ({
       createEnriquecimentoAmbiental(enriquecimentoAmbiental),
     {
       onSuccess: (data) => {
+        console.log(data);
         toast.success(data?.messages?.join(", "));
         onConfirm();
       },
-
       onError: (error) => {
+        console.log(error);
         toast.error(error?.response?.data?.messages?.join(", "));
       },
     }
@@ -149,11 +150,11 @@ export const FormEnriquecimentoAmbiental = ({
     console.log(receivedValues);
     const values = {
       ...receivedValues,
-      // dataEnriquecimento: format(
-      //   new Date(parsedDate(receivedValues.dataEnriquecimento)),
-      //   "dd/MM/yyyy"
-      // ),
-      animal: { id: receivedValues.animal },
+      dataEnriquecimento: format(
+        new Date(parsedDate(receivedValues.dataEnriquecimento)),
+        "dd/MM/yyyy"
+      ),
+      animal: { id: receivedValues.idAnimal },
     };
     console.log(values);
     if (receivedValues.id) return updateEnriquecimentoAmbientalMutate(values);
@@ -174,12 +175,17 @@ export const FormEnriquecimentoAmbiental = ({
             : "Cadastrar ficha de enriquecimento ambiental"}
         </Typography>
 
-        <InputSelectAnimal
-          control={control}
-          name="animal"
-          type="text"
-          onSubmit={handleSubmit(onSubmit)}
-        />
+        <InputSelectAnimal />
+
+        <Box sx={styles.line}>
+          <InputText
+            control={control}
+            name="idAnimal"
+            label="id do Animal"
+            error={errors?.idAnimal}
+            type="idAnimal"
+          />
+        </Box>
 
         <Box sx={styles.line}>
           <InputText

@@ -3,7 +3,8 @@ import { ENDPOINTS } from "../endpoints";
 
 export const createNutricao = async (nutricao) => {
   const axios = getAxios();
-  return axios.post(ENDPOINTS.nutricao.add, nutricao);
+  const { data } = await axios.post(ENDPOINTS.nutricao.add, nutricao);
+  return data;
 };
 
 export const countNutricao = async (strgFilter) => {

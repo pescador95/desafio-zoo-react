@@ -88,10 +88,10 @@ export const FormHistoricoEtologico = ({
   };
 
   const schema = yup.object().shape({
-    nomeAnimal: yup.string().required("* O campo é obrigatório"),
-    nomeEtologico: yup.string().required("* O campo é obrigatório"),
-    descricaoEtologico: yup.string().required("* O campo é obrigatório"),
-    dataEtologico: yup.string().required("* O campo é obrigatório"),
+    // nomeAnimal: yup.string().required("* O campo é obrigatório"),
+    // nomeEtologico: yup.string().required("* O campo é obrigatório"),
+    // descricaoEtologico: yup.string().required("* O campo é obrigatório"),
+    // dataEtologico: yup.string().required("* O campo é obrigatório"),
   });
 
   const {

@@ -88,17 +88,17 @@ export const FormHistoricoClinico = ({
   };
 
   const schema = yup.object().shape({
-    nomeAnimal: yup.string().required("* O campo é obrigatório"),
-    dataHistoricoClinico: yup.string().required("* O campo é obrigatório"),
-    etco2: yup.string(),
-    frequenciaCardiaca: yup.string(),
-    frequenciaRespiratoria: yup.string(),
-    temperaturaAnimal: yup.string(),
-    pd: yup.string(),
-    pm: yup.string(),
-    ps: yup.string(),
-    spo2: yup.string(),
-    observacao: yup.string(),
+    // nomeAnimal: yup.string().required("* O campo é obrigatório"),
+    // dataHistoricoClinico: yup.string().required("* O campo é obrigatório"),
+    // etco2: yup.string(),
+    // frequenciaCardiaca: yup.string(),
+    // frequenciaRespiratoria: yup.string(),
+    // temperaturaAnimal: yup.string(),
+    // pd: yup.string(),
+    // pm: yup.string(),
+    // ps: yup.string(),
+    // spo2: yup.string(),
+    // observacao: yup.string(),
   });
 
   const {

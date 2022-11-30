@@ -80,10 +80,10 @@ export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
   };
 
   const schema = yup.object().shape({
-    nomeAnimal: yup.string().required("* O campo é obrigatório"),
-    dataInicio: yup.string().required("* O campo é obrigatório"),
-    dataFim: yup.string().required("* O campo é obrigatório"),
-    descricaoNutricao: yup.string().required("* O campo é obrigatório"),
+    // nomeAnimal: yup.string().required("* O campo é obrigatório"),
+    // dataInicio: yup.string().required("* O campo é obrigatório"),
+    // dataFim: yup.string().required("* O campo é obrigatório"),
+    // descricaoNutricao: yup.string().required("* O campo é obrigatório"),
   });
 
   const {

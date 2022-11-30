@@ -85,12 +85,12 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
   };
 
   const schema = yup.object().shape({
-    nomeAnimal: yup.string().required("* O campo é obrigatório"),
-    historicoClinico: yup.string().required("* O campo é obrigatório"),
-    nomeMedicacao: yup.string().required("* O campo é obrigatório"),
-    viaAdministracao: yup.string().required("* O campo é obrigatório"),
-    posologia: yup.string().required("* O campo é obrigatório"),
-    frequencia: yup.string().required("* O campo é obrigatório"),
+    // nomeAnimal: yup.string().required("* O campo é obrigatório"),
+    // historicoClinico: yup.string().required("* O campo é obrigatório"),
+    // nomeMedicacao: yup.string().required("* O campo é obrigatório"),
+    // viaAdministracao: yup.string().required("* O campo é obrigatório"),
+    // posologia: yup.string().required("* O campo é obrigatório"),
+    // frequencia: yup.string().required("* O campo é obrigatório"),
   });
 
   const {
@@ -106,9 +106,6 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
     defaultValues?.id
       ? reset({
           ...defaultValues,
-          historicoClinico: formattedDateForInput(
-            defaultValues.historicoClinico
-          ),
         })
       : reset();
   }, [defaultValues]);
@@ -144,10 +141,7 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
   const onSubmit = async (receivedValues) => {
     const values = {
       ...receivedValues,
-      historicoClinico: format(
-        new Date(parsedDate(receivedValues.historicoClinico)),
-        "dd/MM/yyyy"
-      ),
+      historicoClinico: { id: receivedValues?.idHistoricoClinico },
     };
     if (receivedValues.id) return updateMedicacaoMutate(values);
     return createMedicacaoMutate(values);
@@ -168,6 +162,15 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
         </Typography>
 
         <InputSelectHistoricoClinico />
+
+        <Box sx={styles.line}>
+          <InputText
+            control={control}
+            name="idHistoricoClinico"
+            label="id do histórico clínico"
+            error={errors?.idHistoricoClinico}
+          />
+        </Box>
 
         <Box sx={styles.line}>
           <InputText

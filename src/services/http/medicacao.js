@@ -3,7 +3,8 @@ import { ENDPOINTS } from "../endpoints";
 
 export const createMedicacao = async (medicacao) => {
   const axios = getAxios();
-  return axios.post(ENDPOINTS.medicacao.add, medicacao);
+  const { data } = await axios.post(ENDPOINTS.medicacao.add, medicacao);
+  return data;
 };
 
 export const countMedicacao = async (strgFilter) => {

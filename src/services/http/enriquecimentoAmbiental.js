@@ -5,10 +5,11 @@ export const createEnriquecimentoAmbiental = async (
   enriquecimentoAmbiental
 ) => {
   const axios = getAxios();
-  return axios.post(
+  const { data } = await axios.post(
     ENDPOINTS.enriquecimentoAmbiental.add,
     enriquecimentoAmbiental
   );
+  return data;
 };
 
 export const countEnriquecimentoAmbiental = async (strgFilter) => {

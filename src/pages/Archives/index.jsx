@@ -22,6 +22,7 @@ import {
   getUploads,
 } from "../../services/http/uploads";
 import { makeMultiFilterParams } from "../../utils/multiFilters";
+import AddIcon from "@mui/icons-material/Add";
 
 export const Upload = () => {
   const styles = {
@@ -393,6 +394,14 @@ export const Upload = () => {
           disabled={!selectedItems?.length}
         >
           Excluir {selectedItems?.length || ""} arquivos
+        </Button>
+
+        <Button
+          sx={styles.addRegister}
+          onClick={() => setIsOpenFormUpload(true)}
+        >
+          <AddIcon sx={styles.icon} />
+          CADASTRAR
         </Button>
       </Box>
 

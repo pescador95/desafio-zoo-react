@@ -3,7 +3,8 @@ import { ENDPOINTS } from "../endpoints";
 
 export const createAnimal = async (animal) => {
   const axios = getAxios();
-  return axios.post(ENDPOINTS.animal.add, animal);
+  const { data } = await axios.post(ENDPOINTS.animal.add, animal);
+  return data;
 };
 
 export const countAnimal = async (strgFilter) => {

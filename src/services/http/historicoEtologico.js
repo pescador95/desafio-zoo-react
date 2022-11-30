@@ -3,7 +3,11 @@ import { ENDPOINTS } from "../endpoints";
 
 export const createHistoricoEtologico = async (historicoEtologico) => {
   const axios = getAxios();
-  return axios.post(ENDPOINTS.historicoEtologico.add, historicoEtologico);
+  const { data } = await axios.post(
+    ENDPOINTS.historicoEtologico.add,
+    historicoEtologico
+  );
+  return data;
 };
 
 export const countHistoricoEtologico = async (strgFilter) => {

@@ -3,7 +3,8 @@ import { ENDPOINTS } from "../endpoints";
 
 export const createUser = async (user) => {
   const axios = getAxios();
-  return axios.post(ENDPOINTS.user.add, user);
+  const { data } = await axios.post(ENDPOINTS.user.add, user);
+  return data;
 };
 
 export const countUser = async (strgFilter) => {

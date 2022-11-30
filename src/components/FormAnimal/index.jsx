@@ -84,15 +84,15 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
   };
 
   const schema = yup.object().shape({
-    nomeApelido: yup.string().required("* O campo é obrigatório"),
-    identificacao: yup.string().required("* O campo é obrigatório"),
-    dataEntrada: yup.string().required("* O campo é obrigatório"),
-    nomeComum: yup.string().required("* O campo é obrigatório"),
-    origem: yup.string().required("* O campo é obrigatório"),
-    nomeCientifico: yup.string().required("* O campo é obrigatório"),
-    sexo: yup.string().required("* O campo é obrigatório"),
-    idade: yup.string().required("* O campo é obrigatório"),
-    orgao: yup.string().required("* O campo é obrigatório"),
+    // nomeApelido: yup.string().required("* O campo é obrigatório"),
+    // identificacao: yup.string().required("* O campo é obrigatório"),
+    // dataEntrada: yup.string().required("* O campo é obrigatório"),
+    // nomeComum: yup.string().required("* O campo é obrigatório"),
+    // origem: yup.string().required("* O campo é obrigatório"),
+    // nomeCientifico: yup.string().required("* O campo é obrigatório"),
+    // sexo: yup.string().required("* O campo é obrigatório"),
+    // idade: yup.string().required("* O campo é obrigatório"),
+    // orgao: yup.string().required("* O campo é obrigatório"),
   });
 
   const {
@@ -110,7 +110,7 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
           ...defaultValues,
           dataEntrada: formattedDateForInput(defaultValues.dataEntrada),
         })
-      : reset();
+      : reset(defaultValues);
   }, [defaultValues]);
 
   const { mutate: createAnimalMutate } = useMutation(
@@ -155,7 +155,7 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
   );
 
   const onSubmit = async (receivedValues) => {
-    console.log(receivedValues.file.name);
+    console.log(receivedValues);
     const values = {
       ...receivedValues,
       dataEntrada: format(
@@ -166,7 +166,7 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
     if (receivedValues.id) {
       await createUploadMutate({
         file: receivedValues.file,
-        id: receivedValues.id,
+        idAnimal: receivedValues.idAnimal,
         fileReference: "animal",
       });
       await updateAnimalMutate(values);
@@ -181,6 +181,11 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
       // await updateAnimalMutate(values);
     }
     return createAnimalMutate(values);
+    await createUploadMutate({
+      file: receivedValues.file,
+      idAnimal: receivedValues.idAnimal,
+      fileReference: "animal",
+    });
   };
 
   return (
@@ -283,6 +288,7 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
             name="file"
             label="Arquivos"
             error={errors?.file}
+            type="file"
           />
         </Box>
 

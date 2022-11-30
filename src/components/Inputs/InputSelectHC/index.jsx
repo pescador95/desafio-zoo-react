@@ -100,43 +100,42 @@ export const InputSelectHistoricoClinico = (
   );
 
   return (
-    <form type="submit" onSubmit={handleSubmit(onSubmit)}>
-      <Box sx={styles.inputContainer}>
-        <Typography
-          component="label"
-          htmlFor="historicoclinico"
-          sx={styles.label}
-        >
-          Histórico Clínico
-        </Typography>
-        <Controller
-          name="historicoclinico"
-          control={control}
-          render={({
-            field: onChange,
-            defaultValues,
-            historicoclinico,
-            ...props
-          }) => (
-            <Select
-              autoFocus
-              isSearchable
-              styles={colourStyles}
-              type="text"
-              inputId="historicoclinico"
-              id="historicoclinico"
-              placeholder="Selecione um Histórico Clínico..."
-              options={options}
-              onChange={(e) => setHistoricoClinico(e)}
-              formatOptionLabel={formatOptionLabel}
-              name="historicoclinico"
-              value={historicoclinico}
-              {...field}
-              {...props}
-            />
-          )}
-        />
-      </Box>
-    </form>
+    <Box sx={styles.inputContainer}>
+      <Typography
+        component="label"
+        htmlFor="historicoclinico"
+        sx={styles.label}
+      >
+        Histórico Clínico
+      </Typography>
+      <Controller
+        name="historicoclinico"
+        control={control}
+        render={({
+          field: onChange,
+          defaultValues,
+          historicoclinico,
+          ...props
+        }) => (
+          <Select
+            autoFocus
+            isSearchable
+            styles={colourStyles}
+            type="text"
+            inputId="historicoclinico"
+            id="historicoclinico"
+            placeholder="Selecione um Histórico Clínico..."
+            options={options}
+            onChange={(e) => setHistoricoClinico(e)}
+            formatOptionLabel={formatOptionLabel}
+            name="historicoclinico"
+            value={historicoclinico}
+            onSubmit={handleSubmit}
+            {...field}
+            {...props}
+          />
+        )}
+      />
+    </Box>
   );
 };

@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Typography } from "@mui/material";
+import { Button, MenuItem, Select, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { format } from "date-fns";
@@ -14,6 +14,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import { InputFile } from "../Inputs/InputFile";
 import { InputSelectAnimal } from "../Inputs/InputSelectAnimal";
+import { InputText } from "../Inputs/InputText";
 
 export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
   const styles = {
@@ -80,7 +81,7 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
   };
 
   const schema = yup.object().shape({
-    nomeAnimal: yup.string().required("* O campo é obrigatório"),
+    // nomeAnimal: yup.string().required("* O campo é obrigatório"),
   });
 
   const {
@@ -96,14 +97,13 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
     defaultValues?.id
       ? reset({
           ...defaultValues,
-          dataEntrada: formattedDateForInput(defaultValues.dataEntrada),
         })
-      : reset();
+      : reset(defaultValues);
   }, [defaultValues]);
 
   const { mutate: createUploadMutate } = useMutation(
     ["createUpload"],
-    (upload) => createUpload(upload),
+    (values) => createUpload(values),
     {
       onSuccess: (data) => {
         toast.success(data?.messages?.join(", "));
@@ -115,30 +115,14 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
     }
   );
 
-  const { mutate: updateUploadMutate } = useMutation(
-    ["updateUpload"],
-    (upload) => updateUpload(upload),
-    {
-      onSuccess: (data) => {
-        toast.success(data?.messages?.join(", "));
-        onConfirm();
-      },
-      onError: (error) => {
-        toast.error(error?.response?.data?.messages?.join(", "));
-      },
+  const onSubmit = async (values) => {
+    // const values = {
+    //   ...receivedValues,
+    // };
+    if (values.id) {
+      await createUploadMutate(values);
     }
-  );
-
-  const onSubmit = async (receivedValues) => {
-    const values = {
-      ...receivedValues,
-      dataEntrada: format(
-        new Date(parsedDate(receivedValues.dataEntrada)),
-        "dd/MM/yyyy"
-      ),
-    };
-    if (receivedValues.id) return updateUploadMutate(values);
-    return createUploadMutate(values);
+    return await createUploadMutate(values);
   };
 
   return (
@@ -153,7 +137,24 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
           {defaultValues?.id ? "Editar upload" : "Cadastrar upload"}
         </Typography>
 
-        <InputSelectAnimal />
+        <Box sx={styles.line}>
+          <InputText
+            control={control}
+            name="idAnimal"
+            label="id animal"
+            error={errors?.idAnimal}
+            type="text"
+          />
+        </Box>
+
+        <InputText
+          control={control}
+          name="fileReference"
+          label="Rerência do upload"
+          error={errors?.fileReference}
+          sx={styles.input}
+          type="text"
+        />
 
         <Box sx={styles.line}>
           <InputFile
@@ -161,6 +162,8 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
             name="file"
             label="Arquivos"
             error={errors?.file}
+            type="file"
+            id="file"
           />
         </Box>
 

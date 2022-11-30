@@ -79,7 +79,6 @@ export const InputSelectHistoricoClinico = (
       nomeAnimal: historicoClinico?.nomeAnimal,
       dataHistoricoClinico: historicoClinico?.dataHistoricoClinico,
       observacao: historicoClinico?.observacao,
-      orgao: historicoClinico?.orgao,
     })) || [];
 
   const formatOptionLabel = ({
@@ -87,7 +86,6 @@ export const InputSelectHistoricoClinico = (
     nomeAnimal,
     dataHistoricoClinico,
     observacao,
-    orgao,
   }) => (
     <div style={{ display: "column" }}>
       <div style={{ display: "space-between" }}>

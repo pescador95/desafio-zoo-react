@@ -110,7 +110,7 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
           ...defaultValues,
           dataEntrada: formattedDateForInput(defaultValues.dataEntrada),
         })
-      : reset();
+      : reset(defaultValues);
   }, [defaultValues]);
 
   const { mutate: createAnimalMutate } = useMutation(

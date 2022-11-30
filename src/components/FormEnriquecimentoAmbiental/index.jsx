@@ -111,7 +111,7 @@ export const FormEnriquecimentoAmbiental = ({
             defaultValues.dataEnriquecimento
           ),
         })
-      : reset();
+      : reset(defaultValues);
   }, [defaultValues]);
 
   const { mutate: createEnriquecimentoAmbientalMutate } = useMutation(

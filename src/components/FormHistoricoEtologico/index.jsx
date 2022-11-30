@@ -109,7 +109,7 @@ export const FormHistoricoEtologico = ({
           ...defaultValues,
           dataEtologico: formattedDateForInput(defaultValues.dataEtologico),
         })
-      : reset();
+      : reset(defaultValues);
   }, [defaultValues]);
 
   const { mutate: createHistoricoEtologicoMutate } = useMutation(

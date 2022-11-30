@@ -107,7 +107,7 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
       ? reset({
           ...defaultValues,
         })
-      : reset();
+      : reset(defaultValues);
   }, [defaultValues]);
 
   const { mutate: createMedicacaoMutate } = useMutation(

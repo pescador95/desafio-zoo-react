@@ -118,7 +118,7 @@ export const FormHistoricoClinico = ({
             defaultValues.dataHistoricoClinico
           ),
         })
-      : reset();
+      : reset(defaultValues);
   }, [defaultValues]);
 
   const { mutate: createHistoricoClinicoMutate } = useMutation(

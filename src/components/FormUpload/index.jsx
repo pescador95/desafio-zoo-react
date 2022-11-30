@@ -97,7 +97,7 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
       ? reset({
           ...defaultValues,
         })
-      : reset();
+      : reset(defaultValues);
   }, [defaultValues]);
 
   const { mutate: createUploadMutate } = useMutation(

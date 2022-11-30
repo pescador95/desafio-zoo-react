@@ -97,7 +97,7 @@ export const FormUser = ({ open, defaultValues, onConfirm, onCancel }) => {
       ? reset({
           ...defaultValues,
         })
-      : reset();
+      : reset(defaultValues);
   }, [defaultValues]);
 
   const { mutate: createUserMutate } = useMutation(

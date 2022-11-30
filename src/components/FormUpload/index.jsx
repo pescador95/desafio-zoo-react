@@ -14,6 +14,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import { InputFile } from "../Inputs/InputFile";
 import { InputSelectAnimal } from "../Inputs/InputSelectAnimal";
+import { InputText } from "../Inputs/InputText";
 
 export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
   const styles = {
@@ -102,8 +103,7 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
 
   const { mutate: createUploadMutate } = useMutation(
     ["createUpload"],
-    (upload, idAnimal, fileReference) =>
-      createUpload(upload, idAnimal, fileReference),
+    (values) => createUpload(values),
     {
       onSuccess: (data) => {
         toast.success(data?.messages?.join(", "));
@@ -115,13 +115,11 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
     }
   );
 
-  const onSubmit = async (receivedValues) => {
-    console.log(receivedValues + "  receivedValues");
-    const values = {
-      ...receivedValues,
-    };
-    console.log(values + "  values");
-    if (receivedValues.id) {
+  const onSubmit = async (values) => {
+    // const values = {
+    //   ...receivedValues,
+    // };
+    if (values.id) {
       await createUploadMutate(values);
     }
     return await createUploadMutate(values);
@@ -140,7 +138,7 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
         </Typography>
 
         <Box sx={styles.line}>
-          <InputFile
+          <InputText
             control={control}
             name="idAnimal"
             label="id animal"
@@ -149,24 +147,14 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
           />
         </Box>
 
-        <Select
-          label="Rerência do upload"
-          name="fileReference"
+        <InputText
           control={control}
-          size="small"
+          name="fileReference"
+          label="Rerência do upload"
+          error={errors?.fileReference}
           sx={styles.input}
           type="text"
-          id="fileReference"
-        >
-          <MenuItem value="animal">Animal</MenuItem>
-          <MenuItem value="enriquecimentoambiental">
-            Enriquecimento Ambiental
-          </MenuItem>
-          <MenuItem value="historicoclinico">Histórico Clínico</MenuItem>
-          <MenuItem value="historicoetologico">Histórico Etológico</MenuItem>
-          <MenuItem value="medicacao">Medicação</MenuItem>
-          <MenuItem value="nutricao">Nutrição</MenuItem>
-        </Select>
+        />
 
         <Box sx={styles.line}>
           <InputFile
@@ -175,6 +163,7 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
             label="Arquivos"
             error={errors?.file}
             type="file"
+            id="file"
           />
         </Box>
 

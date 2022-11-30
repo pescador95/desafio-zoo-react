@@ -110,8 +110,6 @@ export const InputSelectAnimal = (field, onChange, ...rest) => {
             autoFocus
             isSearchable
             styles={colourStyles}
-            inputId="animal"
-            id="animal"
             name="animal"
             placeholder="Selecione um Animal..."
             options={options}

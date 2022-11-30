@@ -154,7 +154,7 @@ export const FormEnriquecimentoAmbiental = ({
         new Date(parsedDate(receivedValues.dataEnriquecimento)),
         "dd/MM/yyyy"
       ),
-      animal: { id: receivedValues.idAnimal },
+      animal: { id: receivedValues.animal },
     };
     console.log(values);
     if (receivedValues.id) return updateEnriquecimentoAmbientalMutate(values);
@@ -175,7 +175,7 @@ export const FormEnriquecimentoAmbiental = ({
             : "Cadastrar ficha de enriquecimento ambiental"}
         </Typography>
 
-        <InputSelectAnimal />
+        <InputSelectAnimal name="animal" />
 
         <Box sx={styles.line}>
           <InputText

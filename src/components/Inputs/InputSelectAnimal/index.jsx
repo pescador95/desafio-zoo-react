@@ -68,7 +68,7 @@ export const InputSelectAnimal = (defaultValues, field, onChange, ...props) => {
 
   const options =
     animals?.map((animal) => ({
-      value: animal?.id,
+      id: animal?.id,
       nomeComum: animal?.nomeComum,
       nomeApelido: animal?.nomeApelido,
       identificacao: animal?.identificacao,
@@ -76,7 +76,7 @@ export const InputSelectAnimal = (defaultValues, field, onChange, ...props) => {
     })) || [];
 
   const formatOptionLabel = ({
-    value,
+    id,
     nomeComum,
     nomeApelido,
     identificacao,
@@ -84,7 +84,7 @@ export const InputSelectAnimal = (defaultValues, field, onChange, ...props) => {
   }) => (
     <div style={{ display: "column" }}>
       <div style={{ display: "space-between" }}>
-        {value} {nomeComum}, Apelido: {nomeApelido}
+        {id} {nomeComum}, Apelido: {nomeApelido}
       </div>
       <div style={{ marginLeft: "10px", color: "#5c5c5c" }}>
         <div>

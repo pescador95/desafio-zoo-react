@@ -75,21 +75,21 @@ export const InputSelectHistoricoClinico = (
 
   const options =
     historicoClinicos?.map((historicoClinico) => ({
-      value: historicoClinico?.id,
+      id: historicoClinico?.id,
       nomeAnimal: historicoClinico?.nomeAnimal,
       dataHistoricoClinico: historicoClinico?.dataHistoricoClinico,
       observacao: historicoClinico?.observacao,
     })) || [];
 
   const formatOptionLabel = ({
-    value,
+    id,
     nomeAnimal,
     dataHistoricoClinico,
     observacao,
   }) => (
     <div style={{ display: "column" }}>
       <div style={{ display: "space-between" }}>
-        {value} {nomeAnimal} - {dataHistoricoClinico}
+        {id} {nomeAnimal} - {dataHistoricoClinico}
       </div>
       <div style={{ marginLeft: "10px", color: "#5c5c5c" }}>
         <div>{observacao}</div>

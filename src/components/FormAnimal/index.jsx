@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { createAnimal, updateAnimal } from "../../services/http/animais";
+import { createUpload } from "../../services/http/uploads";
 import { formattedDateForInput, parsedDate } from "../../utils/parsedDate";
 
 import { useMutation } from "@tanstack/react-query";
@@ -16,6 +17,7 @@ import { GENDER, LIFETIME } from "../../utils/constants";
 import { InputFile } from "../Inputs/InputFile";
 import { InputMultiselect } from "../Inputs/InputSelect";
 import { InputText } from "../Inputs/InputText";
+import { UploadFile } from "@mui/icons-material";
 
 export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
   const styles = {
@@ -124,6 +126,19 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
       },
     }
   );
+  const { mutate: createUploadMutate } = useMutation(
+    ["createUpload"],
+    ({ file, id, fileReference }) => createUpload(file, id, fileReference),
+    {
+      onSuccess: (data) => {
+        toast.success(data?.messages?.join(", "));
+        onConfirm();
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.messages?.join(", "));
+      },
+    }
+  );
 
   const { mutate: updateAnimalMutate } = useMutation(
     ["updateAnimal"],
@@ -140,6 +155,7 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
   );
 
   const onSubmit = async (receivedValues) => {
+    console.log(receivedValues.file.name);
     const values = {
       ...receivedValues,
       dataEntrada: format(
@@ -147,7 +163,23 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
         "dd/MM/yyyy"
       ),
     };
-    if (receivedValues.id) return updateAnimalMutate(values);
+    if (receivedValues.id) {
+      await createUploadMutate({
+        file: receivedValues.file,
+        id: receivedValues.id,
+        fileReference: "animal",
+      });
+      await updateAnimalMutate(values);
+      // if (receivedValues.file) {
+      //   const formData = new FormData(receivedValues.file);
+      //   const file = receivedValues.file;
+      //   const id = receivedValues.id;
+      //   const fileReference = formData;
+
+      //   await createUploadMutate(file, id, fileReference);
+      // }
+      // await updateAnimalMutate(values);
+    }
     return createAnimalMutate(values);
   };
 

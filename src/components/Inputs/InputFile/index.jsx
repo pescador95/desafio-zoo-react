@@ -23,7 +23,7 @@ export const InputFile = ({ name, label, error, control, ...rest }) => {
             {label}
           </Typography>
           <TextField
-            type="file"
+            type={name}
             name={name}
             id={name}
             value={field?.value || ""}

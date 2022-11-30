@@ -175,9 +175,9 @@ export const FormHistoricoClinico = ({
             : "Cadastrar ficha do histórico clínico"}
         </Typography>
 
-        <Box sx={styles.line}>
-          <InputSelectAnimal />
+        <InputSelectAnimal />
 
+        <Box sx={styles.line}>
           <InputText
             control={control}
             name="dataHistoricoClinico"

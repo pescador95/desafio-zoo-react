@@ -87,12 +87,12 @@ export const FormEnriquecimentoAmbiental = ({
     },
   };
 
-  const schema = yup.object().shape({
-    dataEnriquecimento: yup.string().required("* O campo é obrigatório"),
-    descricaoEnriquecimento: yup.string().required("* O campo é obrigatório"),
-    nomeAnimal: yup.string().required("* O campo é obrigatório"),
-    nomeEnriquecimento: yup.string().required("* O campo é obrigatório"),
-  });
+  // const schema = yup.object().shape({
+  //   dataEnriquecimento: yup.string().required("* O campo é obrigatório"),
+  //   descricaoEnriquecimento: yup.string().required("* O campo é obrigatório"),
+  //   nomeAnimal: yup.string().required("* O campo é obrigatório"),
+  //   nomeEnriquecimento: yup.string().required("* O campo é obrigatório"),
+  // });
 
   const {
     handleSubmit,
@@ -100,7 +100,7 @@ export const FormEnriquecimentoAmbiental = ({
     control,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    //  resolver: yupResolver(schema),
   });
 
   useEffect(() => {
@@ -146,13 +146,16 @@ export const FormEnriquecimentoAmbiental = ({
   );
 
   const onSubmit = async (receivedValues) => {
+    console.log(receivedValues);
     const values = {
       ...receivedValues,
-      dataEnriquecimento: format(
-        new Date(parsedDate(receivedValues.dataEnriquecimento)),
-        "dd/MM/yyyy"
-      ),
+      // dataEnriquecimento: format(
+      //   new Date(parsedDate(receivedValues.dataEnriquecimento)),
+      //   "dd/MM/yyyy"
+      // ),
+      animal: { id: receivedValues.animal },
     };
+    console.log(values);
     if (receivedValues.id) return updateEnriquecimentoAmbientalMutate(values);
     return createEnriquecimentoAmbientalMutate(values);
   };
@@ -171,9 +174,12 @@ export const FormEnriquecimentoAmbiental = ({
             : "Cadastrar ficha de enriquecimento ambiental"}
         </Typography>
 
-        <Box sx={styles.line}>
-          <InputSelectAnimal />
-        </Box>
+        <InputSelectAnimal
+          control={control}
+          name="animal"
+          type="text"
+          onSubmit={handleSubmit(onSubmit)}
+        />
 
         <Box sx={styles.line}>
           <InputText

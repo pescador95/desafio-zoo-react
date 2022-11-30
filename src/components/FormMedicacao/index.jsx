@@ -167,9 +167,7 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
             : "Cadastrar ficha de medicação"}
         </Typography>
 
-        <Box sx={styles.line}>
-          <InputSelectHistoricoClinico />
-        </Box>
+        <InputSelectHistoricoClinico />
 
         <Box sx={styles.line}>
           <InputText

@@ -153,9 +153,7 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
           {defaultValues?.id ? "Editar upload" : "Cadastrar upload"}
         </Typography>
 
-        <Box sx={styles.line}>
-          <InputSelectAnimal />
-        </Box>
+        <InputSelectAnimal />
 
         <Box sx={styles.line}>
           <InputFile

@@ -1,11 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { useMutation } from "@tanstack/react-query";
 import { getHistoricoClinicosSeletor } from "../../../services/http/historicoClinico";
 import { toast } from "react-toastify";
 import { Box, Typography } from "@mui/material";
+import { Controller, useForm } from "react-hook-form";
 
-export const InputSelectHistoricoClinico = () => {
+export const InputSelectHistoricoClinico = (
+  defaultValues,
+  field,
+  onChange,
+  ...props
+) => {
   const styles = {
     inputContainer: {
       display: "flex",
@@ -55,6 +61,20 @@ export const InputSelectHistoricoClinico = () => {
 
   useEffect(() => getSeletorData(), []);
 
+  const { handleSubmit, control } = useForm({});
+
+  const onSubmit = async (data) => {
+    console.log(data + " data");
+    const values = {
+      ...data,
+    };
+    console.log(values + " values");
+    return values;
+  };
+
+  const [historicoClinico, setHistoricoClinico] = useState();
+  console.log(historicoClinico);
+
   const options =
     historicoClinicos?.map((historicoClinico) => ({
       value: historicoClinico?.id,
@@ -84,25 +104,37 @@ export const InputSelectHistoricoClinico = () => {
   );
 
   return (
-    <Box sx={styles.inputContainer}>
-      <Typography
-        component="label"
-        htmlFor="historicoclinico"
-        sx={styles.label}
-      >
-        Histórico Clínico
-      </Typography>
-
-      <Select
-        autoFocus
-        isSearchable
-        styles={colourStyles}
-        type="text"
-        id="historicoclinico"
-        placeholder="Selecione um Histórico Clínico..."
-        options={options}
-        formatOptionLabel={formatOptionLabel}
-      />
-    </Box>
+    <form type="submit" onSubmit={handleSubmit(onSubmit)}>
+      <Box sx={styles.inputContainer}>
+        <Typography
+          component="label"
+          htmlFor="historicoclinico"
+          sx={styles.label}
+        >
+          Histórico Clínico
+        </Typography>
+        <Controller
+          name="animal"
+          control={control}
+          render={({ field: onChange, defaultValues, animal, ...props }) => (
+            <Select
+              autoFocus
+              isSearchable
+              styles={colourStyles}
+              type="text"
+              id="historicoclinico"
+              placeholder="Selecione um Histórico Clínico..."
+              options={options}
+              onChange={(e) => setHistoricoClinico(e)}
+              formatOptionLabel={formatOptionLabel}
+              name="historicoclinico"
+              value={defaultValues}
+              {...field}
+              {...props}
+            />
+          )}
+        />
+      </Box>
+    </form>
   );
 };

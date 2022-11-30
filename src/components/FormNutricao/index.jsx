@@ -163,9 +163,7 @@ export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
             : "Cadastrar ficha de nutrição"}
         </Typography>
 
-        <Box sx={styles.line}>
-          <InputSelectAnimal />
-        </Box>
+        <InputSelectAnimal />
 
         <Box sx={styles.line}>
           <InputText

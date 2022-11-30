@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { useMutation } from "@tanstack/react-query";
-import { getAnimals, getAnimalsSeletor } from "../../../services/http/animais";
+import { getAnimalsSeletor } from "../../../services/http/animais";
 import { toast } from "react-toastify";
 import { Box, Typography } from "@mui/material";
+import { Controller, useForm } from "react-hook-form";
 
-export const InputSelectAnimal = () => {
+export const InputSelectAnimal = (defaultValues, field, onChange, ...props) => {
   const styles = {
     inputContainer: {
       display: "flex",
@@ -47,11 +48,23 @@ export const InputSelectAnimal = () => {
     }
   );
 
-  const getTableData = (page = 0, strgFilter = "") => {
+  const getSeletorData = (page = 0, strgFilter = "") => {
     getAnimalsMutate({ page, strgFilter });
   };
 
-  useEffect(() => getTableData(), []);
+  useEffect(() => getSeletorData(), []);
+
+  const { handleSubmit, control } = useForm({});
+
+  const onSubmit = async (data) => {
+    const values = {
+      ...data,
+    };
+    return values;
+  };
+
+  const [animal, setAnimal] = useState();
+  console.log(animal);
 
   const options =
     animals?.map((animal) => ({
@@ -84,21 +97,34 @@ export const InputSelectAnimal = () => {
   );
 
   return (
-    <Box sx={styles.inputContainer}>
-      <Typography component="label" htmlFor="animal" sx={styles.label}>
-        Animal
-      </Typography>
+    <form type="submit" onSubmit={handleSubmit(onSubmit)}>
+      <Box sx={styles.inputContainer}>
+        <Typography component="label" htmlFor="animal" sx={styles.label}>
+          Animal
+        </Typography>
 
-      <Select
-        autoFocus
-        isSearchable
-        styles={colourStyles}
-        type="text"
-        id="animal"
-        placeholder="Selecione um Animal..."
-        options={options}
-        formatOptionLabel={formatOptionLabel}
-      />
-    </Box>
+        <Controller
+          name="animal"
+          control={control}
+          render={({ field: onChange, defaultValues, animal, ...props }) => (
+            <Select
+              autoFocus
+              isSearchable
+              styles={colourStyles}
+              inputId="animal"
+              id="animal"
+              name="animal"
+              placeholder="Selecione um Animal..."
+              options={options}
+              onChange={(e) => setAnimal(e)}
+              formatOptionLabel={formatOptionLabel}
+              value={animal}
+              {...field}
+              {...props}
+            />
+          )}
+        />
+      </Box>
+    </form>
   );
 };

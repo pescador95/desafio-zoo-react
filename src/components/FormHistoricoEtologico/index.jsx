@@ -166,9 +166,7 @@ export const FormHistoricoEtologico = ({
             : "Cadastrar ficha do histórico etológico"}
         </Typography>
 
-        <Box sx={styles.line}>
-          <InputSelectAnimal />
-        </Box>
+        <InputSelectAnimal />
 
         <Box sx={styles.line}>
           <InputText

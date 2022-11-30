@@ -45,26 +45,24 @@ export const SideBarMenu = () => {
       },
     },
   };
-
+  //if (val.rolesAllowed.includes(user?.roleUsuario)) {
   return (
     <Box sx={styles?.container}>
       <Box sx={styles.img} component="img" src={zooLogo} alt="Logo zoológico" />
       <Box sx={styles.list}>
         {SideBarMenuData.map((val, key) => {
-          if (val.rolesAllowed.includes(user?.roleUsuario)) {
-            return (
-              <Box
-                sx={styles.link}
-                key={key}
-                onClick={() => {
-                  window.location.pathname = val.link;
-                }}
-              >
-                <div id="div-icon-row">{val.icon}</div>
-                <div id="div-icon-title">{val.titulo}</div>
-              </Box>
-            );
-          }
+          return (
+            <Box
+              sx={styles.link}
+              key={key}
+              onClick={() => {
+                window.location.pathname = val.link;
+              }}
+            >
+              <div id="div-icon-row">{val.icon}</div>
+              <div id="div-icon-title">{val.titulo}</div>
+            </Box>
+          );
         })}
       </Box>
     </Box>

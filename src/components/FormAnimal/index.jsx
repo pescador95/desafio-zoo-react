@@ -155,7 +155,6 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
   );
 
   const onSubmit = async (receivedValues) => {
-    console.log(receivedValues);
     const values = {
       ...receivedValues,
       dataEntrada: format(

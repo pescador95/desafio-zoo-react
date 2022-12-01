@@ -3,7 +3,7 @@ import { Button, MenuItem, Select, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { format } from "date-fns";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { createUpload, updateUpload } from "../../services/http/uploads";
@@ -13,8 +13,11 @@ import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { toast } from "react-toastify";
 import { InputFile } from "../Inputs/InputFile";
-import { InputSelectAnimal } from "../Inputs/InputSelectAnimal";
+import { InputSelectReact } from "../Inputs/InputSelectReact";
 import { InputText } from "../Inputs/InputText";
+import { getAnimalsSeletor } from "../../services/http/animais";
+import { ROUTINES } from "../../utils/constants";
+import { InputMultiselect } from "../Inputs/InputSelect";
 
 export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
   const styles = {
@@ -114,16 +117,64 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
       },
     }
   );
+  const [animal, setAnimal] = useState(null);
 
-  const onSubmit = async (values) => {
-    // const values = {
-    //   ...receivedValues,
-    // };
+  const onSubmit = async (receivedValues) => {
+    const values = {
+      ...receivedValues,
+      idAnimal: receivedValues?.idAnimal?.id,
+      fileReference: receivedValues?.fileReference[0],
+    };
     if (values.id) {
       await createUploadMutate(values);
     }
     return await createUploadMutate(values);
   };
+
+  useEffect(() => getSeletorData(), []);
+
+  const { mutate: getAnimalsMutate, data: animals } = useMutation(
+    ({ sort = "asc", strgOrder = "id" }) => getAnimalsSeletor(sort, strgOrder),
+    {
+      onError: (error) => {
+        toast.error(error?.response?.data?.messages?.join(", "));
+      },
+    }
+  );
+
+  const getSeletorData = (page = 0, strgFilter = "") => {
+    getAnimalsMutate({ page, strgFilter });
+  };
+
+  const formatOptionLabel = ({
+    id,
+    nomeComum,
+    nomeApelido,
+    identificacao,
+    orgao,
+  }) => (
+    <div style={{ display: "column" }}>
+      <div style={{ display: "space-between" }}>
+        {id} {nomeComum}, Apelido: {nomeApelido}
+      </div>
+      <div style={{ marginLeft: "10px", color: "#5c5c5c" }}>
+        <div>
+          Identificação: {identificacao} - {orgao}
+        </div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  );
+
+  const options =
+    animals?.map((animal) => ({
+      id: animal?.id,
+      nomeComum: animal?.nomeComum,
+      nomeApelido: animal?.nomeApelido,
+      identificacao: animal?.identificacao,
+      orgao: animal?.orgao,
+    })) || [];
 
   return (
     <Modal
@@ -137,23 +188,28 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
           {defaultValues?.id ? "Editar upload" : "Cadastrar upload"}
         </Typography>
 
-        <Box sx={styles.line}>
-          <InputText
-            control={control}
-            name="idAnimal"
-            label="id animal"
-            error={errors?.idAnimal}
-            type="text"
-          />
-        </Box>
+        <InputSelectReact
+          name="idAnimal"
+          formatOptionLabel={formatOptionLabel}
+          options={options}
+          onChange={setAnimal}
+          control={control}
+          error={errors?.animal}
+          value={animal}
+          label="Animal"
+          id="idAnimal"
+          placeholder={"Selecione um Animal..."}
+        />
 
-        <InputText
+        <InputMultiselect
           control={control}
           name="fileReference"
-          label="Rerência do upload"
+          label="Referência do Arquivo"
           error={errors?.fileReference}
-          sx={styles.input}
-          type="text"
+          options={Object.keys(ROUTINES)?.map((key, value) => ({
+            label: ROUTINES[key].valueOf(),
+            value: ROUTINES[key],
+          }))}
         />
 
         <Box sx={styles.line}>

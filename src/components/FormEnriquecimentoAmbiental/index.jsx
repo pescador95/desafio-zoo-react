@@ -3,7 +3,7 @@ import { Button, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { format } from "date-fns";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import {
@@ -16,7 +16,9 @@ import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { toast } from "react-toastify";
 import { InputText } from "../Inputs/InputText";
-import { InputSelectAnimal } from "../Inputs/InputSelectAnimal";
+import { InputSelectReact } from "../Inputs/InputSelectReact";
+import { getAnimalsSeletor } from "../../services/http/animais";
+import { InputMultiselect } from "../Inputs/InputSelect";
 
 export const FormEnriquecimentoAmbiental = ({
   open,
@@ -114,18 +116,63 @@ export const FormEnriquecimentoAmbiental = ({
       : reset(defaultValues);
   }, [defaultValues]);
 
+  useEffect(() => getSeletorData(), []);
+
+  const { mutate: getAnimalsMutate, data: animals } = useMutation(
+    ({ sort = "asc", strgOrder = "id" }) => getAnimalsSeletor(sort, strgOrder),
+    {
+      onError: (error) => {
+        toast.error(error?.response?.data?.messages?.join(", "));
+      },
+    }
+  );
+
+  const getSeletorData = (page = 0, strgFilter = "") => {
+    getAnimalsMutate({ page, strgFilter });
+  };
+
+  const [animal, setAnimal] = useState(null);
+
+  const formatOptionLabel = ({
+    id,
+    nomeComum,
+    nomeApelido,
+    identificacao,
+    orgao,
+  }) => (
+    <div style={{ display: "column" }}>
+      <div style={{ display: "space-between" }}>
+        {id} {nomeComum}, Apelido: {nomeApelido}
+      </div>
+      <div style={{ marginLeft: "10px", color: "#5c5c5c" }}>
+        <div>
+          Identificação: {identificacao} - {orgao}
+        </div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  );
+
+  const options =
+    animals?.map((animal) => ({
+      id: animal?.id,
+      nomeComum: animal?.nomeComum,
+      nomeApelido: animal?.nomeApelido,
+      identificacao: animal?.identificacao,
+      orgao: animal?.orgao,
+    })) || [];
+
   const { mutate: createEnriquecimentoAmbientalMutate } = useMutation(
     ["createEnriquecimentoAmbiental"],
     (enriquecimentoAmbiental) =>
       createEnriquecimentoAmbiental(enriquecimentoAmbiental),
     {
       onSuccess: (data) => {
-        console.log(data);
         toast.success(data?.messages?.join(", "));
         onConfirm();
       },
       onError: (error) => {
-        console.log(error);
         toast.error(error?.response?.data?.messages?.join(", "));
       },
     }
@@ -147,16 +194,15 @@ export const FormEnriquecimentoAmbiental = ({
   );
 
   const onSubmit = async (receivedValues) => {
-    console.log(receivedValues);
     const values = {
       ...receivedValues,
       dataEnriquecimento: format(
         new Date(parsedDate(receivedValues.dataEnriquecimento)),
         "dd/MM/yyyy"
       ),
-      animal: { id: receivedValues.animal },
+      // animal: { id: receivedValues.animal },
+      animal: { id: animal?.id },
     };
-    console.log(values);
     if (receivedValues.id) return updateEnriquecimentoAmbientalMutate(values);
     return createEnriquecimentoAmbientalMutate(values);
   };
@@ -175,7 +221,18 @@ export const FormEnriquecimentoAmbiental = ({
             : "Cadastrar ficha de enriquecimento ambiental"}
         </Typography>
 
-        <InputSelectAnimal name="animal" />
+        <InputSelectReact
+          name="animal"
+          formatOptionLabel={formatOptionLabel}
+          options={options}
+          onChange={setAnimal}
+          control={control}
+          error={errors?.animal}
+          value={animal}
+          label="Animal"
+          id="animal"
+          placeholder={"Selecione um Animal..."}
+        />
 
         <Box sx={styles.line}>
           <InputText

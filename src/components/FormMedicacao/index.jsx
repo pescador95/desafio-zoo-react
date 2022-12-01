@@ -3,7 +3,7 @@ import { Button, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { format } from "date-fns";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import {
@@ -18,7 +18,8 @@ import React from "react";
 import { toast } from "react-toastify";
 import { InputFile } from "../Inputs/InputFile";
 import { InputText } from "../Inputs/InputText";
-import { InputSelectHistoricoClinico } from "../Inputs/InputSelectHC";
+import { getHistoricoClinicosSeletor } from "../../services/http/historicoClinico";
+import { InputSelectReact } from "../Inputs/InputSelectReact";
 
 export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
   const styles = {
@@ -141,11 +142,56 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
   const onSubmit = async (receivedValues) => {
     const values = {
       ...receivedValues,
-      historicoClinico: { id: receivedValues?.idHistoricoClinico },
+      historicoClinico: { id: historicoClinico?.id },
     };
     if (receivedValues.id) return updateMedicacaoMutate(values);
     return createMedicacaoMutate(values);
   };
+
+  const { mutate: getHistoricoClinicosMutate, data: historicoClinicos } =
+    useMutation(
+      ({ sort = "asc", strgOrder = "id" }) =>
+        getHistoricoClinicosSeletor(sort, strgOrder),
+      {
+        onError: (error) => {
+          toast.error(error?.response?.data?.messages?.join(", "));
+        },
+      }
+    );
+
+  const getSeletorData = (page = 0, strgFilter = "") => {
+    getHistoricoClinicosMutate({ page, strgFilter });
+  };
+
+  useEffect(() => getSeletorData(), []);
+
+  const [historicoClinico, setHistoricoClinico] = useState();
+
+  const options =
+    historicoClinicos?.map((historicoClinico) => ({
+      id: historicoClinico?.id,
+      nomeAnimal: historicoClinico?.nomeAnimal,
+      dataHistoricoClinico: historicoClinico?.dataHistoricoClinico,
+      observacao: historicoClinico?.observacao,
+    })) || [];
+
+  const formatOptionLabel = ({
+    id,
+    nomeAnimal,
+    dataHistoricoClinico,
+    observacao,
+  }) => (
+    <div style={{ display: "column" }}>
+      <div style={{ display: "space-between" }}>
+        {id} {nomeAnimal} - {dataHistoricoClinico}
+      </div>
+      <div style={{ marginLeft: "10px", color: "#5c5c5c" }}>
+        <div>{observacao}</div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  );
 
   return (
     <Modal
@@ -161,16 +207,18 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
             : "Cadastrar ficha de medicação"}
         </Typography>
 
-        <InputSelectHistoricoClinico />
-
-        <Box sx={styles.line}>
-          <InputText
-            control={control}
-            name="idHistoricoClinico"
-            label="id do histórico clínico"
-            error={errors?.idHistoricoClinico}
-          />
-        </Box>
+        <InputSelectReact
+          name="historicoClinico"
+          formatOptionLabel={formatOptionLabel}
+          options={options}
+          onChange={setHistoricoClinico}
+          control={control}
+          error={errors?.historicoClinico}
+          value={historicoClinico}
+          label="Histórico Clínico"
+          id="historicoClinico"
+          placeholder={"Selecione um Histórico Clínico..."}
+        />
 
         <Box sx={styles.line}>
           <InputText

@@ -26,4 +26,11 @@ export const ROLES = {
   tratador: "Tratador",
 };
 
-
+export const ROUTINES = {
+  animal: "animal",
+  enriquecimentoambiental: "Enriquecimento Ambiental",
+  historicoclinico: "Histórico Clínico",
+  historicoetologico: "Histórico Etológico",
+  medicacao: "Medicação",
+  nutricao: "Nutrição",
+};

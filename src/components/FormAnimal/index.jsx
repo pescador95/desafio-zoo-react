@@ -17,7 +17,6 @@ import { GENDER, LIFETIME } from "../../utils/constants";
 import { InputFile } from "../Inputs/InputFile";
 import { InputMultiselect } from "../Inputs/InputSelect";
 import { InputText } from "../Inputs/InputText";
-import { UploadFile } from "@mui/icons-material";
 
 export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
   const styles = {
@@ -155,6 +154,7 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
   );
 
   const onSubmit = async (receivedValues) => {
+    receivedValues.fileReference = "animal";
     const values = {
       ...receivedValues,
       dataEntrada: format(
@@ -163,28 +163,10 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
       ),
     };
     if (receivedValues.id) {
-      await createUploadMutate({
-        file: receivedValues.file,
-        idAnimal: receivedValues.idAnimal,
-        fileReference: "animal",
-      });
-      await updateAnimalMutate(values);
-      // if (receivedValues.file) {
-      //   const formData = new FormData(receivedValues.file);
-      //   const file = receivedValues.file;
-      //   const id = receivedValues.id;
-      //   const fileReference = formData;
-
-      //   await createUploadMutate(file, id, fileReference);
-      // }
-      // await updateAnimalMutate(values);
+      return createUploadMutate(values);
+      //return updateAnimalMutate(values);
     }
     return createAnimalMutate(values);
-    await createUploadMutate({
-      file: receivedValues.file,
-      idAnimal: receivedValues.idAnimal,
-      fileReference: "animal",
-    });
   };
 
   return (

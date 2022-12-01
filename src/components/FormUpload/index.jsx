@@ -18,6 +18,7 @@ import { InputText } from "../Inputs/InputText";
 import { getAnimalsSeletor } from "../../services/http/animais";
 import { ROUTINES } from "../../utils/constants";
 import { InputMultiselect } from "../Inputs/InputSelect";
+import { Input } from "@mui/material";
 
 export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
   const styles = {
@@ -92,9 +93,7 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
     reset,
     control,
     formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+  } = useForm();
 
   useEffect(() => {
     defaultValues?.id
@@ -117,17 +116,36 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
       },
     }
   );
+  const [data, setData] = useState();
   const [animal, setAnimal] = useState(null);
 
+  const fileToData = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        resolve(event.target.result);
+      };
+      reader.readAsDataURL(file);
+    });
+
+  const onChangeUpload = (file) => {
+    if (!file) {
+      setData("");
+      return;
+    }
+    fileToData(file.target.files[0]).then((data) => {
+      console.log(data);
+      setData(data);
+    });
+  };
+
   const onSubmit = async (receivedValues) => {
+    console.log("onSubmit");
+    console.log("receivedValues = " + receivedValues);
     const values = {
       ...receivedValues,
-      idAnimal: receivedValues?.idAnimal?.id,
-      fileReference: receivedValues?.fileReference[0],
+      file: data,
     };
-    if (values.id) {
-      await createUploadMutate(values);
-    }
     return await createUploadMutate(values);
   };
 
@@ -214,12 +232,13 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
 
         <Box sx={styles.line}>
           <InputFile
+            type="file"
             control={control}
             name="file"
             label="Arquivos"
             error={errors?.file}
-            type="file"
             id="file"
+            onChange={(e) => onChangeUpload(e)}
           />
         </Box>
 

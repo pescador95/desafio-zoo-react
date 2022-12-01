@@ -7,10 +7,8 @@ export const createUpload = async (values) => {
   const idAnimal = values.idAnimal;
 
   const formData = new FormData();
-
   formData.append("file", values.file);
-  formData.append("fileReference", fileReference);
-  formData.append("idAnimal", idAnimal);
+
 
   const headers = {
     "content-type": "multipart/form-data",

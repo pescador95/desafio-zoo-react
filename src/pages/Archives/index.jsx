@@ -395,7 +395,6 @@ export const Upload = () => {
         >
           Excluir {selectedItems?.length || ""} arquivos
         </Button>
-
         <Button
           sx={styles.addRegister}
           onClick={() => setIsOpenFormUpload(true)}

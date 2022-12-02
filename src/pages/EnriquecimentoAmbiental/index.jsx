@@ -236,16 +236,32 @@ export const EnriquecimentoAmbiental = () => {
 
   useEffect(() => getTableData(), []);
 
-  const columns = useMemo(
-    () =>
-      enriquecimentoAmbientais
-        ? Object.keys(enriquecimentoAmbientais[0] || {})?.map((key) => ({
-            key,
-            label: key,
-          }))
-        : [],
-    [enriquecimentoAmbientais]
-  );
+  const columns = [
+    {
+      key: "id",
+      label: "Código do Enriquecimento Ambiental",
+    },
+    {
+      key: "nomeAnimal",
+      label: "Nome do Animal",
+    },
+    {
+      key: "dataEnriquecimento",
+      label: "Data do Enriquecimento",
+    },
+    {
+      key: "nomeEnriquecimento",
+      label: "Atividades Realizadas",
+    },
+    {
+      key: "descricaoEnriquecimento",
+      label: "Descrição das Atividades",
+    },
+    {
+      key: "usuarioNome",
+      label: "Responsável pelas Atividades",
+    },
+  ];
 
   const onDelete = async () => {
     deleteEnriquecimentoAmbientaisMutate();
@@ -315,7 +331,7 @@ export const EnriquecimentoAmbiental = () => {
                   sx={styles.label}
                   htmlFor="data-admissao"
                 >
-                  Data Entrada
+                  Data das Atividades de Enriquecimento
                 </Typography>
                 <TextField
                   size="small"
@@ -332,7 +348,7 @@ export const EnriquecimentoAmbiental = () => {
                   htmlFor="nome-apelido"
                   sx={styles.label}
                 >
-                  Nome Enriquecimento
+                  Nome da Atividade de Enriquecimento
                 </Typography>
                 <TextField
                   size="small"

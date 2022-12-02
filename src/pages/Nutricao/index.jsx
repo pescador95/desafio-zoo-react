@@ -228,16 +228,32 @@ export const Nutricao = () => {
 
   useEffect(() => getTableData(), []);
 
-  const columns = useMemo(
-    () =>
-      nutricaos
-        ? Object.keys(nutricaos[0] || {})?.map((key) => ({
-            key,
-            label: key,
-          }))
-        : [],
-    [nutricaos]
-  );
+  const columns = [
+    {
+      key: "id",
+      label: "Código da Nutrição",
+    },
+    {
+      key: "nomeAnimal",
+      label: "Nome do Animal",
+    },
+    {
+      key: "dataInicio",
+      label: "Data de Início da Nutrição",
+    },
+    {
+      key: "dataFim",
+      label: "Data de Fim da Nutrição",
+    },
+    {
+      key: "descricaoNutricao",
+      label: "Descrição Nutricional",
+    },
+    {
+      key: "usuarioNome",
+      label: "Responsável pela Nutrição",
+    },
+  ];
 
   const onDelete = async () => {
     deleteNutricaosMutate();
@@ -319,7 +335,7 @@ export const Nutricao = () => {
                   sx={styles.label}
                   htmlFor="dataInicio"
                 >
-                  Data de Início
+                  Data Inicial
                 </Typography>
 
                 <TextField

@@ -110,7 +110,7 @@ export const Login = () => {
                 marginBottom={"2.5rem"}
                 gutterBottom
               >
-                BEM VINDO
+                BEM-VINDO
               </Typography>
             </div>
             <Box sx={{ my: "0.75rem" }}>

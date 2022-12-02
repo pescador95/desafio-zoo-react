@@ -230,16 +230,24 @@ export const Users = () => {
 
   useEffect(() => getTableData(), []);
 
-  const columns = useMemo(
-    () =>
-      users
-        ? Object.keys(users[0] || {})?.map((key) => ({
-            key,
-            label: key,
-          }))
-        : [],
-    [users]
-  );
+  const columns = [
+    {
+      key: "id",
+      label: "Código do Usuário",
+    },
+    {
+      key: "nome",
+      label: "Nome do Usuário",
+    },
+    {
+      key: "email",
+      label: "Email",
+    },
+    {
+      key: "roleUsuario",
+      label: "Perfil de Acesso",
+    },
+  ];
 
   const onDelete = async () => {
     deleteUsersMutate();

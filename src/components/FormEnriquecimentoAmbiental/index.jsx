@@ -154,7 +154,7 @@ export const FormEnriquecimentoAmbiental = ({
     </div>
   );
 
-  const options =
+  const optionsAnimal =
     animals?.map((animal) => ({
       id: animal?.id,
       nomeComum: animal?.nomeComum,
@@ -194,14 +194,15 @@ export const FormEnriquecimentoAmbiental = ({
   );
 
   const onSubmit = async (receivedValues) => {
+    console.log(receivedValues);
     const values = {
       ...receivedValues,
       dataEnriquecimento: format(
         new Date(parsedDate(receivedValues.dataEnriquecimento)),
         "dd/MM/yyyy"
       ),
-      // animal: { id: receivedValues.animal },
       animal: { id: animal?.id },
+      idAnimal: animal?.id,
     };
     if (receivedValues.id) return updateEnriquecimentoAmbientalMutate(values);
     return createEnriquecimentoAmbientalMutate(values);
@@ -217,32 +218,22 @@ export const FormEnriquecimentoAmbiental = ({
       <Box sx={styles.modal} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography sx={styles.title}>
           {defaultValues?.id
-            ? "Editar ficha de enriquecimento ambiental"
-            : "Cadastrar ficha de enriquecimento ambiental"}
+            ? "Editar Ficha de Enriquecimento Ambiental"
+            : "Cadastrar Ficha de Enriquecimento Ambiental"}
         </Typography>
 
         <InputSelectReact
-          name="animal"
+          name="idAnimal"
           formatOptionLabel={formatOptionLabel}
-          options={options}
+          options={optionsAnimal}
           onChange={setAnimal}
           control={control}
           error={errors?.animal}
           value={animal}
           label="Animal"
-          id="animal"
+          id="idAnimal"
           placeholder={"Selecione um Animal..."}
         />
-
-        <Box sx={styles.line}>
-          <InputText
-            control={control}
-            name="idAnimal"
-            label="id do Animal"
-            error={errors?.idAnimal}
-            type="idAnimal"
-          />
-        </Box>
 
         <Box sx={styles.line}>
           <InputText

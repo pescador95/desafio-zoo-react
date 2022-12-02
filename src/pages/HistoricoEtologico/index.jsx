@@ -231,16 +231,32 @@ export const HistoricoEtologico = () => {
 
   useEffect(() => getTableData(), []);
 
-  const columns = useMemo(
-    () =>
-      historicoEtologicos
-        ? Object.keys(historicoEtologicos[0] || {})?.map((key) => ({
-            key,
-            label: key,
-          }))
-        : [],
-    [historicoEtologicos]
-  );
+  const columns = [
+    {
+      key: "id",
+      label: "Código do Histórico Etológico",
+    },
+    {
+      key: "nomeAnimal",
+      label: "Nome do Animal",
+    },
+    {
+      key: "dataEtologico",
+      label: "Data da Etologia",
+    },
+    {
+      key: "nomeEtologico",
+      label: "Nome Etológico",
+    },
+    {
+      key: "descricaoEtologico",
+      label: "Descrição do Etograma",
+    },
+    {
+      key: "usuarioNome",
+      label: "Responsável pelo Etograma",
+    },
+  ];
 
   const onDelete = async () => {
     deleteHistoricoEtologicosMutate();
@@ -315,7 +331,7 @@ export const HistoricoEtologico = () => {
                   component="label"
                   htmlFor="nome-etologico"
                 >
-                  Nome Etologico
+                  Nome Etológico
                 </Typography>
                 <TextField
                   size="small"
@@ -332,7 +348,7 @@ export const HistoricoEtologico = () => {
                   sx={styles.label}
                   htmlFor="data-etologico"
                 >
-                  Data Etologico
+                  Data da Etologia
                 </Typography>
                 <TextField
                   size="small"

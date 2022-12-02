@@ -14,9 +14,10 @@ export const DATAS = [
   "dataEnriquecimento",
   "dataHistoricoClinico",
   "dataEtologico",
-  "dataInicio",
-  "dataFim",
 ];
+
+export const DATAINICIO = ["dataInicio"];
+export const DATAFIM = ["dataFim"];
 
 export const ROLES = {
   admin: "Administrador",
@@ -27,7 +28,7 @@ export const ROLES = {
 };
 
 export const ROUTINES = {
-  animal: "animal",
+  animal: "Animal",
   enriquecimentoambiental: "Enriquecimento Ambiental",
   historicoclinico: "Histórico Clínico",
   historicoetologico: "Histórico Etológico",

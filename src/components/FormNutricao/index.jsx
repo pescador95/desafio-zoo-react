@@ -146,6 +146,7 @@ export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
         "dd/MM/yyyy"
       ),
       animal: { id: animal?.id },
+      idAnimal: animal?.id,
       dataFim: format(
         new Date(parsedDate(receivedValues.dataFim)),
         "dd/MM/yyyy"
@@ -193,7 +194,7 @@ export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
     </div>
   );
 
-  const options =
+  const optionsAnimal =
     animals?.map((animal) => ({
       id: animal?.id,
       nomeComum: animal?.nomeComum,
@@ -212,20 +213,20 @@ export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
       <Box sx={styles.modal} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography sx={styles.title}>
           {defaultValues?.id
-            ? "Editar ficha de nutrição"
-            : "Cadastrar ficha de nutrição"}
+            ? "Editar Ficha de Nutrição"
+            : "Cadastrar Ficha de Nutrição"}
         </Typography>
 
         <InputSelectReact
-          name="animal"
+          name="idAnimal"
           formatOptionLabel={formatOptionLabel}
-          options={options}
+          options={optionsAnimal}
           onChange={setAnimal}
           control={control}
           error={errors?.animal}
           value={animal}
           label="Animal"
-          id="animal"
+          id="idAnimal"
           placeholder={"Selecione um Animal..."}
         />
 

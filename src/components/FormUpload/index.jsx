@@ -118,6 +118,7 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
   );
   const [data, setData] = useState();
   const [animal, setAnimal] = useState(null);
+  const [rotina, setRotina] = useState(null);
 
   const fileToData = (file) =>
     new Promise((resolve, reject) => {
@@ -131,6 +132,7 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
   const onChangeUpload = (file) => {
     if (!file) {
       setData("");
+      console.log(file);
       return;
     }
     fileToData(file.target.files[0]).then((data) => {
@@ -140,11 +142,11 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
   };
 
   const onSubmit = async (receivedValues) => {
-    console.log("onSubmit");
-    console.log("receivedValues = " + receivedValues);
     const values = {
       ...receivedValues,
-      file: data,
+      file: { fileUpload: data },
+      fileReference: rotina,
+      idAnimal: animal?.id,
     };
     return await createUploadMutate(values);
   };
@@ -173,7 +175,7 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
   }) => (
     <div style={{ display: "column" }}>
       <div style={{ display: "space-between" }}>
-        {id} {nomeComum}, Apelido: {nomeApelido}
+        {id} - {nomeComum}, Apelido: {nomeApelido}
       </div>
       <div style={{ marginLeft: "10px", color: "#5c5c5c" }}>
         <div>
@@ -185,7 +187,7 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
     </div>
   );
 
-  const options =
+  const optionsAnimal =
     animals?.map((animal) => ({
       id: animal?.id,
       nomeComum: animal?.nomeComum,
@@ -193,6 +195,11 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
       identificacao: animal?.identificacao,
       orgao: animal?.orgao,
     })) || [];
+
+  const optionsRotina = Object.keys(ROUTINES)?.map((key) => ({
+    value: key,
+    label: ROUTINES[key].valueOf(),
+  }));
 
   return (
     <Modal
@@ -209,7 +216,7 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
         <InputSelectReact
           name="idAnimal"
           formatOptionLabel={formatOptionLabel}
-          options={options}
+          options={optionsAnimal}
           onChange={setAnimal}
           control={control}
           error={errors?.animal}
@@ -220,25 +227,26 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
         />
 
         <InputMultiselect
-          control={control}
           name="fileReference"
-          label="Referência do Arquivo"
-          error={errors?.fileReference}
-          options={Object.keys(ROUTINES)?.map((key, value) => ({
-            label: ROUTINES[key].valueOf(),
-            value: ROUTINES[key],
-          }))}
+          options={optionsRotina}
+          onChange={(e) => setRotina(e.target.value)}
+          control={control}
+          error={errors?.rotina}
+          value={rotina}
+          label="Rotinas"
+          id="fileReference"
+          placeholder={"Selecione uma Rotina..."}
         />
 
         <Box sx={styles.line}>
           <InputFile
-            type="file"
             control={control}
             name="file"
             label="Arquivos"
+            onChange={(e) => setData(e.target.value)}
+            value={data}
             error={errors?.file}
-            id="file"
-            onChange={(e) => onChangeUpload(e)}
+            type="file"
           />
         </Box>
 

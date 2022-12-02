@@ -149,6 +149,7 @@ export const FormHistoricoEtologico = ({
         new Date(parsedDate(receivedValues.dataEtologico)),
         "dd/MM/yyyy"
       ),
+      idAnimal: animal?.id,
     };
     if (receivedValues.id) return updateHistoricoEtologicoMutate(values);
     return createHistoricoEtologicoMutate(values);
@@ -211,15 +212,15 @@ export const FormHistoricoEtologico = ({
       <Box sx={styles.modal} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography sx={styles.title}>
           {defaultValues?.id
-            ? "Editar ficha do histórico etológico"
-            : "Cadastrar ficha do histórico etológico"}
+            ? "Editar Ficha do Histórico Etológico"
+            : "Cadastrar Ficha do Histórico Etológico"}
         </Typography>
 
         <InputSelectReact
           name="animal"
           formatOptionLabel={formatOptionLabel}
           options={options}
-          onChange={setAnimal}
+          onChange={(e) => setAnimal(e.target.value)}
           control={control}
           error={errors?.animal}
           value={animal}

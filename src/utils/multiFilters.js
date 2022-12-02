@@ -1,4 +1,4 @@
-import { DATAS } from "./constants";
+import { DATAFIM, DATAINICIO, DATARANGE, DATAS } from "./constants";
 
 export const makeMultiFilterParams = (obj) => {
   let query = "";
@@ -7,6 +7,16 @@ export const makeMultiFilterParams = (obj) => {
     if (DATAS.includes(key)) {
       return (query = query.concat(
         `${index !== arr?.length ? "and" : ""} ${key} = '${obj[key]}' `
+      ));
+    }
+    if (DATAINICIO.includes(key)) {
+      return (query = query.concat(
+        `${index !== arr?.length ? "and" : ""} ${key} >= '${obj[key]}' `
+      ));
+    }
+    if (DATAFIM.includes(key)) {
+      return (query = query.concat(
+        `${index !== arr?.length ? "and" : ""} ${key} <= '${obj[key]}' `
       ));
     }
     query = query.concat(

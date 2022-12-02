@@ -230,16 +230,56 @@ export const HistoricoClinico = () => {
 
   useEffect(() => getTableData(), []);
 
-  const columns = useMemo(
-    () =>
-      historicoClinicos
-        ? Object.keys(historicoClinicos[0] || {})?.map((key) => ({
-            key,
-            label: key,
-          }))
-        : [],
-    [historicoClinicos]
-  );
+  const columns = [
+    {
+      key: "id",
+      label: "Código do Histórico Clínico",
+    },
+    {
+      key: "nomeAnimal",
+      label: "Nome do Animal",
+    },
+    {
+      key: "temperaturaAnimal",
+      label: "temperatura do Animal",
+    },
+    {
+      key: "frequenciaRespiratoria",
+      label: "Frequência Respiratória",
+    },
+    {
+      key: "dataHistoricoClinico",
+      label: "Data do Histórico Clínico",
+    },
+    {
+      key: "observacao",
+      label: "Observação",
+    },
+    {
+      key: "etco2",
+      label: "etco2",
+    },
+    {
+      key: "spo2",
+      label: "spo2",
+    },
+    {
+      key: "ps",
+      label: "ps",
+    },
+    {
+      key: "pd",
+      label: "pd",
+    },
+    {
+      key: "pm",
+      label: "pm",
+    },
+    {
+      key: "usuarioNome",
+      label: "Responsável pelo Histórico Clínico",
+    },
+  ];
 
   const onDelete = async () => {
     deleteHistoricoClinicosMutate();
@@ -314,7 +354,7 @@ export const HistoricoClinico = () => {
                   sx={styles.label}
                   htmlFor="data-historico"
                 >
-                  Data
+                  Data do Histórico Clínico
                 </Typography>
                 <TextField
                   size="small"

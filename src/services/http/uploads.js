@@ -2,13 +2,16 @@ import { getAxios } from "../../hooks/useAxiosFormData";
 import { ENDPOINTS } from "../endpoints";
 
 export const createUpload = async (values) => {
+  console.log(values.file);
   const axios = getAxios();
   const fileReference = values.fileReference;
   const idAnimal = values.idAnimal;
 
-  const formData = new FormData();
-  formData.append("file", values.file);
-
+  const bodyFormData = new FormData();
+  bodyFormData.append("file", values);
+  bodyFormData.append("fileUpload", values.file);
+  bodyFormData.append("fileReference", fileReference);
+  bodyFormData.append("idAnimal", idAnimal);
 
   const headers = {
     "content-type": "multipart/form-data",
@@ -16,11 +19,14 @@ export const createUpload = async (values) => {
 
   const URL = ENDPOINTS.uploads.add;
 
+  console.log(bodyFormData);
+
   const { data } = await axios.post(
     `${URL}?fileReference=${fileReference}&idAnimal=${idAnimal}`,
-    formData,
+    { data: bodyFormData },
     headers
   );
+  console.log(data);
   return data;
 };
 

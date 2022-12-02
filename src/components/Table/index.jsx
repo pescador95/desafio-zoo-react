@@ -49,7 +49,7 @@ export const Table = ({
       fontWeight: "600",
       fontSize: "1rem",
       textAlign: "center",
-      textTransform: "capitalize",
+      // textTransform: "capitalize",
     },
     pagination: {
       textAlign: "center",

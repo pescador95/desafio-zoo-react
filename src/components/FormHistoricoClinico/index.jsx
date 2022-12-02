@@ -112,12 +112,14 @@ export const FormHistoricoClinico = ({
   });
 
   useEffect(() => {
+    console.log(defaultValues);
     defaultValues?.id
       ? reset({
           ...defaultValues,
           dataHistoricoClinico: formattedDateForInput(
             defaultValues.dataHistoricoClinico
           ),
+          animal: { id: defaultValues?.animal?.id },
         })
       : reset(defaultValues);
   }, [defaultValues]);
@@ -158,6 +160,7 @@ export const FormHistoricoClinico = ({
         new Date(parsedDate(receivedValues.dataHistoricoClinico)),
         "dd/MM/yyyy"
       ),
+      idAnimal: animal?.id,
     };
     if (receivedValues.id) return updateHistoricoClinicoMutate(values);
     return createHistoricoClinicoMutate(values);
@@ -201,7 +204,7 @@ export const FormHistoricoClinico = ({
     </div>
   );
 
-  const options =
+  const optionsAnimal =
     animals?.map((animal) => ({
       id: animal?.id,
       nomeComum: animal?.nomeComum,
@@ -220,20 +223,20 @@ export const FormHistoricoClinico = ({
       <Box sx={styles.modal} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography sx={styles.title}>
           {defaultValues?.id
-            ? "Editar ficha do histórico clínico"
-            : "Cadastrar ficha do histórico clínico"}
+            ? "Editar Ficha do histórico Clínico"
+            : "Cadastrar Ficha do histórico Clínico"}
         </Typography>
 
         <InputSelectReact
-          name="animal"
+          name="idAnimal"
           formatOptionLabel={formatOptionLabel}
-          options={options}
+          options={optionsAnimal}
           onChange={setAnimal}
           control={control}
           error={errors?.animal}
           value={animal}
           label="Animal"
-          id="animal"
+          id="idAnimal"
           placeholder={"Selecione um Animal..."}
         />
 

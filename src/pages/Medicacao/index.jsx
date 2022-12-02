@@ -228,16 +228,32 @@ export const Medicacao = () => {
 
   useEffect(() => getTableData(), []);
 
-  const columns = useMemo(
-    () =>
-      medicacaos
-        ? Object.keys(medicacaos[0] || {})?.map((key) => ({
-            key,
-            label: key,
-          }))
-        : [],
-    [medicacaos]
-  );
+  const columns = [
+    {
+      key: "id",
+      label: "Código da Medicação",
+    },
+    {
+      key: "nomeMedicacao",
+      label: "Nome da Medicação aplicada",
+    },
+    {
+      key: "viaAdministracao",
+      label: "Via de Administração",
+    },
+    {
+      key: "posologia",
+      label: "Posologia",
+    },
+    {
+      key: "frequencia",
+      label: "Frequência",
+    },
+    {
+      key: "usuarioNome",
+      label: "Responsável pela Aplicação da Medicação",
+    },
+  ];
 
   const onDelete = async () => {
     deleteMedicacaosMutate();

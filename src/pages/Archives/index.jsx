@@ -235,16 +235,28 @@ export const Upload = () => {
 
   useEffect(() => getTableData(), []);
 
-  const columns = useMemo(
-    () =>
-      Uploads
-        ? Object.keys(Uploads[0] || {})?.map((key) => ({
-            key,
-            label: key,
-          }))
-        : [],
-    [Uploads]
-  );
+  const columns = [
+    {
+      key: "id",
+      label: "Código do Upload",
+    },
+    {
+      key: "nomeAnimal",
+      label: "Nome do Animal",
+    },
+    {
+      key: "fileReference",
+      label: "Rotina do Arquivo",
+    },
+    {
+      key: "originalName",
+      label: "Nome do Arquivo",
+    },
+    {
+      key: "dataCriado",
+      label: "Data da criação",
+    },
+  ];
 
   const onDelete = async () => {
     deleteUploadsMutate();

@@ -235,16 +235,49 @@ export const Animais = () => {
 
   useEffect(() => getTableData(), []);
 
-  const columns = useMemo(
-    () =>
-      animals
-        ? Object.keys(animals[0] || {})?.map((key) => ({
-            key,
-            label: key,
-          }))
-        : [],
-    [animals]
-  );
+  const columns = [
+    {
+      key: "id",
+      label: "Código do Animal",
+    },
+    {
+      key: "nomeComum",
+      label: "Nome do Animal",
+    },
+
+    {
+      key: "nomeCientifico",
+      label: "Nome Científico",
+    },
+    {
+      key: "nomeApelido",
+      label: "Nome Apelido",
+    },
+    {
+      key: "identificacao",
+      label: "Microchip/Anilha",
+    },
+    {
+      key: "sexo",
+      label: "Sexo",
+    },
+    {
+      key: "dataEntrada",
+      label: "Data de Entrada do Animal",
+    },
+    {
+      key: "idade",
+      label: "Idade",
+    },
+    {
+      key: "origem",
+      label: "Origem",
+    },
+    {
+      key: "orgao",
+      label: "Organização",
+    },
+  ];
 
   const onDelete = async () => {
     deleteAnimalsMutate();
@@ -357,7 +390,7 @@ export const Animais = () => {
                   sx={styles.label}
                   htmlFor="data-admissao"
                 >
-                  Data Entrada
+                  Data de Entrada do Animal
                 </Typography>
                 <TextField
                   size="small"
@@ -495,15 +528,27 @@ export const Animais = () => {
 //TODO forma de pegar manualmente somente as colunas que desejar
 // const column = [
 //   {
-//     key: 'nomeComum',
-//     label: 'Nome do Animal'
+//     key: "nomeComum",
+//     label: "Nome do Animal",
 //   },
 //   {
-//     key: 'id',
-//     label: 'Identificador'
-//   }
-// ]
+//     key: "id",
+//     label: "Identificador",
+//   },
+// ];
 
 //return ({...parsed, nomeUsuario: e?.usuario?.nomeUsuario}); TODO para acessar um atributo do objeto filho
 
 // key:string
+
+// TABELA DINAMICA DE ACORDO COM O ARRAY QUE VEM DO BACKEND
+// const columns = useMemo(
+//   () =>
+//     animals
+//       ? Object.keys(animals[0] || {})?.map((key) => ({
+//           key,
+//           label: key,
+//         }))
+//       : [],
+//   [animals]
+// );

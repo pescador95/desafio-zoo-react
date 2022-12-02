@@ -179,8 +179,8 @@ export const FormAnimal = ({ open, defaultValues, onConfirm, onCancel }) => {
       <Box sx={styles.modal} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography sx={styles.title}>
           {defaultValues?.id
-            ? "Editar ficha do animal"
-            : "Cadastrar ficha do animal"}
+            ? "Editar Ficha do Animal"
+            : "Cadastrar Ficha do Animal"}
         </Typography>
 
         <Box sx={styles.line}>

@@ -143,6 +143,7 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
     const values = {
       ...receivedValues,
       historicoClinico: { id: historicoClinico?.id },
+      //ver como implementar o id do animal
     };
     if (receivedValues.id) return updateMedicacaoMutate(values);
     return createMedicacaoMutate(values);
@@ -167,7 +168,7 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
 
   const [historicoClinico, setHistoricoClinico] = useState();
 
-  const options =
+  const optionsHistoricoClinico =
     historicoClinicos?.map((historicoClinico) => ({
       id: historicoClinico?.id,
       nomeAnimal: historicoClinico?.nomeAnimal,
@@ -203,14 +204,14 @@ export const FormMedicacao = ({ open, defaultValues, onConfirm, onCancel }) => {
       <Box sx={styles.modal} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography sx={styles.title}>
           {defaultValues?.id
-            ? "Editar ficha de medicação"
-            : "Cadastrar ficha de medicação"}
+            ? "Editar Ficha de Medicação"
+            : "Cadastrar Ficha de Medicação"}
         </Typography>
 
         <InputSelectReact
           name="historicoClinico"
           formatOptionLabel={formatOptionLabel}
-          options={options}
+          options={optionsHistoricoClinico}
           onChange={setHistoricoClinico}
           control={control}
           error={errors?.historicoClinico}

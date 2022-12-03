@@ -139,15 +139,13 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
       return;
     }
     fileToData(file.target.files[0]).then((data) => {
-      console.log(data);
       setData(data);
     });
   };
 
-  const onSubmit = async (receivedValues) => {
+  const onSubmit = async () => {
     const values = {
-      ...receivedValues,
-      file: { fileUpload: data },
+      file: { file: { name: "file", fileUpload: data } },
       fileReference: rotina,
       idAnimal: animal?.id,
     };
@@ -236,6 +234,7 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
           control={control}
           error={errors?.rotina}
           value={rotina}
+          defaultValues={defaultValues?.rotina}
           label="Rotinas"
           id="fileReference"
           placeholder={"Selecione uma Rotina..."}

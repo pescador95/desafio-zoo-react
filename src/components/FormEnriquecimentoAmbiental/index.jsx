@@ -19,6 +19,7 @@ import { InputText } from "../Inputs/InputText";
 import { InputSelectReact } from "../Inputs/InputSelectReact";
 import { getAnimalsSeletor } from "../../services/http/animais";
 import { InputMultiselect } from "../Inputs/InputSelect";
+import { defaultTheme } from "react-select";
 
 export const FormEnriquecimentoAmbiental = ({
   open,
@@ -112,8 +113,9 @@ export const FormEnriquecimentoAmbiental = ({
           dataEnriquecimento: formattedDateForInput(
             defaultValues.dataEnriquecimento
           ),
+          animal: setAnimal(defaultValues.animal),
         })
-      : reset(defaultValues);
+      : reset(defaultValues, setAnimal(null));
   }, [defaultValues]);
 
   useEffect(() => getSeletorData(), []);
@@ -226,10 +228,10 @@ export const FormEnriquecimentoAmbiental = ({
           name="idAnimal"
           formatOptionLabel={formatOptionLabel}
           options={optionsAnimal}
-          onChange={setAnimal}
+          onChange={(e) => setAnimal(e)}
           control={control}
           error={errors?.animal}
-          value={animal}
+          value={animal || ""}
           label="Animal"
           id="idAnimal"
           placeholder={"Selecione um Animal..."}

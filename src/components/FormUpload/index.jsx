@@ -99,8 +99,11 @@ export const FormUpload = ({ open, defaultValues, onConfirm, onCancel }) => {
     defaultValues?.id
       ? reset({
           ...defaultValues,
+          animal: setAnimal(defaultValues.animal),
+          data: formattedDateForInput(defaultValues.data),
+          rotina: setRotina(defaultValues.rotina),
         })
-      : reset(defaultValues);
+      : reset(defaultValues, setAnimal(null), setData(null), setRotina(null));
   }, [defaultValues]);
 
   const { mutate: createUploadMutate } = useMutation(

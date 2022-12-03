@@ -235,7 +235,7 @@ export const Nutricao = () => {
     },
     {
       key: "nomeAnimal",
-      label: "Nome do Animal",
+      label: "Apelido do Animal",
     },
     {
       key: "dataInicio",
@@ -319,7 +319,7 @@ export const Nutricao = () => {
                   sx={styles.label}
                   htmlFor="nomeAnimal"
                 >
-                  Nome do Animal
+                  Apelido do Animal
                 </Typography>
                 <TextField
                   size="small"
@@ -453,7 +453,7 @@ export const Nutricao = () => {
 // const column = [
 //   {
 //     key: 'nomeComum',
-//     label: 'Nome do Animal'
+//     label: 'Apelido do Animal'
 //   },
 //   {
 //     key: 'id',

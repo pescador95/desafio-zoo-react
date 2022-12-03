@@ -237,7 +237,7 @@ export const HistoricoClinico = () => {
     },
     {
       key: "nomeAnimal",
-      label: "Nome do Animal",
+      label: "Apelido do Animal",
     },
     {
       key: "temperaturaAnimal",
@@ -337,7 +337,7 @@ export const HistoricoClinico = () => {
                   sx={styles.label}
                   htmlFor="nome-animal"
                 >
-                  Nome do Animal
+                  Apelido do Animal
                 </Typography>
                 <TextField
                   size="small"
@@ -454,7 +454,7 @@ export const HistoricoClinico = () => {
 // const column = [
 //   {
 //     key: 'nomeComum',
-//     label: 'Nome do Animal'
+//     label: 'Apelido do Animal'
 //   },
 //   {
 //     key: 'id',

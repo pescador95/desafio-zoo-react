@@ -238,7 +238,7 @@ export const HistoricoEtologico = () => {
     },
     {
       key: "nomeAnimal",
-      label: "Nome do Animal",
+      label: "Apelido do Animal",
     },
     {
       key: "dataEtologico",
@@ -314,7 +314,7 @@ export const HistoricoEtologico = () => {
                   sx={styles.label}
                   htmlFor="nome-animal"
                 >
-                  Nome do Animal
+                  Apelido do Animal
                 </Typography>
                 <TextField
                   size="small"
@@ -449,7 +449,7 @@ export const HistoricoEtologico = () => {
 // const column = [
 //   {
 //     key: 'nomeComum',
-//     label: 'Nome do Animal'
+//     label: 'Apelido do Animal'
 //   },
 //   {
 //     key: 'id',

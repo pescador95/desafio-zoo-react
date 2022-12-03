@@ -106,8 +106,9 @@ export const FormNutricao = ({ open, defaultValues, onConfirm, onCancel }) => {
           ...defaultValues,
           dataInicio: formattedDateForInput(defaultValues.dataInicio),
           dataFim: formattedDateForInput(defaultValues.dataFim),
+          animal: setAnimal(defaultValues.animal),
         })
-      : reset(defaultValues);
+      : reset(defaultValues, setAnimal(null));
   }, [defaultValues]);
 
   const { mutate: createNutricaoMutate } = useMutation(

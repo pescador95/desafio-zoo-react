@@ -243,7 +243,7 @@ export const EnriquecimentoAmbiental = () => {
     },
     {
       key: "nomeAnimal",
-      label: "Nome do Animal",
+      label: "Apelido do Animal",
     },
     {
       key: "dataEnriquecimento",
@@ -316,7 +316,7 @@ export const EnriquecimentoAmbiental = () => {
                   htmlFor="nome-apelido"
                   sx={styles.label}
                 >
-                  Nome do Animal
+                  Apelido do Animal
                 </Typography>
                 <TextField
                   size="small"
@@ -454,7 +454,7 @@ export const EnriquecimentoAmbiental = () => {
 // const column = [
 //   {
 //     key: 'nomeComum',
-//     label: 'Nome do Animal'
+//     label: 'Apelido do Animal'
 //   },
 //   {
 //     key: 'id',

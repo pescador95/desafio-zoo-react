@@ -242,7 +242,7 @@ export const Upload = () => {
     },
     {
       key: "nomeAnimal",
-      label: "Nome do Animal",
+      label: "Apelido do Animal",
     },
     {
       key: "fileReference",
@@ -332,7 +332,7 @@ export const Upload = () => {
                   htmlFor="nome-animal"
                   sx={styles.label}
                 >
-                  Nome do Animal
+                  Apelido do Animal
                 </Typography>
                 <TextField
                   size="small"
@@ -463,7 +463,7 @@ export const Upload = () => {
 // const column = [
 //   {
 //     key: 'nomeComum',
-//     label: 'Nome do Animal'
+//     label: 'Apelido do Animal'
 //   },
 //   {
 //     key: 'id',

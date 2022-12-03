@@ -425,7 +425,7 @@ export const Users = () => {
 // const column = [
 //   {
 //     key: 'nomeComum',
-//     label: 'Nome do Animal'
+//     label: 'Apelido do Animal'
 //   },
 //   {
 //     key: 'id',

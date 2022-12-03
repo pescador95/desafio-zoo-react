@@ -119,9 +119,9 @@ export const FormHistoricoClinico = ({
           dataHistoricoClinico: formattedDateForInput(
             defaultValues.dataHistoricoClinico
           ),
-          animal: { id: defaultValues?.animal?.id },
+          animal: setAnimal(defaultValues.animal),
         })
-      : reset(defaultValues);
+      : reset(defaultValues, setAnimal(null));
   }, [defaultValues]);
 
   const { mutate: createHistoricoClinicoMutate } = useMutation(
